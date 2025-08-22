@@ -1,0 +1,43 @@
+*{box-sizing:border-box}html,body{height:100%}body{margin:0;font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial,sans-serif;background:#0b0e13;color:#ecf2f0;line-height:1.55}
+img{max-width:100%;display:block;height:auto}a{text-decoration:none}
+.container{width:min(1100px,92%);margin-inline:auto}
+h1,h2,h3,p,li,small{color:#fff;text-shadow:0 2px 6px rgba(0,0,0,.65)}
+.accent{color:#FFD54F}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.9rem 1.2rem;border-radius:.8rem;font-weight:800;border:2px solid transparent;transition:transform .15s ease,filter .15s ease}
+.btn-wa{background:#25D366;color:#07140a}
+.btn-lg{padding:1rem 1.4rem;font-size:1.05rem}
+.wa-ic{width:20px;height:20px}
+.nav{position:sticky;top:0;z-index:40;background:rgba(11,14,19,.75);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.06)}
+.nav-inner{display:flex;justify-content:space-between;align-items:center;padding:.7rem 0}
+.brand{display:inline-flex;align-items:center;gap:.6rem;color:#fff}
+.flag{width:28px;height:auto;border-radius:4px;box-shadow:0 0 6px rgba(0,0,0,.3)}
+.brand-name{font-weight:800;letter-spacing:.4px}
+.brand-name span{color:#25D366}
+.hero{position:relative;min-height:80vh;display:grid;place-items:center;overflow:hidden;border-bottom:1px solid rgba(255,255,255,.06)}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:brightness(.42) saturate(1.05);z-index:-2}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.55));z-index:-1}
+.hero-inner{text-align:center;padding:5rem 0}
+.verified{display:inline-block;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.14);padding:.35rem .6rem;border-radius:.6rem;margin-bottom:.9rem}
+.hero h1{font-size:clamp(2rem,8vw,3.2rem);letter-spacing:.6px;margin:.2rem 0 .6rem}
+.sub{max-width:42ch;margin:0 auto 1.2rem}
+.kpis{display:grid;grid-template-columns:1fr;gap:.8rem;margin-top:1.2rem}
+.kpi{background:linear-gradient(180deg,rgba(0,0,0,.4),rgba(0,0,0,.2));border:1px solid rgba(255,255,255,.12);border-radius:.9rem;padding:.9rem}
+.kpi-top{font-weight:800;font-size:1.15rem;margin-bottom:.25rem}
+.kpi-sub{color:#e2e9e6}
+.why{background:#0b0e13;padding:2.2rem 0;border-top:1px solid rgba(255,255,255,.06)}
+.grid-2{display:grid;grid-template-columns:1fr;gap:1rem;align-items:center}
+.card{background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.1);border-radius:1rem;padding:1.2rem}
+.media-card{position:relative;overflow:hidden}
+.video-section{position:relative;width:100%;min-height:380px;overflow:hidden;border-radius:.9rem;border:1px solid rgba(255,255,255,.12)}
+.video-fill{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.v-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.2),rgba(0,0,0,.45))}
+.badge-text{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);background:#FFD54F;color:#151008;font-weight:800;padding:.6rem 1rem;border-radius:.6rem;box-shadow:0 2px 10px rgba(0,0,0,.45)}
+.wa-fab{position:fixed;right:1rem;bottom:5.2rem;width:56px;height:56px;border-radius:999px;background:#25D366;display:grid;place-items:center;z-index:50;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.wa-fab img{width:26px;height:26px}
+.mobile-cta{position:fixed;inset:auto 0 0 0;background:rgba(11,14,19,.9);backdrop-filter:blur(8px);border-top:1px solid rgba(255,255,255,.08);padding:.6rem;display:flex;justify-content:center;z-index:60}
+.btn-mobile{width:min(520px,92%);justify-content:center}
+.footer{background:#0b0e13;padding:1.2rem 0;border-top:1px solid rgba(255,255,255,.06)}
+.footer-inner{color:#aab3b7;text-align:center}
+/* Audio toggle */
+.audio-toggle{position:fixed;right:1rem;bottom:9.2rem;z-index:70;background:rgba(11,14,19,.85);color:#FFD54F;border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:.5rem .7rem;font-size:1rem;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+@media (max-width:768px){.audio-toggle{bottom:8.5rem}}
