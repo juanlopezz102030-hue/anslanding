@@ -2,80 +2,108 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>CAYO URUGUAY | Reclama tu BONO 20%</title>
+  <meta name="description" content="Bono 20% de bienvenida con carga mínima $300. Reclama tu bono ahora por WhatsApp." />
+  <meta name="theme-color" content="#25D366" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  <meta name="description" content="Bono 20% con carga mínima $300. Contacto directo por WhatsApp.">
-  <meta name="theme-color" content="#25D366">
-
-  <!-- Meta Pixel Code -->
-  <script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '1525271135565172'); 
-  fbq('track', 'PageView');
-  </script>
-  <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=1525271135565172&ev=PageView&noscript=1"
-  /></noscript>
-  <!-- End Meta Pixel Code -->
 </head>
 <body>
-  <!-- HERO -->
-  <section class="hero">
-    <div class="overlay"></div>
+  <main class="hero" role="main" aria-label="Promoción Bono de Bienvenida">
+    <div class="overlay" aria-hidden="true"></div>
     <div class="hero-inner">
-      <h1><span class="accent">BONO 20%</span> DE BIENVENIDA</h1>
-      <p class="sub">Con carga mínima de <strong>$300</strong></p>
-      <a class="btn-wa"
-         href="https://wa.me/59899259912?text=Hola%2C%20quiero%20mi%20BONO%2020%25%20con%20%24300"
-         target="_blank" rel="noopener">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="" width="22" height="22">
-        Reclamar por WhatsApp
-      </a>
-      <p class="social">✅ +10.000 jugadores activos</p>
-    </div>
-  </section>
+      <div class="copy">
+        <h1><span class="accent">BONO 20%</span> DE BIENVENIDA</h1>
+        <p class="sub">Con carga mínima de <strong>$300</strong></p>
 
-  <!-- Sticky CTA (mobile) -->
-  <div class="sticky-cta">
+        <!-- Live counter pill -->
+        <div class="counter" aria-live="polite" title="Usuarios registrándose ahora mismo">
+          <span class="dot" aria-hidden="true"></span>
+          <span id="live-count">0</span> usuarios registrándose ahora
+        </div>
+
+        <p class="social">Más de 10.000 jugadores activos</p>
+        <p class="fine-print">Promoción por tiempo limitado. Depósitos fáciles, retiros rápidos y atención personalizada.</p>
+
+        <!-- CTA principal (desktop) -->
+        <a class="btn-wa desktop-only"
+           href="https://wa.me/59898558766?text=Hola%2C%20quiero%20mi%20BONO%2020%25%20con%20%24300"
+           target="_blank" rel="noopener" aria-label="Reclamar bono por WhatsApp">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="" width="22" height="22">
+          Reclamar por WhatsApp
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Sticky CTA (móvil) -->
+  <div class="sticky-cta mobile-only" role="region" aria-label="Llamado a la acción">
     <a class="btn-wa"
-       href="https://wa.me/59899259912?text=Hola%2C%20quiero%20mi%20BONO%2020%25%20con%20%24300"
-       target="_blank" rel="noopener">
+       href="https://wa.me/59898558766?text=Hola%2C%20quiero%20mi%20BONO%2020%25%20con%20%24300"
+       target="_blank" rel="noopener" aria-label="Reclamar bono en WhatsApp">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="" width="22" height="22">
       Reclamar Bono en WhatsApp
     </a>
   </div>
 
-  <!-- WhatsApp Tracking Script -->
+  <!-- Live counter logic -->
   <script>
   (function(){
-    function onWaClick(e){
-      try{
-        var a=e.currentTarget;
-        var url=new URL(a.href);
-        var params={};
-        ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(function(k){
-          if(url.searchParams.get(k)) params[k]=url.searchParams.get(k);
-        });
-        fbq && fbq('track','Contact',{content_name:'WhatsApp Click',destination:'whatsapp',...params});
-        fbq && fbq('trackCustom','WhatsAppClick',params);
-      }catch(_ ){}
+    // Config "realista": ritmo por franja horaria (usuarios/minuto)
+    function ratePerMinute(date){
+      var h = date.getHours();
+      if (h >= 18 || h < 1) return 3.2;      // pico tarde-noche
+      if (h >= 13 && h < 18) return 2.1;     // tarde
+      if (h >= 9  && h < 13) return 1.1;     // mañana
+      return 0.6;                             // madrugada
     }
-    function bind(){
-      var links=document.querySelectorAll('a[href^="https://wa.me/"],a[href^="https://api.whatsapp.com/send"]');
-      links.forEach(function(a){
-        a.removeEventListener('click',onWaClick);
-        a.addEventListener('click',onWaClick);
-      });
+
+    // Persistencia por día local
+    var keyBase = 'cayo-live-count-base';
+    var keyDay  = 'cayo-live-count-day';
+    var now = new Date();
+    var dayKey = now.getFullYear()+'-'+(now.getMonth()+1)+'-'+now.getDate();
+    var storedDay = localStorage.getItem(keyDay);
+    var base = parseInt(localStorage.getItem(keyBase) || '0',10);
+
+    if (storedDay !== dayKey || !base || isNaN(base)) {
+      // Semilla diaria pseudo-aleatoria alrededor de 30-120 usuarios concurrentes visibles
+      base = Math.floor(30 + Math.random()*90);
+      localStorage.setItem(keyBase, String(base));
+      localStorage.setItem(keyDay, dayKey);
     }
-    document.addEventListener('DOMContentLoaded',bind);
+
+    var el = document.getElementById('live-count');
+
+    // Simulación de llegadas tipo Poisson: intervalos ~ exponenciales
+    function nextDelayMs(lambdaPerMin){
+      // lambda por segundo
+      var lam = Math.max(0.2, lambdaPerMin / 60);
+      // muestreo exponencial: -ln(U)/lam
+      var u = Math.random();
+      var secs = -Math.log(1-u)/lam;
+      // clamp para que no sea demasiado rápido ni lento
+      return Math.max(2500, Math.min(15000, secs*1000));
+    }
+
+    var current = base;
+    function render(){ el.textContent = current.toLocaleString('es-UY'); }
+    render();
+
+    function tick(){
+      var r = ratePerMinute(new Date());
+      // incremento 1 la mayoría de veces, a veces 2
+      current += (Math.random() < 0.15 ? 2 : 1);
+      // pequeñas caídas ocasionales para realismo
+      if (Math.random() < 0.06 && current > 20) current -= 1;
+      render();
+      setTimeout(tick, nextDelayMs(r));
+    }
+
+    setTimeout(tick, nextDelayMs(ratePerMinute(now)));
   })();
   </script>
 </body>
