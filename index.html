@@ -215,7 +215,7 @@
           if(url.searchParams.get(k)) params[k]=url.searchParams.get(k);
         });
         if (typeof fbq === 'function'){
-          fbq('track','Contact',{content_name:'WhatsApp Click',destination:'whatsapp',...params});
+          fbq('track','Contact',{content_name:'WhatsApp Click',destination:'whatsapp',value: 0, currency: 'UYU', ...params});
           fbq('trackCustom','WhatsAppClick',params);
         }
       }catch(_){}
