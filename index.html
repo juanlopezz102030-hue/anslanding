@@ -10,7 +10,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-
   <!-- Meta Pixel Code -->
   <script>
   !function(f,b,e,v,n,t,s)
@@ -28,7 +27,6 @@
     src="https://www.facebook.com/tr?id=1525271135565172&ev=PageView&noscript=1"
   /></noscript>
   <!-- End Meta Pixel Code -->
-
 </head>
 <body>
   <main class="hero" role="main" aria-label="Promoción Bono de Bienvenida">
@@ -40,7 +38,7 @@
 
         <div class="counter" aria-live="polite">
           <span class="dot"></span>
-          <span id="live-count">0</span> usuarios registrándose ahora
+          <span id="live-count">0</span> cajeros en línea
         </div>
 
         <p class="social">Más de 10.000 jugadores activos</p>
@@ -72,13 +70,7 @@
           <span class="shield">🔒</span>
           Pagos seguros y verificados – Retiros de 12h a 23h
         </div>
-
-        <!-- Ganador minimal -->
-        <div class="winner-ticker" aria-live="polite">
-          <span id="winner-text">Cargando ganadores...</span>
-        </div>
-
-      </div>
+</div>
     </div>
   </main>
 
@@ -160,6 +152,57 @@
   })();
   </script>
 
+  
+
+<!-- Live counter: cajeros en línea (2–12, sin localStorage) with guard -->
+<script>
+(function(){
+  var el = document.getElementById('live-count');
+  if(!el) return;
+
+  // Purge any legacy localStorage keys that might override counters (not affecting Pixel)
+  try {
+    for (var i=0;i<localStorage.length;i++){
+      var k = localStorage.key(i);
+      if (k && /live-count|cayo-live-count/i.test(k)) { localStorage.removeItem(k); }
+    }
+  } catch(e) {}
+
+  function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+  var minV = 2, maxV = 12;
+  var current = randInt(minV, maxV);
+  function clamp(n){ return Math.max(minV, Math.min(maxV, n)); }
+  function render(){ el.textContent = String(clamp(current)); }
+
+  // Render initial
+  render();
+
+  // Mutation guard: if any other script changes the text, clamp it back immediately
+  try {
+    var mo = new MutationObserver(function(){
+      var v = parseInt((el.textContent||'').replace(/\D+/g,''),10);
+      if (isFinite(v) && (v < minV || v > maxV)) {
+        current = clamp(v);
+        render();
+      }
+    });
+    mo.observe(el, { characterData: true, subtree: true, childList: true });
+  } catch(e) {}
+
+  // Soft fluctuation loop 2–12 forever
+  function step(){
+    var roll = Math.random();
+    var delta = 0;
+    if (roll < 0.40) delta = 0;      // 40% igual
+    else if (roll < 0.70) delta = 1; // 30% +1
+    else delta = -1;                 // 30% -1
+    current = clamp(current + delta);
+    render();
+    setTimeout(step, randInt(3000, 6000));
+  }
+  setTimeout(step, randInt(2000, 4000));
+})();
+</script>
   <!-- WhatsApp click tracking for Meta Pixel -->
   <script>
   (function(){
@@ -172,7 +215,7 @@
           if(url.searchParams.get(k)) params[k]=url.searchParams.get(k);
         });
         if (typeof fbq === 'function'){
-          fbq('track','Contact',{content_name:'WhatsApp Click',destination:'whatsapp',value: 300, currency: 'UYU', ...params});
+          fbq('track','Contact',{content_name:'WhatsApp Click',destination:'whatsapp',value: 0, currency: 'UYU', ...params});
           fbq('trackCustom','WhatsAppClick',params);
         }
       }catch(_){}
@@ -181,16 +224,11 @@
       var sel='a[href^="https://wa.me/"],a[href^="https://api.whatsapp.com/send"]';
       document.querySelectorAll(sel).forEach(function(a){
         a.removeEventListener('click', onWaClick);
-        a.addEventListener('click', onWaClick, {passive:true});
+        a.addEventListener('click', onWaClick);
       });
     }
-    if (document.readyState === 'loading'){
-      document.addEventListener('DOMContentLoaded', bind);
-    } else {
-      bind();
-    }
+    document.addEventListener('DOMContentLoaded', bind);
   })();
   </script>
-
 </body>
 </html>
