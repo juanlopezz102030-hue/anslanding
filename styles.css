@@ -200,3 +200,67 @@ body{ padding-bottom: calc(88px + env(safe-area-inset-bottom)); }
 .btn-wa:hover{
   transform: scale(1.07) !important;
 }
+
+/* === Mobile polish v43 === */
+:root{
+  --container-max: 560px;
+  --hpad: max(16px, env(safe-area-inset-left));
+  --hpadR: max(16px, env(safe-area-inset-right));
+  --bpad: max(16px, env(safe-area-inset-bottom));
+}
+.hero{ padding: 14px var(--hpad) 18px var(--hpad); }
+.hero-inner{ width:min(var(--container-max), 92vw); margin-inline:auto; }
+.copy{ 
+  max-width: min(var(--container-max), 92vw);
+  margin: 0 auto 10px auto;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: rgba(0,0,0,.38);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+}
+h1{ font-size: clamp(1.7rem, 6vw, 2.4rem); line-height:1.18; margin-bottom:.55rem; }
+.sub{ font-size: clamp(1rem, 3.6vw, 1.06rem); }
+
+.stats{ max-width:min(var(--container-max),92vw); margin-inline:auto; }
+
+.payments-wrap{ width:100%; display:flex; justify-content:center; }
+.payments-carousel{ overflow:hidden; width:100%; max-width:min(520px, 92vw); margin-top:8px }
+.payments-track{ display:flex; gap:10px; align-items:center; animation:payments-scroll 30s linear infinite }
+.payments-track img{ width:48px; height:48px; border-radius:12px; object-fit:cover }
+@keyframes payments-scroll{ 0%{ transform:translateX(0) } 100%{ transform:translateX(-50%) } }
+
+.security{ 
+  max-width:min(var(--container-max),92vw); 
+  margin:10px auto 0;
+  padding:.6rem .9rem;
+  border-radius:12px;
+  font-size:.95rem;
+  background: rgba(0,0,0,.32);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+}
+
+/* Sticky CTA + safe-area + Facebook in-app toolbar */
+body{ padding-bottom: calc(96px + var(--bpad)); }
+.sticky-cta{ 
+  position: fixed; left:0; right:0; bottom:0; 
+  padding: .8rem var(--hpad) calc(.8rem + var(--bpad)) var(--hpad); 
+  backdrop-filter: none;
+}
+.btn-wa{ 
+  width:min(560px, 92vw); 
+  font-size:1.12rem !important; 
+  padding:1.05rem 1.2rem !important;
+  border-radius: 1rem;
+  box-shadow: 0 0 18px rgba(37,211,102,.6) !important;
+}
+
+/* Extra narrow phones */
+@media (max-width: 360px){
+  h1{ font-size:1.55rem }
+  .payments-track img{ width:44px; height:44px }
+  .btn-wa{ font-size:1.05rem !important; }
+}
+/* Facebook in-app browser bottom toolbar compensation */
+body.fb-inapp{ padding-bottom: calc(120px + var(--bpad)); }

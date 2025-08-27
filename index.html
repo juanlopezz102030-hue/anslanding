@@ -39,7 +39,7 @@
         <!-- Live counter pill -->
         <div class="counter" aria-live="polite" title="Usuarios registrándose ahora mismo">
           <span class="dot" aria-hidden="true"></span>
-          <span id="live-count">0</span> están probando suerte ahora
+          <span id="live-count">0</span> probando suerte ahora
         </div>
 
         <p class="social">Más de 10.000 jugadores activos</p>
@@ -277,6 +277,18 @@
   render(current);
   setNewTarget();
   tick();
+})();
+</script>
+
+
+<!-- In-app browser detection (Facebook/Instagram) to avoid CTA overlap -->
+<script>
+(function(){
+  var ua = navigator.userAgent || '';
+  if (/(FBAN|FBAV|Instagram)/i.test(ua)){
+    document.documentElement.classList.add('fb-inapp');
+    document.body.classList.add('fb-inapp');
+  }
 })();
 </script>
 
