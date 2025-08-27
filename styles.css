@@ -333,3 +333,29 @@ html, body{
 .payments-carousel::-webkit-scrollbar{ height:0; display:none; }
 /* Pause animation while user drags */
 .payments-carousel.user-dragging .payments-track{ animation: none !important; }
+
+/* === Carousel mobile aesthetic fix (v47) === */
+@media (max-width: 480px){
+  .payments-carousel{
+    overflow: visible !important;
+    max-width: min(560px, 92vw);
+  }
+  .payments-track{
+    animation: none !important;
+    display: grid !important;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 12px 14px !important;
+    justify-items: center;
+  }
+  .payments-track img{
+    width: 56px !important;
+    height: 56px !important;
+    border-radius: 14px !important;
+  }
+  .payments-carousel:before,
+  .payments-carousel:after{ display:none !important; }
+}
+@media (min-width: 481px) and (max-width: 680px){
+  .payments-track img{ width:54px; height:54px; border-radius:12px; }
+}
+
