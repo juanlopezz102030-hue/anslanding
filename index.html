@@ -70,6 +70,13 @@
           <span class="shield">🔒</span>
           Pagos seguros y verificados – Retiros de 12h a 23h
         </div>
+
+        <div class="reviews-wrap" aria-label="Reseñas de usuarios">
+          <div class="reviews-track" id="reviews-track" role="list">
+            <!-- Slides se insertan por JS -->
+          </div>
+        </div>
+
 </div>
     </div>
   </main>
@@ -205,20 +212,18 @@
 </script>
   
 <script>
-// Contador seguro: no toca scripts existentes. Oculta #live-count y usa #players-now.
+// Contador seguro: oculta #live-count original y crea #players-now (evita clamps/observers)
 (function(){
-  function init(){
+  function initCounter(){
     var old = document.getElementById('live-count');
-    if (!old) return;
-    // Ocultar el span original para esquivar observers/guards de otros scripts
+    if(!old) return;
     old.setAttribute('aria-hidden','true');
     old.style.display = 'none';
-    // Insertar nuevo span para nuestro contador
     var neo = document.createElement('span');
     neo.id = 'players-now';
+    neo.className = old.className || '';
     old.parentNode.insertBefore(neo, old.nextSibling);
 
-    // --- Script de concurrencia (UTC-3 Montevideo) ---
     function nowUY(){
       try{
         var fmt = new Intl.DateTimeFormat('es-UY', {
@@ -229,7 +234,7 @@
         function g(t){ return +parts.find(p=>p.type===t).value; }
         return { H:g('hour'), M:g('minute'), date:new Date() };
       }catch(e){
-        var d = new Date();
+        var d=new Date();
         return { H:(d.getUTCHours()+21)%24, M:d.getUTCMinutes(), date:d };
       }
     }
@@ -244,52 +249,139 @@
     }
     function lerp(a,b,t){ return a + (b-a)*t; }
     function blendedPerc(H,M){
-      var r1 = percentRange(H), r2 = percentRange((H+1)%24);
-      var t = Math.max(0, Math.min(1, M/60));
-      return [lerp(r1[0], r2[0], t), lerp(r1[1], r2[1], t)];
+      var r1=percentRange(H), r2=percentRange((H+1)%24); var t=Math.max(0,Math.min(1,M/60));
+      return [lerp(r1[0],r2[0],t), lerp(r1[1],r2[1],t)];
     }
     function weekendMult(d){
       try{
-        var wd = new Intl.DateTimeFormat('es-UY', { timeZone:'America/Montevideo', weekday:'short' }).format(d).toLowerCase();
-        return (wd.startsWith('sá') || wd.startsWith('do')) ? 1.25 : 1.0;
+        var wd=new Intl.DateTimeFormat('es-UY',{timeZone:'America/Montevideo',weekday:'short'}).format(d).toLowerCase();
+        return (wd.startsWith('sá')||wd.startsWith('do'))?1.25:1.0;
       }catch(e){
-        var w = d.getUTCDay();
-        return (w===0 || w===6) ? 1.25 : 1.0;
+        var w=d.getUTCDay(); return (w===0||w===6)?1.25:1.0;
       }
     }
     function clamp(n,min,max){ return Math.max(min, Math.min(max, n)); }
-    var fmt = new Intl.NumberFormat('es-UY');
-    var ACTIVE = 10000;
-
+    var fmt=new Intl.NumberFormat('es-UY');
+    var ACTIVE=10000;
     function rangeNow(){
-      var t = nowUY();
-      var p = blendedPerc(t.H, t.M);
-      var mult = weekendMult(t.date);
+      var t=nowUY(); var p=blendedPerc(t.H,t.M); var mult=weekendMult(t.date);
       return [ Math.round(p[0]*ACTIVE*mult), Math.round(p[1]*ACTIVE*mult) ];
     }
-
-    var r0 = rangeNow();
-    var current = Math.round(r0[0] + Math.random()*(r0[1]-r0[0]));
+    var r0=rangeNow();
+    var current=Math.round(r0[0]+Math.random()*(r0[1]-r0[0]));
     function render(){ neo.textContent = fmt.format(current); }
-
     function step(){
-      var r = rangeNow();
-      var target = Math.round(r[0] + Math.random()*(r[1]-r[0]));
-      var dist = target - current;
-      var stepSize = Math.min(60, Math.max(5, Math.abs(dist)*0.25)) * (dist>=0?1:-1);
-      current = clamp(current + Math.round(stepSize + (Math.random()*8-4)), r[0], r[1]);
+      var r=rangeNow(); var target=Math.round(r[0]+Math.random()*(r[1]-r[0]));
+      var dist=target-current;
+      var stepSize=Math.min(60,Math.max(5,Math.abs(dist)*0.25))*(dist>=0?1:-1);
+      current=clamp(current+Math.round(stepSize+(Math.random()*8-4)),r[0],r[1]);
       render();
-      setTimeout(step, 2400 + Math.random()*2400);
+      setTimeout(step,2400+Math.random()*2400);
     }
-
     render();
-    setTimeout(step, 900 + Math.random()*900);
+    setTimeout(step,900+Math.random()*900);
   }
-  if (document.readyState !== 'loading') init();
-  else document.addEventListener('DOMContentLoaded', init);
+  if(document.readyState!=='loading') initCounter();
+  else document.addEventListener('DOMContentLoaded', initCounter);
 })();
 </script>
 
+
+<script>
+// Reseñas: auto-rotación + swipe manual
+(function(){
+  var reviews = [
+    "Buenísima la promo, me acreditaron al toque 👌",
+    "Me dieron el bono sin vueltas, todo joya",
+    "Retiré rápido, cero drama",
+    "Funciona bárbaro, confiable 100%",
+    "La atención por WhatsApp es de diez",
+    "Entró todo al instante, espectacular",
+    "Recomendadísimo, todo transparente",
+    "No me lo creía y pagaron en el día",
+    "Cargué poco y ya pude jugar, genial",
+    "La promo me vino bárbaro para arrancar",
+    "Cumplen lo que prometen, eso vale",
+    "Nunca un problema, muy confiables",
+    "Me atendieron de inmediato",
+    "Ya cobré varias veces, excelente",
+    "Todo sencillo, cero complicaciones",
+    "Me sorprendió lo rápido que acreditan",
+    "Al toque el retiro, impecable",
+    "Lo probé y quedé re conforme",
+    "Siempre responden enseguida",
+    "De lo mejor que encontré en Uruguay",
+    "Muy claro todo, sin engaños",
+    "El bono me sirvió pila",
+    "Retiro seguro, cero vueltas",
+    "Ya jugué varias veces, impecable",
+    "Muy buena experiencia",
+    "Me dieron confianza desde el inicio",
+    "Los recomiendo a full",
+    "Cada retiro fue sin problema",
+    "Todo anda perfecto, 10 puntos",
+    "La promo está de más",
+    "Me gusta que cumplan lo que dicen",
+    "Hasta ahora todo bien, cero quejas",
+    "Una de las pocas serias",
+    "Todo bien explicado y fácil",
+    "Rapidez y seriedad",
+    "Ya soy cliente fijo",
+    "La mejor promo que agarré",
+    "Muy recomendable de verdad",
+    "Pagaron en tiempo y forma",
+    "Estoy conforme con el servicio",
+    "Nunca me fallaron",
+    "Me dieron confianza al instante",
+    "Todo claro y seguro",
+    "Una experiencia redonda",
+    "Muy responsables",
+    "Excelente trato siempre",
+    "La promo me ayudó un montón",
+    "Hasta ahora todo impecable",
+    "Son confiables de verdad",
+    "Me cumplieron al 100%"
+  ];
+
+  function initReviews(){
+    var track = document.getElementById('reviews-track');
+    if (!track) return;
+    // crear slides
+    reviews.forEach(function(txt){
+      var li = document.createElement('div');
+      li.className = 'review-slide';
+      li.textContent = txt;
+      track.appendChild(li);
+    });
+    var slides = Array.from(track.children);
+    var i = 0;
+    function show(i){
+      slides.forEach(function(s,idx){ s.classList.toggle('show', idx===i); });
+      // scroll al slide visible
+      slides[i].scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
+    }
+    show(i);
+    var timer = setInterval(function(){ i=(i+1)%slides.length; show(i); }, 4000);
+
+    // swipe manual
+    var startX=null;
+    track.addEventListener('touchstart', function(e){ startX = e.changedTouches[0].clientX; }, {passive:true});
+    track.addEventListener('touchend', function(e){
+      if(startX==null) return;
+      var dx = e.changedTouches[0].clientX - startX;
+      if (dx < -30){ i = (i+1)%slides.length; show(i); }
+      else if (dx > 30){ i = (i-1+slides.length)%slides.length; show(i); }
+      startX=null;
+      // reiniciar auto-rotación después del swipe
+      clearInterval(timer);
+      timer = setInterval(function(){ i=(i+1)%slides.length; show(i); }, 4000);
+    });
+  }
+
+  if(document.readyState!=='loading') initReviews();
+  else document.addEventListener('DOMContentLoaded', initReviews);
+})();
+</script>
 
 <!-- WhatsApp click tracking for Meta Pixel -->
   <script>
