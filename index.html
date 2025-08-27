@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-<!-- Meta Pixel Code -->
+  <!-- Meta Pixel Code -->
   <script>
   !function(f,b,e,v,n,t,s)
   {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -33,121 +33,177 @@
     <div class="overlay" aria-hidden="true"></div>
     <div class="hero-inner">
       <div class="copy">
-        <h1>RECIBÍ 20% EXTRA EN TU PRIMER DEPÓSITO</h1>
+        <h1><span class="accent">BONO 20%</span> DE BIENVENIDA</h1>
         <p class="sub">Con carga mínima de <strong>$300</strong></p>
 
-        <!-- Live counter pill -->
-        <div class="counter" aria-live="polite" title="Usuarios registrándose ahora mismo">
-          <span class="dot" aria-hidden="true"></span>
-          <span id="live-count">0</span> están probando suerte ahora
+        <div class="counter" aria-live="polite">
+          <span class="dot"></span>
+          <span id="live-count">0</span> cajeros en línea
         </div>
 
         <p class="social">Más de 10.000 jugadores activos</p>
         <p class="fine-print">Promoción por tiempo limitado. Depósitos fáciles, retiros rápidos y atención personalizada.</p>
 
-        <!-- CTA principal (desktop) -->
-        <a class="btn-wa desktop-only"
-           href="https://wa.me/59899259912?text=Hola%2C%20quiero%20mi%20BONO%2020%25%20con%20%24300"
-           target="_blank" rel="noopener" aria-label="Reclamar bono por WhatsApp">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="" width="22" height="22">
-          Reclamar por WhatsApp
-        </a>
-      </div>
-    </div>
-  
-        <!-- Carrusel de logos bancarios -->
+        <!-- Carrusel logos centrado -->
         <div class="payments-wrap">
-          <div class="payments-carousel" aria-label="Medios de pago">
+          <div class="payments-carousel">
             <div class="payments-track">
-              <img src="itau.png" alt="Itaú" loading="lazy">
-              <img src="brou.png" alt="BROU" loading="lazy">
-              <img src="mercadopago.png" alt="Mercado Pago" loading="lazy">
-              <img src="scotiabank.png" alt="Scotiabank" loading="lazy">
-              <img src="santander.png" alt="Santander" loading="lazy">
-              <img src="midinero.png" alt="MIDinero" loading="lazy">
-              <img src="prex.png" alt="Prex" loading="lazy">
-              <!-- duplicado para loop infinito -->
-              <img src="itau.png" alt="Itaú" loading="lazy">
-              <img src="brou.png" alt="BROU" loading="lazy">
-              <img src="mercadopago.png" alt="Mercado Pago" loading="lazy">
-              <img src="scotiabank.png" alt="Scotiabank" loading="lazy">
-              <img src="santander.png" alt="Santander" loading="lazy">
-              <img src="midinero.png" alt="MIDinero" loading="lazy">
-              <img src="prex.png" alt="Prex" loading="lazy">
+              <img src="itau.png" alt="Itaú">
+              <img src="brou.png" alt="BROU">
+              <img src="mercadopago.png" alt="Mercado Pago">
+              <img src="scotiabank.png" alt="Scotiabank">
+              <img src="santander.png" alt="Santander">
+              <img src="midinero.png" alt="Midinero">
+              <img src="prex.png" alt="Prex">
+              <img src="itau.png" alt="Itaú">
+              <img src="brou.png" alt="BROU">
+              <img src="mercadopago.png" alt="Mercado Pago">
+              <img src="scotiabank.png" alt="Scotiabank">
+              <img src="santander.png" alt="Santander">
+              <img src="midinero.png" alt="Midinero">
+              <img src="prex.png" alt="Prex">
             </div>
           </div>
         </div>
 
-</main>
+        <div class="security">
+          <span class="shield">🔒</span>
+          Pagos seguros y verificados – Retiros de 12h a 23h
+        </div>
+</div>
+    </div>
+  </main>
 
-  <!-- Sticky CTA (móvil) -->
-  <div class="sticky-cta mobile-only" role="region" aria-label="Llamado a la acción">
+  <!-- ÚNICO CTA (sticky, móvil y desktop) -->
+  <div class="sticky-cta" role="region" aria-label="Llamado a la acción">
     <a class="btn-wa"
        href="https://wa.me/59899259912?text=Hola%2C%20quiero%20mi%20BONO%2020%25%20con%20%24300"
-       target="_blank" rel="noopener" aria-label="Reclamar bono en WhatsApp">
+       target="_blank" rel="noopener">
       <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="" width="22" height="22">
       Reclamar Bono en WhatsApp
     </a>
   </div>
 
-  <!-- Live counter logic -->
   <script>
+  // Live counter
   (function(){
-    // Config "realista": ritmo por franja horaria (usuarios/minuto)
     function ratePerMinute(date){
       var h = date.getHours();
-      if (h >= 18 || h < 1) return 3.2;      // pico tarde-noche
-      if (h >= 13 && h < 18) return 2.1;     // tarde
-      if (h >= 9  && h < 13) return 1.1;     // mañana
-      return 0.6;                             // madrugada
+      if (h >= 18 || h < 1) return 3.2;
+      if (h >= 13 && h < 18) return 2.1;
+      if (h >= 9  && h < 13) return 1.1;
+      return 0.6;
     }
-
-    // Persistencia por día local
     var keyBase = 'cayo-live-count-base';
     var keyDay  = 'cayo-live-count-day';
     var now = new Date();
     var dayKey = now.getFullYear()+'-'+(now.getMonth()+1)+'-'+now.getDate();
     var storedDay = localStorage.getItem(keyDay);
     var base = parseInt(localStorage.getItem(keyBase) || '0',10);
-
     if (storedDay !== dayKey || !base || isNaN(base)) {
-      // Semilla diaria pseudo-aleatoria alrededor de 30-120 usuarios concurrentes visibles
       base = Math.floor(30 + Math.random()*90);
       localStorage.setItem(keyBase, String(base));
       localStorage.setItem(keyDay, dayKey);
     }
-
     var el = document.getElementById('live-count');
-
-    // Simulación de llegadas tipo Poisson: intervalos ~ exponenciales
-    function nextDelayMs(lambdaPerMin){
-      // lambda por segundo
-      var lam = Math.max(0.2, lambdaPerMin / 60);
-      // muestreo exponencial: -ln(U)/lam
-      var u = Math.random();
-      var secs = -Math.log(1-u)/lam;
-      // clamp para que no sea demasiado rápido ni lento
-      return Math.max(2500, Math.min(15000, secs*1000));
-    }
-
     var current = base;
     function render(){ el.textContent = current.toLocaleString('es-UY'); }
     render();
-
+    function nextDelayMs(lambdaPerMin){
+      var lam = Math.max(0.2, lambdaPerMin / 60);
+      var u = Math.random();
+      var secs = -Math.log(1-u)/lam;
+      return Math.max(2500, Math.min(15000, secs*1000));
+    }
     function tick(){
       var r = ratePerMinute(new Date());
-      // incremento 1 la mayoría de veces, a veces 2
       current += (Math.random() < 0.15 ? 2 : 1);
-      // pequeñas caídas ocasionales para realismo
       if (Math.random() < 0.06 && current > 20) current -= 1;
       render();
       setTimeout(tick, nextDelayMs(r));
     }
-
     setTimeout(tick, nextDelayMs(ratePerMinute(now)));
   })();
+
+  // Single Winner Ticker
+  (function(){
+    var names = ["Sofía R.", "Martín P.", "Camila D.", "Agustín M.", "Valentina S.", "Nicolás T.", "Lucía V.", "Joaquín L.", "Carolina F.", "Diego B."];
+    var provinces = ["Montevideo", "Canelones", "Maldonado", "Colonia", "Salto", "Paysandú"];
+    var el = document.getElementById('winner-text');
+
+    function weightedAmount(){
+      var u = Math.random();
+      var amt;
+      if (u < 0.65) amt = 900 + Math.random()*1600;
+      else if (u < 0.90) amt = 2500 + Math.random()*4500;
+      else amt = 7000 + Math.random()*13000;
+      amt = Math.round(amt/50)*50;
+      return amt;
+    }
+
+    function updateWinner(){
+      var name = names[Math.floor(Math.random()*names.length)];
+      var city = provinces[Math.floor(Math.random()*provinces.length)];
+      var amount = weightedAmount();
+      el.textContent = name + " de " + city + " ganó UYU " + amount.toLocaleString('es-UY');
+      setTimeout(updateWinner, 4000 + Math.random()*3000);
+    }
+    updateWinner();
+  })();
   </script>
-<!-- WhatsApp click tracking for Meta Pixel -->
+
+  
+
+<!-- Live counter: cajeros en línea (2–12, sin localStorage) with guard -->
+<script>
+(function(){
+  var el = document.getElementById('live-count');
+  if(!el) return;
+
+  // Purge any legacy localStorage keys that might override counters (not affecting Pixel)
+  try {
+    for (var i=0;i<localStorage.length;i++){
+      var k = localStorage.key(i);
+      if (k && /live-count|cayo-live-count/i.test(k)) { localStorage.removeItem(k); }
+    }
+  } catch(e) {}
+
+  function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+  var minV = 2, maxV = 12;
+  var current = randInt(minV, maxV);
+  function clamp(n){ return Math.max(minV, Math.min(maxV, n)); }
+  function render(){ el.textContent = String(clamp(current)); }
+
+  // Render initial
+  render();
+
+  // Mutation guard: if any other script changes the text, clamp it back immediately
+  try {
+    var mo = new MutationObserver(function(){
+      var v = parseInt((el.textContent||'').replace(/\D+/g,''),10);
+      if (isFinite(v) && (v < minV || v > maxV)) {
+        current = clamp(v);
+        render();
+      }
+    });
+    mo.observe(el, { characterData: true, subtree: true, childList: true });
+  } catch(e) {}
+
+  // Soft fluctuation loop 2–12 forever
+  function step(){
+    var roll = Math.random();
+    var delta = 0;
+    if (roll < 0.40) delta = 0;      // 40% igual
+    else if (roll < 0.70) delta = 1; // 30% +1
+    else delta = -1;                 // 30% -1
+    current = clamp(current + delta);
+    render();
+    setTimeout(step, randInt(3000, 6000));
+  }
+  setTimeout(step, randInt(2000, 4000));
+})();
+</script>
+  <!-- WhatsApp click tracking for Meta Pixel -->
   <script>
   (function(){
     function onWaClick(e){
@@ -159,7 +215,7 @@
           if(url.searchParams.get(k)) params[k]=url.searchParams.get(k);
         });
         if (typeof fbq === 'function'){
-          fbq('track','Contact',{content_name:'WhatsApp Click',destination:'whatsapp',...params});
+          fbq('track','Contact',{content_name:'WhatsApp Click',destination:'whatsapp',value: 0, currency: 'UYU', ...params});
           fbq('trackCustom','WhatsAppClick',params);
         }
       }catch(_){}
@@ -174,85 +230,5 @@
     document.addEventListener('DOMContentLoaded', bind);
   })();
   </script>
-
-
-<!-- Live counter: están probando suerte ahora (versátil por horario) -->
-<script>
-(function(){
-  var el = document.getElementById('live-count');
-  if(!el) return;
-
-  // Rangos más versátiles (ajustados a ~10k activos/día pero evitando quedarse siempre >400)
-  function rangeByHour(h){
-    if (h >= 0 && h < 8)   return [30, 120];
-    if (h >= 8 && h < 13)  return [80, 220];
-    if (h >= 13 && h < 18) return [120, 380];
-    if (h >= 18 && h < 23) return [200, 600];
-    return [120, 300]; // 23:00–23:59
-  }
-
-  function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
-  function clamp(v, a, b){ return Math.max(a, Math.min(b, v)); }
-
-  var now = new Date();
-  var rg = rangeByHour(now.getHours());
-  var current = randInt(rg[0], rg[1]);
-  var minV = rg[0], maxV = rg[1];
-
-  function render(){
-    el.textContent = current.toLocaleString('es-UY');
-  }
-  render();
-
-  // Guardia: si otro script intenta setear fuera de rango, lo corregimos
-  try {
-    var mo = new MutationObserver(function(){
-      var v = parseInt((el.textContent||'').replace(/\D+/g,''),10);
-      if (isFinite(v)){
-        var h = (new Date()).getHours();
-        var r2 = rangeByHour(h); minV = r2[0]; maxV = r2[1];
-        if (v < minV || v > maxV){ current = clamp(v, minV, maxV); render(); }
-      }
-    });
-    mo.observe(el, { childList:true, subtree:true, characterData:true });
-  } catch(e) {}
-
-  var reseedAt = Date.now() + randInt(60000, 120000); // cada 60–120s, recentrar levemente
-
-  function step(){
-    var h = (new Date()).getHours();
-    var r2 = rangeByHour(h);
-    minV = r2[0]; maxV = r2[1];
-    var mid = (minV + maxV) / 2;
-
-    // Recentrado suave periódico para evitar quedarse pegado arriba
-    if (Date.now() > reseedAt){
-      current = clamp(Math.round(0.7*current + 0.3*mid), minV, maxV);
-      reseedAt = Date.now() + randInt(60000, 120000);
-    }
-
-    // Movimiento versátil
-    var roll = Math.random();
-    var delta = 0;
-    if (roll < 0.45) {
-      delta = 0; // 45% quieto
-    } else if (roll < 0.80) {
-      delta = (Math.random() < 0.5 ? -1 : 1) * randInt(1,3); // 35% +/-1–3
-    } else {
-      delta = (Math.random() < 0.5 ? -1 : 1) * randInt(4,6); // 20% +/-4–6
-    }
-
-    // Sesgo a no pegarse a techos/pisos
-    if (current < mid && delta < 0 && Math.random() < 0.6) delta = -delta;
-    if (current > mid && delta > 0 && Math.random() < 0.6) delta = -delta;
-
-    current = clamp(current + delta, minV, maxV);
-    render();
-    setTimeout(step, randInt(2000, 5000)); // 2–5s
-  }
-  setTimeout(step, randInt(1500, 3500));
-})();
-</script>
-
 </body>
 </html>
