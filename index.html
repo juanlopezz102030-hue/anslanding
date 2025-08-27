@@ -11,42 +11,282 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <!-- Meta Pixel Code -->
-  
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1525271135565172');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1525271135565172&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
+</head>
+<body>
+  <main class="hero" role="main" aria-label="Promoción Bono de Bienvenida">
+    <div class="overlay" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <div class="copy">
+        <h1><span class="accent">BONO 20%</span> DE BIENVENIDA</h1>
+        <p class="sub">Con carga mínima de <strong>$300</strong></p>
+
+        <div class="counter" aria-live="polite">
+          <span class="dot"></span>
+          <span id="live-count">0</span> personas jugando ahora
+        </div>
+
+        <p class="social">Más de 10.000 jugadores activos</p>
+        <p class="fine-print">Promoción por tiempo limitado. Depósitos fáciles, retiros rápidos y atención personalizada.</p>
+
+        <!-- Carrusel logos centrado -->
+        <div class="payments-wrap">
+          <div class="payments-carousel">
+            <div class="payments-track">
+              <img src="itau.png" alt="Itaú">
+              <img src="brou.png" alt="BROU">
+              <img src="mercadopago.png" alt="Mercado Pago">
+              <img src="scotiabank.png" alt="Scotiabank">
+              <img src="santander.png" alt="Santander">
+              <img src="midinero.png" alt="Midinero">
+              <img src="prex.png" alt="Prex">
+              <img src="itau.png" alt="Itaú">
+              <img src="brou.png" alt="BROU">
+              <img src="mercadopago.png" alt="Mercado Pago">
+              <img src="scotiabank.png" alt="Scotiabank">
+              <img src="santander.png" alt="Santander">
+              <img src="midinero.png" alt="Midinero">
+              <img src="prex.png" alt="Prex">
+            </div>
+          </div>
+        </div>
+
+        <div class="security">
+          <span class="shield">🔒</span>
+          Pagos seguros y verificados – Retiros de 12h a 23h
+        </div>
+</div>
+    </div>
+  </main>
+
+  <!-- ÚNICO CTA (sticky, móvil y desktop) -->
+  <div class="sticky-cta" role="region" aria-label="Llamado a la acción">
+    <a class="btn-wa"
+       href="https://wa.me/59899259912?text=Hola%2C%20quiero%20mi%20BONO%2020%25%20con%20%24300"
+       target="_blank" rel="noopener">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="" width="22" height="22">
+      Reclamar Bono en WhatsApp
+    </a>
+  </div>
+
+  <script>
+  // Live counter
+  (function(){
+    function ratePerMinute(date){
+      var h = date.getHours();
+      if (h >= 18 || h < 1) return 3.2;
+      if (h >= 13 && h < 18) return 2.1;
+      if (h >= 9  && h < 13) return 1.1;
+      return 0.6;
+    }
+    var keyBase = 'cayo-live-count-base';
+    var keyDay  = 'cayo-live-count-day';
+    var now = new Date();
+    var dayKey = now.getFullYear()+'-'+(now.getMonth()+1)+'-'+now.getDate();
+    var storedDay = localStorage.getItem(keyDay);
+    var base = parseInt(localStorage.getItem(keyBase) || '0',10);
+    if (storedDay !== dayKey || !base || isNaN(base)) {
+      base = Math.floor(30 + Math.random()*90);
+      localStorage.setItem(keyBase, String(base));
+      localStorage.setItem(keyDay, dayKey);
+    }
+    var el = document.getElementById('live-count');
+    var current = base;
+    function render(){ el.textContent = current.toLocaleString('es-UY'); }
+    render();
+    function nextDelayMs(lambdaPerMin){
+      var lam = Math.max(0.2, lambdaPerMin / 60);
+      var u = Math.random();
+      var secs = -Math.log(1-u)/lam;
+      return Math.max(2500, Math.min(15000, secs*1000));
+    }
+    function tick(){
+      var r = ratePerMinute(new Date());
+      current += (Math.random() < 0.15 ? 2 : 1);
+      if (Math.random() < 0.06 && current > 20) current -= 1;
+      render();
+      setTimeout(tick, nextDelayMs(r));
+    }
+    setTimeout(tick, nextDelayMs(ratePerMinute(now)));
+  })();
+
+  // Single Winner Ticker
+  (function(){
+    var names = ["Sofía R.", "Martín P.", "Camila D.", "Agustín M.", "Valentina S.", "Nicolás T.", "Lucía V.", "Joaquín L.", "Carolina F.", "Diego B."];
+    var provinces = ["Montevideo", "Canelones", "Maldonado", "Colonia", "Salto", "Paysandú"];
+    var el = document.getElementById('winner-text');
+
+    function weightedAmount(){
+      var u = Math.random();
+      var amt;
+      if (u < 0.65) amt = 900 + Math.random()*1600;
+      else if (u < 0.90) amt = 2500 + Math.random()*4500;
+      else amt = 7000 + Math.random()*13000;
+      amt = Math.round(amt/50)*50;
+      return amt;
+    }
+
+    function updateWinner(){
+      var name = names[Math.floor(Math.random()*names.length)];
+      var city = provinces[Math.floor(Math.random()*provinces.length)];
+      var amount = weightedAmount();
+      el.textContent = name + " de " + city + " ganó UYU " + amount.toLocaleString('es-UY');
+      setTimeout(updateWinner, 4000 + Math.random()*3000);
+    }
+    updateWinner();
+  })();
+  </script>
 
   
 
 <!-- Live counter: personas jugando ahora (2–12, sin localStorage) with guard -->
-
-  
 <script>
 (function(){
-  var el=document.getElementById('live-count');
+  var el = document.getElementById('live-count');
   if(!el) return;
-  function nowUY(){
-    var fmt=new Intl.DateTimeFormat('es-UY',{timeZone:'America/Montevideo',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
-    var parts=fmt.formatToParts(new Date());
-    function g(t){return +parts.find(p=>p.type===t).value;}
-    return {H:g('hour'),M:g('minute'),date:new Date()};
+
+  // Purge any legacy localStorage keys that might override counters (not affecting Pixel)
+  try {
+    for (var i=0;i<localStorage.length;i++){
+      var k = localStorage.key(i);
+      if (k && /live-count|cayo-live-count/i.test(k)) { localStorage.removeItem(k); }
+    }
+  } catch(e) {}
+
+  function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+  var minV = 2, maxV = 12;
+  var current = randInt(minV, maxV);
+  function clamp(n){ return Math.max(minV, Math.min(maxV, n)); }
+  function render(){ el.textContent = String(clamp(current)); }
+
+  // Render initial
+  render();
+
+  // Mutation guard: if any other script changes the text, clamp it back immediately
+  try {
+    var mo = new MutationObserver(function(){
+      var v = parseInt((el.textContent||'').replace(/\D+/g,''),10);
+      if (isFinite(v) && (v < minV || v > maxV)) {
+        current = clamp(v);
+        render();
+      }
+    });
+    mo.observe(el, { characterData: true, subtree: true, childList: true });
+  } catch(e) {}
+
+  // Soft fluctuation loop 2–12 forever
+  function step(){
+    var roll = Math.random();
+    var delta = 0;
+    if (roll < 0.40) delta = 0;      // 40% igual
+    else if (roll < 0.70) delta = 1; // 30% +1
+    else delta = -1;                 // 30% -1
+    current = clamp(current + delta);
+    render();
+    setTimeout(step, randInt(3000, 6000));
   }
-  function percentRange(h){
-    if(h<6) return [0.012,0.022];
-    if(h<9) return [0.020,0.035];
-    if(h<12) return [0.030,0.045];
-    if(h<16) return [0.045,0.065];
-    if(h<20) return [0.065,0.095];
-    if(h<23) return [0.085,0.130];
-    return [0.040,0.060];
+  setTimeout(step, randInt(2000, 4000));
+})();
+</script>
+  
+<script>
+// Contador seguro: no toca scripts existentes. Oculta #live-count y usa #players-now.
+(function(){
+  function init(){
+    var old = document.getElementById('live-count');
+    if (!old) return;
+    // Ocultar el span original para esquivar observers/guards de otros scripts
+    old.setAttribute('aria-hidden','true');
+    old.style.display = 'none';
+    // Insertar nuevo span para nuestro contador
+    var neo = document.createElement('span');
+    neo.id = 'players-now';
+    old.parentNode.insertBefore(neo, old.nextSibling);
+
+    // --- Script de concurrencia (UTC-3 Montevideo) ---
+    function nowUY(){
+      try{
+        var fmt = new Intl.DateTimeFormat('es-UY', {
+          timeZone:'America/Montevideo',
+          hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false
+        });
+        var parts = fmt.formatToParts(new Date());
+        function g(t){ return +parts.find(p=>p.type===t).value; }
+        return { H:g('hour'), M:g('minute'), date:new Date() };
+      }catch(e){
+        var d = new Date();
+        return { H:(d.getUTCHours()+21)%24, M:d.getUTCMinutes(), date:d };
+      }
+    }
+    function percentRange(h){
+      if (h < 6)   return [0.012, 0.022];
+      if (h < 9)   return [0.020, 0.035];
+      if (h < 12)  return [0.030, 0.045];
+      if (h < 16)  return [0.045, 0.065];
+      if (h < 20)  return [0.065, 0.095];
+      if (h < 23)  return [0.085, 0.130];
+      return [0.040, 0.060];
+    }
+    function lerp(a,b,t){ return a + (b-a)*t; }
+    function blendedPerc(H,M){
+      var r1 = percentRange(H), r2 = percentRange((H+1)%24);
+      var t = Math.max(0, Math.min(1, M/60));
+      return [lerp(r1[0], r2[0], t), lerp(r1[1], r2[1], t)];
+    }
+    function weekendMult(d){
+      try{
+        var wd = new Intl.DateTimeFormat('es-UY', { timeZone:'America/Montevideo', weekday:'short' }).format(d).toLowerCase();
+        return (wd.startsWith('sá') || wd.startsWith('do')) ? 1.25 : 1.0;
+      }catch(e){
+        var w = d.getUTCDay();
+        return (w===0 || w===6) ? 1.25 : 1.0;
+      }
+    }
+    function clamp(n,min,max){ return Math.max(min, Math.min(max, n)); }
+    var fmt = new Intl.NumberFormat('es-UY');
+    var ACTIVE = 10000;
+
+    function rangeNow(){
+      var t = nowUY();
+      var p = blendedPerc(t.H, t.M);
+      var mult = weekendMult(t.date);
+      return [ Math.round(p[0]*ACTIVE*mult), Math.round(p[1]*ACTIVE*mult) ];
+    }
+
+    var r0 = rangeNow();
+    var current = Math.round(r0[0] + Math.random()*(r0[1]-r0[0]));
+    function render(){ neo.textContent = fmt.format(current); }
+
+    function step(){
+      var r = rangeNow();
+      var target = Math.round(r[0] + Math.random()*(r[1]-r[0]));
+      var dist = target - current;
+      var stepSize = Math.min(60, Math.max(5, Math.abs(dist)*0.25)) * (dist>=0?1:-1);
+      current = clamp(current + Math.round(stepSize + (Math.random()*8-4)), r[0], r[1]);
+      render();
+      setTimeout(step, 2400 + Math.random()*2400);
+    }
+
+    render();
+    setTimeout(step, 900 + Math.random()*900);
   }
-  function lerp(a,b,t){return a+(b-a)*t;}
-  function blendedPerc(H,M){var r1=percentRange(H),r2=percentRange((H+1)%24);var t=M/60;return [lerp(r1[0],r2[0],t),lerp(r1[1],r2[1],t)];}
-  function weekendMult(d){var wd=new Intl.DateTimeFormat('es-UY',{timeZone:'America/Montevideo',weekday:'short'}).format(d).toLowerCase();return (wd.startsWith('sá')||wd.startsWith('do'))?1.25:1.0;}
-  function clamp(n,min,max){return Math.max(min,Math.min(max,n));}
-  var fmt=new Intl.NumberFormat('es-UY');var active=10000;
-  function rangeNow(){var t=nowUY();var p=blendedPerc(t.H,t.M);var m=weekendMult(t.date);var minV=Math.round(p[0]*active*m);var maxV=Math.round(p[1]*active*m);return [minV,maxV];}
-  var r0=rangeNow();var current=Math.round(r0[0]+Math.random()*(r0[1]-r0[0]));
-  function render(){el.textContent=fmt.format(current);}
-  function step(){var r=rangeNow();var target=Math.round(r[0]+Math.random()*(r[1]-r[0]));var dist=target-current;var stepSize=Math.min(60,Math.max(5,Math.abs(dist)*0.25))*(dist>=0?1:-1);current=clamp(current+Math.round(stepSize+(Math.random()*8-4)),r[0],r[1]);render();setTimeout(step,2500+Math.random()*2500);}
-  render();setTimeout(step,1000+Math.random()*1000);
+  if (document.readyState !== 'loading') init();
+  else document.addEventListener('DOMContentLoaded', init);
 })();
 </script>
 
