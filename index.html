@@ -38,7 +38,7 @@
 
         <div class="counter" aria-live="polite">
           <span class="dot"></span>
-          <span id="live-count">0</span> cajeros en línea
+          <span id="live-count">0</span> personas jugando ahora
         </div>
 
         <p class="social">Más de 10.000 jugadores activos</p>
@@ -70,6 +70,11 @@
           <span class="shield">🔒</span>
           Pagos seguros y verificados – Retiros de 12h a 23h
         </div>
+
+        <div class="reviews-wrap">
+          <p id="review-text" class="review"></p>
+        </div>
+
 </div>
     </div>
   </main>
@@ -154,7 +159,7 @@
 
   
 
-<!-- Live counter: cajeros en línea (2–12, sin localStorage) with guard -->
+<!-- Live counter: personas jugando ahora (2–12, sin localStorage) with guard -->
 <script>
 (function(){
   var el = document.getElementById('live-count');
@@ -205,38 +210,65 @@
 </script>
   
 <script>
-// Auto-scroll suave + swipe manual con tope en los bordes (sin espacio transparente)
 (function(){
-  var carousel = document.querySelector('.payments-carousel');
-  if (!carousel) return;
-  var raf = null, dir = 1, paused = false, speed = 0.6;
-  function maxScroll(){ return Math.max(0, carousel.scrollWidth - carousel.clientWidth); }
-  function clamp(){
-    var max = maxScroll();
-    if (carousel.scrollLeft < 0) carousel.scrollLeft = 0;
-    if (carousel.scrollLeft > max) carousel.scrollLeft = max;
-  }
-  function step(){
-    if (!paused){
-      var max = maxScroll();
-      carousel.scrollLeft += dir * speed;
-      if (carousel.scrollLeft <= 0) dir = 1;
-      if (carousel.scrollLeft >= max) dir = -1;
+  function initCounter(){
+    var old=document.getElementById('live-count');
+    if(!old) return;
+    old.setAttribute('aria-hidden','true');
+    old.style.display='none';
+    var neo=document.createElement('span');
+    neo.id='players-now';
+    old.parentNode.insertBefore(neo,old.nextSibling);
+    function nowUY(){
+      try{
+        var fmt=new Intl.DateTimeFormat('es-UY',{timeZone:'America/Montevideo',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
+        var parts=fmt.formatToParts(new Date());
+        function g(t){return +parts.find(p=>p.type===t).value;}
+        return {H:g('hour'),M:g('minute'),date:new Date()};
+      }catch(e){var d=new Date();return {H:(d.getUTCHours()+21)%24,M:d.getUTCMinutes(),date:d};}
     }
-    raf = requestAnimationFrame(step);
+    function percentRange(h){
+      if(h<6) return [0.012,0.022];
+      if(h<9) return [0.020,0.035];
+      if(h<12) return [0.030,0.045];
+      if(h<16) return [0.045,0.065];
+      if(h<20) return [0.065,0.095];
+      if(h<23) return [0.085,0.130];
+      return [0.040,0.060];
+    }
+    function lerp(a,b,t){return a+(b-a)*t;}
+    function blendedPerc(H,M){var r1=percentRange(H),r2=percentRange((H+1)%24);var t=M/60;return [lerp(r1[0],r2[0],t),lerp(r1[1],r2[1],t)];}
+    function weekendMult(d){try{var wd=new Intl.DateTimeFormat('es-UY',{timeZone:'America/Montevideo',weekday:'short'}).format(d).toLowerCase();return (wd.startsWith('sá')||wd.startsWith('do'))?1.25:1.0;}catch(e){var w=d.getUTCDay();return (w===0||w===6)?1.25:1.0;}}
+    function clamp(n,min,max){return Math.max(min,Math.min(max,n));}
+    var fmt=new Intl.NumberFormat('es-UY');var ACTIVE=10000;
+    function rangeNow(){var t=nowUY();var p=blendedPerc(t.H,t.M);var mult=weekendMult(t.date);return [Math.round(p[0]*ACTIVE*mult),Math.round(p[1]*ACTIVE*mult)];}
+    var r0=rangeNow();var current=Math.round(r0[0]+Math.random()*(r0[1]-r0[0]));
+    function render(){neo.textContent=fmt.format(current);}
+    function step(){var r=rangeNow();var target=Math.round(r[0]+Math.random()*(r[1]-r[0]));var dist=target-current;var stepSize=Math.min(60,Math.max(5,Math.abs(dist)*0.25))*(dist>=0?1:-1);current=clamp(current+Math.round(stepSize+(Math.random()*8-4)),r[0],r[1]);render();setTimeout(step,2400+Math.random()*2400);}
+    render();setTimeout(step,900+Math.random()*900);
   }
-  // Pausa mientras tocan/deslizan; reanuda 900ms después
-  var timer = null;
-  function pause(){ paused = true; if (timer) clearTimeout(timer); }
-  function resume(){ timer = setTimeout(function(){ paused = false; }, 900); }
+  if(document.readyState!=='loading') initCounter();
+  else document.addEventListener('DOMContentLoaded', initCounter);
+})();
+</script>
 
-  carousel.addEventListener('touchstart', function(){ pause(); }, {passive:true});
-  carousel.addEventListener('touchend', function(){ clamp(); resume(); }, {passive:true});
-  carousel.addEventListener('scroll', function(){ clamp(); }, {passive:true});
-  window.addEventListener('resize', clamp);
 
-  clamp();
-  step();
+<script>
+(function(){
+  var reviews = ['Buenísima la promo, me acreditaron al toque 👌', 'Me dieron el bono sin vueltas, todo joya', 'Retiré rápido, cero drama', 'Funciona bárbaro, confiable 100%', 'La atención por WhatsApp es de diez', 'Entró todo al instante, espectacular', 'Recomendadísimo, todo transparente', 'No me lo creía y pagaron en el día', 'Cargué poco y ya pude jugar, genial', 'La promo me vino bárbaro para arrancar', 'Cumplen lo que prometen, eso vale', 'Nunca un problema, muy confiables', 'Me atendieron de inmediato', 'Ya cobré varias veces, excelente', 'Todo sencillo, cero complicaciones', 'Me sorprendió lo rápido que acreditan', 'Al toque el retiro, impecable', 'Lo probé y quedé re conforme', 'Siempre responden enseguida', 'De lo mejor que encontré en Uruguay', 'Muy claro todo, sin engaños', 'El bono me sirvió pila', 'Retiro seguro, cero vueltas', 'Ya jugué varias veces, impecable', 'Muy buena experiencia', 'Me dieron confianza desde el inicio', 'Los recomiendo a full', 'Cada retiro fue sin problema', 'Todo anda perfecto, 10 puntos', 'La promo está de más', 'Me gusta que cumplan lo que dicen', 'Hasta ahora todo bien, cero quejas', 'Una de las pocas serias', 'Todo bien explicado y fácil', 'Rapidez y seriedad', 'Ya soy cliente fijo', 'La mejor promo que agarré', 'Muy recomendable de verdad', 'Pagaron en tiempo y forma', 'Estoy conforme con el servicio', 'Nunca me fallaron', 'Me dieron confianza al instante', 'Todo claro y seguro', 'Una experiencia redonda', 'Muy responsables', 'Excelente trato siempre', 'La promo me ayudó un montón', 'Hasta ahora todo impecable', 'Son confiables de verdad', 'Me cumplieron al 100%'];
+  var el=document.getElementById('review-text');
+  if(!el) return;
+  var i=0;
+  function showNext(){
+    el.classList.remove('show');
+    setTimeout(function(){
+      el.textContent=reviews[i];
+      el.classList.add('show');
+      i=(i+1)%reviews.length;
+    },800);
+  }
+  showNext();
+  setInterval(showNext,4000);
 })();
 </script>
 
