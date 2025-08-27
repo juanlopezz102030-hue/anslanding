@@ -78,6 +78,20 @@
           </div>
         </div>
 
+
+    <!-- Términos & Condiciones (discreto) -->
+    <div class="tnc-wrap" aria-label="Términos y condiciones">
+      <button class="tnc-link" type="button">Términos y Condiciones</button>
+    </div>
+
+    <dialog id="tncDialog">
+      <div class="tnc-dialog-inner">
+        <h3>Términos y Condiciones</h3>
+        <p style="opacity:.9">Promoción válida para nuevos usuarios. Bono del 20% sobre el primer depósito con carga mínima indicada en la página. El bono se acredita en un plazo máximo de 24&nbsp;hs hábiles. El saldo promocional no es transferible y puede estar sujeto a requisitos de uso. Los retiros se procesan entre 12&nbsp;y&nbsp;23&nbsp;hs. Al continuar, aceptás estos términos.</p>
+        <button id="tncClose" class="tnc-close" type="button" aria-label="Cerrar">Entendido</button>
+      </div>
+    </dialog>
+
 </main>
 
   <!-- Sticky CTA (móvil) -->
@@ -288,6 +302,89 @@
   if (/(FBAN|FBAV|Instagram)/i.test(ua)){
     document.documentElement.classList.add('fb-inapp');
     document.body.classList.add('fb-inapp');
+  }
+})();
+</script>
+
+
+<!-- v44: T&C modal behavior -->
+<script>
+(function(){
+  var btn = document.querySelector('.tnc-link');
+  var dlg = document.getElementById('tncDialog');
+  var closeBtn = document.getElementById('tncClose');
+  if(btn && dlg){
+    btn.addEventListener('click', function(){
+      try{ dlg.showModal(); }catch(e){ dlg.setAttribute('open',''); }
+    });
+  }
+  if(closeBtn && dlg){
+    closeBtn.addEventListener('click', function(){ try{ dlg.close(); }catch(e){ dlg.removeAttribute('open'); } });
+  }
+})();
+</script>
+
+
+<!-- v45: Drag-to-scroll for payments carousel + page polish -->
+<script>
+(function(){
+  var wrap = document.querySelector('.payments-carousel');
+  if(!wrap) return;
+  var isDown = false, startX = 0, scrollStart = 0, dragStarted = false, resumeTimer = null;
+
+  function pauseAnim(){
+    wrap.classList.add('user-dragging');
+    if (resumeTimer) { clearTimeout(resumeTimer); resumeTimer = null; }
+  }
+  function resumeAnimLater(){
+    resumeTimer = setTimeout(function(){
+      wrap.classList.remove('user-dragging');
+    }, 2500); // reanudar 2.5s después de soltar
+  }
+
+  wrap.addEventListener('pointerdown', function(e){
+    isDown = true; dragStarted = false;
+    startX = e.clientX; scrollStart = wrap.scrollLeft;
+    pauseAnim();
+    wrap.setPointerCapture(e.pointerId);
+  });
+  wrap.addEventListener('pointermove', function(e){
+    if(!isDown) return;
+    var dx = e.clientX - startX;
+    if (Math.abs(dx) > 3) dragStarted = true;
+    wrap.scrollLeft = scrollStart - dx;
+    e.preventDefault();
+  }, {passive:false});
+  wrap.addEventListener('pointerup', function(e){
+    isDown = false;
+    wrap.releasePointerCapture(e.pointerId);
+    resumeAnimLater();
+  });
+  wrap.addEventListener('pointercancel', function(){
+    isDown = false; resumeAnimLater();
+  });
+
+  // Touch support fallback (older browsers)
+  var tsX=0, tsSL=0, touching=false;
+  wrap.addEventListener('touchstart', function(e){
+    var t = e.touches[0];
+    touching = true; tsX = t.clientX; tsSL = wrap.scrollLeft;
+    pauseAnim();
+  }, {passive:true});
+  wrap.addEventListener('touchmove', function(e){
+    if(!touching) return;
+    var t = e.touches[0];
+    var dx = t.clientX - tsX;
+    wrap.scrollLeft = tsSL - dx;
+  }, {passive:true});
+  wrap.addEventListener('touchend', function(){
+    touching = false; resumeAnimLater();
+  });
+
+  // Safety: keep the track looping feel by duplicating content if short
+  var track = wrap.querySelector('.payments-track');
+  if(track && track.children.length < 10){
+    track.innerHTML = track.innerHTML + track.innerHTML;
   }
 })();
 </script>

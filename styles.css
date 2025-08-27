@@ -264,3 +264,72 @@ body{ padding-bottom: calc(96px + var(--bpad)); }
 }
 /* Facebook in-app browser bottom toolbar compensation */
 body.fb-inapp{ padding-bottom: calc(120px + var(--bpad)); }
+
+
+/* === v44: Smooth carousel sliding & polish === */
+.payments-carousel{ overflow:hidden; width:100%; max-width:min(560px, 92vw); margin-top:8px; position:relative; }
+.payments-track{ display:flex; gap:12px; align-items:center; will-change:transform; backface-visibility:hidden; transform:translate3d(0,0,0); animation:payments-scroll 36s linear infinite; }
+.payments-track img{ width:50px; height:50px; border-radius:12px; object-fit:cover; flex:0 0 auto; }
+
+/* subtle edge fade so the loop no se note */
+.payments-carousel:before,
+.payments-carousel:after{
+  content:""; position:absolute; top:0; bottom:0; width:28px; pointer-events:none;
+  background:linear-gradient(to right, rgba(0,0,0,.45), transparent);
+  z-index:2;
+}
+.payments-carousel:after{
+  right:0; transform:scaleX(-1);
+}
+.payments-carousel:before{ left:0; }
+
+@keyframes payments-scroll{
+  0%   { transform:translate3d(0,0,0); }
+  100% { transform:translate3d(-50%,0,0); }
+}
+
+/* Reduce motion for users que lo prefieran */
+@media (prefers-reduced-motion: reduce){
+  .payments-track{ animation:none; }
+}
+
+
+/* === v44: Términos y Condiciones === */
+.tnc-wrap{ width:100%; display:flex; justify-content:center; margin:8px 0 96px; }
+.tnc-link{
+  background:transparent; border:none; color:rgba(255,255,255,.65); font-size:.82rem; text-decoration:underline;
+}
+.tnc-link:focus{ outline:2px solid rgba(255,255,255,.35); outline-offset:2px; border-radius:6px; }
+dialog#tncDialog{
+  border:none; border-radius:14px; padding:0; max-width:min(560px, 92vw);
+  background:rgba(18,18,18,.94); color:#fff;
+}
+#tncDialog::backdrop{ background:rgba(0,0,0,.55); }
+.tnc-dialog-inner{ padding:16px 18px 14px; }
+.tnc-dialog-inner h3{ margin:0 0 8px; font-size:1.05rem; }
+.tnc-close{
+  margin-top:8px; width:100%; border:none; border-radius:10px;
+  padding:.7rem 1rem; background:#24d366; color:#0a1b0c; font-weight:700;
+}
+@media (max-width:360px){
+  .tnc-link{ font-size:.78rem; }
+}
+
+/* === v45: Page lock & drag carousel === */
+html, body{
+  overflow-x: hidden;
+  overscroll-behavior: none;
+  background-color: #0a0e12;
+  min-height: 100dvh;
+}
+/* Carousel can be dragged with finger */
+.payments-carousel{
+  overflow-x:auto;
+  scroll-snap-type:x proximity;
+  -webkit-overflow-scrolling: touch;
+}
+.payments-track img{ scroll-snap-align:center; }
+/* hide scrollbar on webkit */
+.payments-carousel::-webkit-scrollbar{ height:0; display:none; }
+/* Pause animation while user drags */
+.payments-carousel.user-dragging .payments-track{ animation: none !important; }
