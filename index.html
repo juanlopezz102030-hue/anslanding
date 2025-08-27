@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-<!-- Meta Pixel Code -->
+  <!-- Meta Pixel Code -->
   <script>
   !function(f,b,e,v,n,t,s)
   {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -33,135 +33,177 @@
     <div class="overlay" aria-hidden="true"></div>
     <div class="hero-inner">
       <div class="copy">
-        <h1>RECIBÍ 20% EXTRA EN TU PRIMER DEPÓSITO</h1>
+        <h1><span class="accent">BONO 20%</span> DE BIENVENIDA</h1>
         <p class="sub">Con carga mínima de <strong>$300</strong></p>
 
-        <!-- Live counter pill -->
-        <div class="counter" aria-live="polite" title="Usuarios registrándose ahora mismo">
-          <span class="dot" aria-hidden="true"></span>
-          <span id="live-count">0</span> probando suerte ahora
+        <div class="counter" aria-live="polite">
+          <span class="dot"></span>
+          <span id="live-count">0</span> cajeros en línea
         </div>
 
         <p class="social">Más de 10.000 jugadores activos</p>
         <p class="fine-print">Promoción por tiempo limitado. Depósitos fáciles, retiros rápidos y atención personalizada.</p>
 
-        <!-- CTA principal (desktop) -->
-        <a class="btn-wa desktop-only"
-           href="https://wa.me/59899259912?text=Hola%2C%20quiero%20mi%20BONO%2020%25%20con%20%24300"
-           target="_blank" rel="noopener" aria-label="Reclamar bono por WhatsApp">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="" width="22" height="22">
-          Reclamar por WhatsApp
-        </a>
-      </div>
-    </div>
-  
-        <!-- Carrusel de logos bancarios -->
+        <!-- Carrusel logos centrado -->
         <div class="payments-wrap">
-          <div class="payments-carousel" aria-label="Medios de pago">
+          <div class="payments-carousel">
             <div class="payments-track">
-              <img src="itau.png" alt="Itaú" loading="lazy">
-              <img src="brou.png" alt="BROU" loading="lazy">
-              <img src="mercadopago.png" alt="Mercado Pago" loading="lazy">
-              <img src="scotiabank.png" alt="Scotiabank" loading="lazy">
-              <img src="santander.png" alt="Santander" loading="lazy">
-              <img src="midinero.png" alt="MIDinero" loading="lazy">
-              <img src="prex.png" alt="Prex" loading="lazy">
-              <!-- duplicado para loop infinito -->
-              <img src="itau.png" alt="Itaú" loading="lazy">
-              <img src="brou.png" alt="BROU" loading="lazy">
-              <img src="mercadopago.png" alt="Mercado Pago" loading="lazy">
-              <img src="scotiabank.png" alt="Scotiabank" loading="lazy">
-              <img src="santander.png" alt="Santander" loading="lazy">
-              <img src="midinero.png" alt="MIDinero" loading="lazy">
-              <img src="prex.png" alt="Prex" loading="lazy">
+              <img src="itau.png" alt="Itaú">
+              <img src="brou.png" alt="BROU">
+              <img src="mercadopago.png" alt="Mercado Pago">
+              <img src="scotiabank.png" alt="Scotiabank">
+              <img src="santander.png" alt="Santander">
+              <img src="midinero.png" alt="Midinero">
+              <img src="prex.png" alt="Prex">
+              <img src="itau.png" alt="Itaú">
+              <img src="brou.png" alt="BROU">
+              <img src="mercadopago.png" alt="Mercado Pago">
+              <img src="scotiabank.png" alt="Scotiabank">
+              <img src="santander.png" alt="Santander">
+              <img src="midinero.png" alt="Midinero">
+              <img src="prex.png" alt="Prex">
             </div>
           </div>
         </div>
 
-
-    <!-- Términos & Condiciones (discreto) -->
-    <div class="tnc-wrap" aria-label="Términos y condiciones">
-      <button class="tnc-link" type="button">Términos y Condiciones</button>
+        <div class="security">
+          <span class="shield">🔒</span>
+          Pagos seguros y verificados – Retiros de 12h a 23h
+        </div>
+</div>
     </div>
+  </main>
 
-    <dialog id="tncDialog">
-      <div class="tnc-dialog-inner">
-        <h3>Términos y Condiciones</h3>
-        <p style="opacity:.9">Promoción válida para nuevos usuarios. Bono del 20% sobre el primer depósito con carga mínima indicada en la página. El bono se acredita en un plazo máximo de 24&nbsp;hs hábiles. El saldo promocional no es transferible y puede estar sujeto a requisitos de uso. Los retiros se procesan entre 12&nbsp;y&nbsp;23&nbsp;hs. Al continuar, aceptás estos términos.</p>
-        <button id="tncClose" class="tnc-close" type="button" aria-label="Cerrar">Entendido</button>
-      </div>
-    </dialog>
-
-</main>
-
-  <!-- Sticky CTA (móvil) -->
-  <div class="sticky-cta mobile-only" role="region" aria-label="Llamado a la acción">
+  <!-- ÚNICO CTA (sticky, móvil y desktop) -->
+  <div class="sticky-cta" role="region" aria-label="Llamado a la acción">
     <a class="btn-wa"
        href="https://wa.me/59899259912?text=Hola%2C%20quiero%20mi%20BONO%2020%25%20con%20%24300"
-       target="_blank" rel="noopener" aria-label="Reclamar bono en WhatsApp">
+       target="_blank" rel="noopener">
       <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="" width="22" height="22">
       Reclamar Bono en WhatsApp
     </a>
   </div>
 
-  <!-- Live counter logic -->
   <script>
+  // Live counter
   (function(){
-    // Config "realista": ritmo por franja horaria (usuarios/minuto)
     function ratePerMinute(date){
       var h = date.getHours();
-      if (h >= 18 || h < 1) return 3.2;      // pico tarde-noche
-      if (h >= 13 && h < 18) return 2.1;     // tarde
-      if (h >= 9  && h < 13) return 1.1;     // mañana
-      return 0.6;                             // madrugada
+      if (h >= 18 || h < 1) return 3.2;
+      if (h >= 13 && h < 18) return 2.1;
+      if (h >= 9  && h < 13) return 1.1;
+      return 0.6;
     }
-
-    // Persistencia por día local
     var keyBase = 'cayo-live-count-base';
     var keyDay  = 'cayo-live-count-day';
     var now = new Date();
     var dayKey = now.getFullYear()+'-'+(now.getMonth()+1)+'-'+now.getDate();
     var storedDay = localStorage.getItem(keyDay);
     var base = parseInt(localStorage.getItem(keyBase) || '0',10);
-
     if (storedDay !== dayKey || !base || isNaN(base)) {
-      // Semilla diaria pseudo-aleatoria alrededor de 30-120 usuarios concurrentes visibles
       base = Math.floor(30 + Math.random()*90);
       localStorage.setItem(keyBase, String(base));
       localStorage.setItem(keyDay, dayKey);
     }
-
     var el = document.getElementById('live-count');
-
-    // Simulación de llegadas tipo Poisson: intervalos ~ exponenciales
-    function nextDelayMs(lambdaPerMin){
-      // lambda por segundo
-      var lam = Math.max(0.2, lambdaPerMin / 60);
-      // muestreo exponencial: -ln(U)/lam
-      var u = Math.random();
-      var secs = -Math.log(1-u)/lam;
-      // clamp para que no sea demasiado rápido ni lento
-      return Math.max(2500, Math.min(15000, secs*1000));
-    }
-
     var current = base;
     function render(){ el.textContent = current.toLocaleString('es-UY'); }
     render();
-
+    function nextDelayMs(lambdaPerMin){
+      var lam = Math.max(0.2, lambdaPerMin / 60);
+      var u = Math.random();
+      var secs = -Math.log(1-u)/lam;
+      return Math.max(2500, Math.min(15000, secs*1000));
+    }
     function tick(){
       var r = ratePerMinute(new Date());
-      // incremento 1 la mayoría de veces, a veces 2
       current += (Math.random() < 0.15 ? 2 : 1);
-      // pequeñas caídas ocasionales para realismo
       if (Math.random() < 0.06 && current > 20) current -= 1;
       render();
       setTimeout(tick, nextDelayMs(r));
     }
-
     setTimeout(tick, nextDelayMs(ratePerMinute(now)));
   })();
+
+  // Single Winner Ticker
+  (function(){
+    var names = ["Sofía R.", "Martín P.", "Camila D.", "Agustín M.", "Valentina S.", "Nicolás T.", "Lucía V.", "Joaquín L.", "Carolina F.", "Diego B."];
+    var provinces = ["Montevideo", "Canelones", "Maldonado", "Colonia", "Salto", "Paysandú"];
+    var el = document.getElementById('winner-text');
+
+    function weightedAmount(){
+      var u = Math.random();
+      var amt;
+      if (u < 0.65) amt = 900 + Math.random()*1600;
+      else if (u < 0.90) amt = 2500 + Math.random()*4500;
+      else amt = 7000 + Math.random()*13000;
+      amt = Math.round(amt/50)*50;
+      return amt;
+    }
+
+    function updateWinner(){
+      var name = names[Math.floor(Math.random()*names.length)];
+      var city = provinces[Math.floor(Math.random()*provinces.length)];
+      var amount = weightedAmount();
+      el.textContent = name + " de " + city + " ganó UYU " + amount.toLocaleString('es-UY');
+      setTimeout(updateWinner, 4000 + Math.random()*3000);
+    }
+    updateWinner();
+  })();
   </script>
-<!-- WhatsApp click tracking for Meta Pixel -->
+
+  
+
+<!-- Live counter: cajeros en línea (2–12, sin localStorage) with guard -->
+<script>
+(function(){
+  var el = document.getElementById('live-count');
+  if(!el) return;
+
+  // Purge any legacy localStorage keys that might override counters (not affecting Pixel)
+  try {
+    for (var i=0;i<localStorage.length;i++){
+      var k = localStorage.key(i);
+      if (k && /live-count|cayo-live-count/i.test(k)) { localStorage.removeItem(k); }
+    }
+  } catch(e) {}
+
+  function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+  var minV = 2, maxV = 12;
+  var current = randInt(minV, maxV);
+  function clamp(n){ return Math.max(minV, Math.min(maxV, n)); }
+  function render(){ el.textContent = String(clamp(current)); }
+
+  // Render initial
+  render();
+
+  // Mutation guard: if any other script changes the text, clamp it back immediately
+  try {
+    var mo = new MutationObserver(function(){
+      var v = parseInt((el.textContent||'').replace(/\D+/g,''),10);
+      if (isFinite(v) && (v < minV || v > maxV)) {
+        current = clamp(v);
+        render();
+      }
+    });
+    mo.observe(el, { characterData: true, subtree: true, childList: true });
+  } catch(e) {}
+
+  // Soft fluctuation loop 2–12 forever
+  function step(){
+    var roll = Math.random();
+    var delta = 0;
+    if (roll < 0.40) delta = 0;      // 40% igual
+    else if (roll < 0.70) delta = 1; // 30% +1
+    else delta = -1;                 // 30% -1
+    current = clamp(current + delta);
+    render();
+    setTimeout(step, randInt(3000, 6000));
+  }
+  setTimeout(step, randInt(2000, 4000));
+})();
+</script>
+  <!-- WhatsApp click tracking for Meta Pixel -->
   <script>
   (function(){
     function onWaClick(e){
@@ -173,7 +215,7 @@
           if(url.searchParams.get(k)) params[k]=url.searchParams.get(k);
         });
         if (typeof fbq === 'function'){
-          fbq('track','Contact',{content_name:'WhatsApp Click',destination:'whatsapp',...params});
+          fbq('track','Contact',{content_name:'WhatsApp Click',destination:'whatsapp',value: 0, currency: 'UYU', ...params});
           fbq('trackCustom','WhatsAppClick',params);
         }
       }catch(_){}
@@ -188,206 +230,5 @@
     document.addEventListener('DOMContentLoaded', bind);
   })();
   </script>
-
-
-
-
-
-
-
-<!-- Live counter: personas probando suerte ahora (sin caídas bruscas) -->
-<script>
-(function(){
-  const el = document.getElementById('live-count');
-  if(!el) return;
-
-  function rangeByHour(h){
-    if (h < 8)   return [30,120];
-    if (h < 13)  return [80,220];
-    if (h < 18)  return [120,380];
-    if (h < 23)  return [200,600];
-    return [120,300];
-  }
-  const randInt = (min,max)=>Math.floor(Math.random()*(max-min+1))+min;
-
-  let current = 0, target = 0;
-  let lastShown = 0;
-  let lastRange = rangeByHour(new Date().getHours());
-
-  function render(val){
-    el.textContent = Math.round(val).toLocaleString('es-UY');
-    lastShown = Math.round(val);
-  }
-
-  // Nunca saltar más de 2 por tick al mostrar
-  function displayGuard(next){
-    const maxStep = 2;
-    const diff = Math.round(next) - lastShown;
-    if (Math.abs(diff) > maxStep){
-      return lastShown + Math.sign(diff) * maxStep;
-    }
-    return next;
-  }
-
-  // Elegir target cercano al valor actual
-  function setNewTarget(){
-    const [min,max] = rangeByHour(new Date().getHours());
-    // target cercano ±5..15
-    const span = randInt(5,15);
-    let t = current + (Math.random()<0.5 ? -span : span);
-    // forzar a rango, pero sin mover current
-    target = Math.max(min, Math.min(max, t));
-    setTimeout(setNewTarget, randInt(22000, 32000)); // 22–32s
-  }
-
-  function tick(){
-    // Detectar cambio de rango horario y NO clavar current;
-    // solo ajustar el target al nuevo rango y "magnetizar" suave current si está fuera
-    const r = rangeByHour(new Date().getHours());
-    if (r[0] !== lastRange[0] || r[1] !== lastRange[1]){
-      lastRange = r;
-      // clamp suave del target
-      target = Math.max(r[0], Math.min(r[1], target));
-    }
-    // Si current está fuera, moverlo de a 1 hacia el borde más cercano
-    if (current < r[0]) current += 1;
-    if (current > r[1]) current -= 1;
-
-    // Easing muy suave: acercar de a 1 al target
-    if (Math.round(current) !== Math.round(target)){
-      current += Math.sign(target - current) * 1;
-    }
-
-    // Micro-oscilación mínima ocasional
-    if (Math.random() < 0.06){
-      const jitter = (Math.random()<0.5?-1:1);
-      const next = current + jitter;
-      // Solo aceptar jitter si queda dentro del rango
-      if (next >= r[0] && next <= r[1]) current = next;
-    }
-
-    const guarded = displayGuard(current);
-    render(guarded);
-    setTimeout(tick, 500); // 0.5s
-  }
-
-  // Observador anti-mutación: si otro script escribe un salto > 3, ignorar y re-render
-  try {
-    const mo = new MutationObserver(()=>{
-      const raw = (el.textContent||'').replace(/\D+/g,'');
-      const n = parseInt(raw, 10);
-      if (!isFinite(n)) return;
-      if (Math.abs(n - lastShown) > 3){
-        render(lastShown); // revertir escritura ajena
-      }
-    });
-    mo.observe(el, {childList:true, characterData:true, subtree:true});
-  } catch(e) {}
-
-  // Init
-  const r0 = rangeByHour(new Date().getHours());
-  current = randInt(r0[0], r0[1]);
-  target  = current;
-  render(current);
-  setNewTarget();
-  tick();
-})();
-</script>
-
-
-<!-- In-app browser detection (Facebook/Instagram) to avoid CTA overlap -->
-<script>
-(function(){
-  var ua = navigator.userAgent || '';
-  if (/(FBAN|FBAV|Instagram)/i.test(ua)){
-    document.documentElement.classList.add('fb-inapp');
-    document.body.classList.add('fb-inapp');
-  }
-})();
-</script>
-
-
-<!-- v44: T&C modal behavior -->
-<script>
-(function(){
-  var btn = document.querySelector('.tnc-link');
-  var dlg = document.getElementById('tncDialog');
-  var closeBtn = document.getElementById('tncClose');
-  if(btn && dlg){
-    btn.addEventListener('click', function(){
-      try{ dlg.showModal(); }catch(e){ dlg.setAttribute('open',''); }
-    });
-  }
-  if(closeBtn && dlg){
-    closeBtn.addEventListener('click', function(){ try{ dlg.close(); }catch(e){ dlg.removeAttribute('open'); } });
-  }
-})();
-</script>
-
-
-<!-- v45: Drag-to-scroll for payments carousel + page polish -->
-<script>
-(function(){
-  var wrap = document.querySelector('.payments-carousel');
-  if(!wrap) return;
-  var isDown = false, startX = 0, scrollStart = 0, dragStarted = false, resumeTimer = null;
-
-  function pauseAnim(){
-    wrap.classList.add('user-dragging');
-    if (resumeTimer) { clearTimeout(resumeTimer); resumeTimer = null; }
-  }
-  function resumeAnimLater(){
-    resumeTimer = setTimeout(function(){
-      wrap.classList.remove('user-dragging');
-    }, 2500); // reanudar 2.5s después de soltar
-  }
-
-  wrap.addEventListener('pointerdown', function(e){
-    isDown = true; dragStarted = false;
-    startX = e.clientX; scrollStart = wrap.scrollLeft;
-    pauseAnim();
-    wrap.setPointerCapture(e.pointerId);
-  });
-  wrap.addEventListener('pointermove', function(e){
-    if(!isDown) return;
-    var dx = e.clientX - startX;
-    if (Math.abs(dx) > 3) dragStarted = true;
-    wrap.scrollLeft = scrollStart - dx;
-    e.preventDefault();
-  }, {passive:false});
-  wrap.addEventListener('pointerup', function(e){
-    isDown = false;
-    wrap.releasePointerCapture(e.pointerId);
-    resumeAnimLater();
-  });
-  wrap.addEventListener('pointercancel', function(){
-    isDown = false; resumeAnimLater();
-  });
-
-  // Touch support fallback (older browsers)
-  var tsX=0, tsSL=0, touching=false;
-  wrap.addEventListener('touchstart', function(e){
-    var t = e.touches[0];
-    touching = true; tsX = t.clientX; tsSL = wrap.scrollLeft;
-    pauseAnim();
-  }, {passive:true});
-  wrap.addEventListener('touchmove', function(e){
-    if(!touching) return;
-    var t = e.touches[0];
-    var dx = t.clientX - tsX;
-    wrap.scrollLeft = tsSL - dx;
-  }, {passive:true});
-  wrap.addEventListener('touchend', function(){
-    touching = false; resumeAnimLater();
-  });
-
-  // Safety: keep the track looping feel by duplicating content if short
-  var track = wrap.querySelector('.payments-track');
-  if(track && track.children.length < 10){
-    track.innerHTML = track.innerHTML + track.innerHTML;
-  }
-})();
-</script>
-
 </body>
 </html>
