@@ -347,6 +347,24 @@
     /* Ensure last content has extra space before sticky bar */
     main{ margin-bottom: calc(var(--sticky-h) + env(safe-area-inset-bottom) + 28px); }
 
+    
+    /* === Clean WhatsApp button style === */
+    .btn{
+      display:flex; align-items:center; justify-content:center; gap:10px;
+      background:#25D366; color:#fff;
+      font-size:17px; font-weight:700;
+      padding:14px 20px; border-radius:999px; border:none;
+      box-shadow:0 4px 14px rgba(37,211,102,.35);
+      transition:background .2s ease, transform .15s ease;
+    }
+    .btn .wa-icon{ width:22px; height:22px; }
+    .btn:hover{ background:#20bd5a; }
+    .btn:active{ transform:scale(.97); }
+    .cta-note{ font-size:13px; opacity:.85; margin-top:6px; text-align:center; }
+    /* Sticky bar button same style but smaller */
+    .bar-btn{ font-size:15px; padding:12px 16px; border-radius:999px; }
+    .bar-btn .wa-icon{ width:20px; height:20px; }
+
     /* Larger screens */
     @media (min-width:768px){
       .hero{aspect-ratio: 16/9}
@@ -401,7 +419,7 @@
 
       <div class="cta">
         
-        <a class="btn" id="ctaWA" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" class="wa-icon"><span>Escribinos al WhatsApp</span><small>Activá tu bono YA</small></a>
+        <a class="btn" id="ctaWA" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" class="wa-icon"><span>Escribinos por WhatsApp</span></a><div class="cta-note">Activá tu bono YA</div>
 
         
         <section class="payments">
