@@ -365,6 +365,9 @@
     .bar-btn{ font-size:15px; padding:12px 16px; border-radius:999px; }
     .bar-btn .wa-icon{ width:20px; height:20px; }
 
+    
+    /* Prevent browser back-swipe on hero */
+    .hero{ touch-action: pan-y; }
     /* Larger screens */
     @media (min-width:768px){
       .hero{aspect-ratio: 16/9}
@@ -459,6 +462,7 @@
   </script>
 
   
+  
   <script>
     (function(){
       const root = document.documentElement;
@@ -466,7 +470,8 @@
       const hero = document.getElementById('hero');
       const dotsWrap = document.getElementById('dots');
       const slideEls = Array.from(slides.children);
-      let idx = 0, startX = 0, currentX = 0, isDown = false;
+      let idx = 0, startX = 0, currentX = 0, isDown = false, isEdge = false;
+      const EDGE_GUARD = 24; // px zone near edges ignored to avoid FB back/forward gesture
 
       function applyBG(el){
         const bg1 = el.getAttribute('data-bg1');
@@ -481,7 +486,6 @@
         slides.style.transform = `translateX(${-idx*100}%)`;
         Array.from(dotsWrap.children).forEach((d,k)=>d.classList.toggle('active', k===idx));
         applyBG(slideEls[idx]);
-        // Theme toggles
         hero.classList.toggle('alt-theme', idx===1);
         hero.classList.toggle('slide3-theme', idx===2);
       }
@@ -491,13 +495,36 @@
       });
       applyBG(slideEls[0]);
 
-      function onDown(e){ isDown = true; startX = (e.touches?e.touches[0]:e).clientX; }
-      function onMove(e){ if(!isDown) return; currentX = (e.touches?e.touches[0]:e).clientX; }
-      function onUp(){ if(!isDown) return; const dx=currentX-startX; if(Math.abs(dx)>40){ go(idx+(dx<0?1:-1)); } isDown=false; }
-      hero.addEventListener('pointerdown', onDown); hero.addEventListener('pointermove', onMove); window.addEventListener('pointerup', onUp);
-      hero.addEventListener('touchstart', onDown, {passive:true}); hero.addEventListener('touchmove', onMove, {passive:true}); hero.addEventListener('touchend', onUp);
+      function onDown(e){
+        const x = (e.touches?e.touches[0]:e).clientX;
+        // Ignore drags starting very close to screen edges to avoid system back gesture
+        isEdge = (x < EDGE_GUARD || x > (window.innerWidth - EDGE_GUARD));
+        isDown = !isEdge;
+        startX = x; currentX = x;
+      }
+      function onMove(e){
+        if(!isDown) return;
+        currentX = (e.touches?e.touches[0]:e).clientX;
+        // prevent browser from interpreting as navigation
+        if(e.cancelable){ e.preventDefault(); }
+      }
+      function onUp(){
+        if(!isDown) return;
+        const dx = currentX - startX;
+        if(Math.abs(dx) > 40){
+          go(idx + (dx<0 ? 1 : -1));
+        }
+        isDown = false; isEdge = false;
+      }
+      hero.addEventListener('pointerdown', onDown, {passive:true});
+      hero.addEventListener('pointermove', onMove, {passive:false});
+      window.addEventListener('pointerup', onUp, {passive:true});
+      hero.addEventListener('touchstart', onDown, {passive:true});
+      hero.addEventListener('touchmove', onMove, {passive:false});
+      hero.addEventListener('touchend', onUp, {passive:true});
     })();
   </script>
+
 
 
 
@@ -573,6 +600,41 @@
     }
     document.addEventListener('DOMContentLoaded', bind);
   })();
+  </script>
+
+
+  <script>
+    // edgeGuardSwipeFix: evita que el swipe desde el borde active "volver atrás" en Facebook/IG
+    (function(){
+      var hero = document.getElementById('hero');
+      if(!hero) return;
+      var EDGE_GUARD = 24; // px
+      var isDown=false, isEdge=false, startX=0, currentX=0;
+
+      function onDown(e){
+        var t=e.touches?e.touches[0]:e;
+        var x=t.clientX;
+        isEdge = (x < EDGE_GUARD || x > (window.innerWidth - EDGE_GUARD));
+        isDown = !isEdge;
+        startX = x; currentX = x;
+      }
+      function onMove(e){
+        if(!isDown) return;
+        // Evita que el navegador capte el gesto horizontal como navegación
+        if (e.cancelable) e.preventDefault();
+        var t=e.touches?e.touches[0]:e;
+        currentX = t.clientX;
+      }
+      function onUp(){
+        isDown=false; isEdge=false;
+      }
+      hero.addEventListener('pointerdown', onDown, {passive:true});
+      hero.addEventListener('pointermove', onMove, {passive:false});
+      window.addEventListener('pointerup', onUp, {passive:true});
+      hero.addEventListener('touchstart', onDown, {passive:true});
+      hero.addEventListener('touchmove', onMove, {passive:false});
+      hero.addEventListener('touchend', onUp, {passive:true});
+    })();
   </script>
 
 </body>
