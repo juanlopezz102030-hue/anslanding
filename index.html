@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>CAYO – Bono 20% en tu primera carga</title>
+  <title>Ganamos.net – Bono 20% en tu primera carga</title>
   <meta name="description" content="Activá tu bono del 20% en tu primera carga. Escribinos por WhatsApp para habilitarlo ahora.">
   <meta property="og:title" content="Bono 20% en tu primera carga" />
   <meta property="og:description" content="Escribinos por WhatsApp para activarlo ahora." />
@@ -410,84 +410,6 @@
 main{ margin-bottom: 0 !important; }
 </style>
 
-
-<style>
-.slide{ position:relative; overflow:hidden; }
-.slide video{
-  position:absolute; inset:0;
-  width:100%; height:100%;
-  object-fit:cover;
-  object-position:center;
-}
-.dots:empty, .dots button:only-child{ display:none; }
-</style>
-
-
-<style>
-/* === Hero proportion & spacing fix (mobile) === */
-.hero { min-height: auto !important; aspect-ratio: 10 / 13 !important; }
-@media (min-width:768px){
-  .hero { aspect-ratio: 16 / 9 !important; }
-}
-/* Put headline safely inside the card at the bottom */
-.headline { bottom: 6px !important; }
-/* Compact spacing above payments so they're visible without scroll */
-.payments { padding-top: 8px !important; margin-top: 8px !important; }
-</style>
-
-
-<style>
-/* === Hard override para hero móvil + texto/pagos visibles === */
-@media (max-width: 480px){
-  .hero{
-    min-height: auto !important;
-    aspect-ratio: 10 / 13 !important;
-    margin-top: 4px !important;
-  }
-  .headline{ bottom: 8px !important; }
-  .cta{ padding-top: 10px !important; }
-  .payments{ margin-top: 10px !important; }
-}
-@media (min-width:768px){
-  .hero{ aspect-ratio: 16 / 9 !important; min-height: auto !important; }
-}
-</style>
-
-
-<style>
-/* === Fix: fondo uniforme (evita franja morada al final en móvil) === */
-body{ background:#140026 !important; }
-/* Ajustes suaves para que los pagos queden bien pegados al botón */
-.cta { gap: 10px !important; }
-.payments { padding-top: 6px !important; margin-top: 4px !important; }
-</style>
-
-
-<style>
-/* === Aesthetic polish === */
-/* Stronger readability for hero title over video */
-.headline h1{
-  text-shadow: 0 4px 22px rgba(0,0,0,.45), 0 1px 0 rgba(0,0,0,.25);
-}
-/* Eyebrow a little lighter so it doesn't overpower */
-.eyebrow{
-  filter: drop-shadow(0 4px 10px rgba(0,0,0,.25));
-  letter-spacing:.2px;
-}
-/* Subtitle slightly finer to boost hierarchy */
-.headline .sub{ opacity:.95; font-weight:500; }
-/* CTA: a touch bigger & rounder */
-.btn{
-  padding: 16px 22px !important;
-  border-radius: 999px !important;
-  font-size: 18px !important;
-}
-/* Sticky bar button consistent scale */
-.bar-btn{ padding: 12px 18px !important; }
-/* Payments spacing tighten */
-.payments{ margin-top: 6px !important; }
-</style>
-
 </head>
 <body>
   <a class="sticky-wa" id="floatingWA" aria-label="WhatsApp" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" width="40" height="40"></a>
@@ -502,13 +424,11 @@ body{ background:#140026 !important; }
       
       <section class="hero" id="hero" role="region" aria-label="Promoción principal">
         <div class="slides" id="slides">
-          
-    <div class="slide" data-bg1="#2b0050" data-bg2="#6200a6">
-      <video autoplay muted loop playsinline preload="auto" poster="./assets/render-poster.jpg">
-        <source src="./assets/RENDER.mp4" type="video/mp4">
-      </video>
-    </div>
-</div><div class="headline">
+          <div class="slide" style="background-image:url('./assets/hero.jpg')" data-bg1="#2b0050" data-bg2="#6200a6"></div>
+          <div class="slide" style="background-image:url('./assets/hero2.jpg')" data-bg1="#3b1a00" data-bg2="#c94d00"></div>
+          <div class="slide" style="background-image:url('./assets/hero3.jpg')" data-bg1="#ff9900" data-bg2="#bb3a00"></div>
+        </div>
+        <div class="headline">
           <span class="eyebrow">Una recarga, una historia nueva</span>
           <h1><span class="accent">BONUS 20%</span><br>en tu primera carga</h1>
           <p class="sub">Activá el beneficio escribiéndonos por WhatsApp.</p>
@@ -519,8 +439,10 @@ body{ background:#140026 !important; }
 
       <div class="cta">
         
-        <a class="btn" id="ctaWA" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" class="wa-icon"><span>Escribinos por WhatsApp</span></a>
-<section class="payments">
+        <a class="btn" id="ctaWA" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" class="wa-icon"><span>Escribinos por WhatsApp</span></a><div class="cta-note">Activá tu bono YA</div>
+
+        
+        <section class="payments">
           <h2>Métodos de pago disponibles</h2>
           <div class="logos">
             <img loading="lazy" src="./assets/santander.png" alt="Santander">
@@ -539,11 +461,15 @@ body{ background:#140026 !important; }
       
 
     </main>
-</div>
+
+    <footer>©
+      <script>document.write(new Date().getFullYear())</script> Ganamos.net — Todos los derechos reservados
+    </footer>
+  </div>
 
   <script>
     // ===== WhatsApp number & message (EDIT HERE) =====
-    const WHATSAPP_NUMBER = "59898558766"; // <-- Reemplazá por tu número con código de país, sin + ni 00
+    const WHATSAPP_NUMBER = "59899259912"; // <-- Reemplazá por tu número con código de país, sin + ni 00
     const PREFILL_TEXT = "Hola, me gustaria registrar mi usuario"; // Mensaje inicial
 
     // Build WA link
@@ -732,7 +658,7 @@ body{ background:#140026 !important; }
 <script>
 (function(){
   try{
-    var WHATSAPP_NUMBER = (typeof window.WHATSAPP_NUMBER!=='undefined') ? window.WHATSAPP_NUMBER : "59898558766";
+    var WHATSAPP_NUMBER = (typeof window.WHATSAPP_NUMBER!=='undefined') ? window.WHATSAPP_NUMBER : "59899259912";
     var PREFILL_TEXT = (typeof window.PREFILL_TEXT!=='undefined') ? window.PREFILL_TEXT : "Hola, me gustaria registrar mi usuario";
     function createWaLink(){
       var base = "https://wa.me/" + WHATSAPP_NUMBER;
@@ -758,18 +684,6 @@ body{ background:#140026 !important; }
       applyWaLink();
     }
   }catch(e){}
-})();
-</script>
-
-
-<script>
-(function(){
-  var slides = document.querySelectorAll('#slides .slide');
-  if(slides.length <= 1){
-    var dots = document.getElementById('dots') || document.querySelector('.dots');
-    if(dots && dots.children.length <= 1){ dots.innerHTML = ''; }
-    window.__SINGLE_SLIDE__ = true;
-  }
 })();
 </script>
 
