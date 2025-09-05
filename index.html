@@ -375,20 +375,35 @@
   </style>
 
   <!-- Meta Pixel Code -->
-  <script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '767728059169192');
-  fbq('track', 'PageView');
-  </script>
-  
-  <!-- End Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+
+/* Init with Pixel ID */
+fbq('init', '767728059169192');
+
+/* PageView with UTM params */
+(function(){
+  function getUTMs(url){
+    var out={}, keys=['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
+    try{ var u=new URL(url); keys.forEach(function(k){ var v=u.searchParams.get(k); if(v) out[k]=v; }); }catch(e){}
+    return out;
+  }
+  var utm = getUTMs(location.href);
+  fbq('track', 'PageView', utm);
+})();
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=767728059169192&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
 
   <link rel="preload" as="image" href="./assets/hero.jpg">
 
@@ -685,41 +700,49 @@ body{ background:#140026 !important; }
   </script>
 
 
-<!-- WhatsApp click tracking for Meta Pixel -->
-  <script>
-  (function(){
-    function onWaClick(e){
-      var eventId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now())+'-'+Math.random().toString(16).slice(2);
-      try{
-        var a=e.currentTarget;
-        var url=new URL(a.href);
-        var params={};
-        ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(function(k){
-          if(url.searchParams.get(k)) params[k]=url.searchParams.get(k);
-        });
-        if (typeof fbq === 'function'){}
-      
-        if (typeof fbq === 'function'){
-          fbq('track','Lead',{ event_id:eventId, content_name:'Registro WhatsApp', destination:'whatsapp', product:'cayo_uy', value:0, currency:'UYU', ...params });
-          fbq('trackCustom','WhatsAppClick',{ event_id:eventId, product:'cayo_uy', ...params, currency:'UYU', value:0 });
-        }
-          }
-      catch(_){}
+<!-- WhatsApp click tracking for Meta Pixel (clean) -->
+<script>
+(function () {
+  function getWhatsAppAnchor(el){
+    if (!el) return null;
+    if (el.closest) return el.closest('a[href^="https://wa.me/"], a[href^="https://api.whatsapp.com/send"]');
+    while (el && el !== document) {
+      if (el.tagName === 'A' && (el.href.indexOf('https://wa.me/') === 0 || el.href.indexOf('https://api.whatsapp.com/send') === 0)) return el;
+      el = el.parentNode;
     }
-    function bind(){
-    function bind(){
-      var sel='a[href^="https://wa.me/"],a[href^="https://api.whatsapp.com/send"]';
-      document.querySelectorAll(sel).forEach(function(a){
-        a.removeEventListener('click', onWaClick);
-        a.addEventListener('click', onWaClick);
-      });
-    }
-    document.addEventListener('DOMContentLoaded', bind);
-  })();
-  </script>
+    return null;
+  }
+  function paramsFrom(url){
+    var out = {}, keys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
+    try{
+      var u = new URL(url);
+      keys.forEach(function(k){ var v=u.searchParams.get(k); if(v) out[k]=v; });
+    }catch(e){}
+    return out;
+  }
+  function randomEventID(){
+    try { return (crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now())+'-'+Math.random().toString(16).slice(2); }
+    catch(e){ return String(Date.now())+'-'+Math.random().toString(16).slice(2); }
+  }
 
+  document.addEventListener('click', function(e){
+    var a = getWhatsAppAnchor(e.target);
+    if(!a || typeof fbq !== 'function') return;
 
-  <script>
+    var eventID = randomEventID();
+    var extras = paramsFrom(location.href);
+
+    fbq('trackCustom', 'WhatsAppClick', Object.assign({
+      eventID: eventID,
+      destination: 'whatsapp',
+      content_name: 'Registro WhatsApp',
+      value: 0,
+      currency: 'USD'
+    }, extras));
+  }, true);
+})();
+</script>
+<script>
     // edgeGuardSwipeFix: evita que el swipe desde el borde active "volver atrás" en Facebook/IG
     (function(){
       var hero = document.getElementById('hero');
