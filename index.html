@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>CAYO – Bono 20% en tu primera carga</title>
+  <title>Ganamos.net – Bono 20% en tu primera carga</title>
   <meta name="description" content="Activá tu bono del 20% en tu primera carga. Escribinos por WhatsApp para habilitarlo ahora.">
   <meta property="og:title" content="Bono 20% en tu primera carga" />
   <meta property="og:description" content="Escribinos por WhatsApp para activarlo ahora." />
@@ -11,12 +11,12 @@
   <meta name="theme-color" content="#5d1a9b">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&display=swap" rel="stylesheet">
   <style>
     :root{
       --bg-1:#2b0050;
       --bg-2:#6200a6;
-      --accent:#ffb400;
+      --accent:#7DE2FF;
       --white:#ffffff;
       --muted:#d9c7ff;
       --btn:#25D366; /* WhatsApp green */
@@ -25,7 +25,7 @@
       --maxw: 520px;
     }
     *{box-sizing:border-box}
-    html,body{height:100%}
+    html,body{height:100% overflow-y:auto !important; }
     body{
       margin:0;
       font-family:Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -79,7 +79,7 @@
     .eyebrow{
       display:inline-block;
       background:var(--accent);
-      color:#3d2300;
+      color: #001b26;
       font-weight:700;
       padding:6px 10px;
       border-radius:999px;
@@ -140,7 +140,7 @@
     footer{opacity:.9; font-size:12px; text-align:center}
     
     
-    .payments{padding:8px 0 16px; text-align:center}
+    .payments{padding:8px 0 16px; text-align:center content-visibility:auto; contain-intrinsic-size: 1px 600px; }
     .payments h2{font-size:15px; margin-bottom:10px; color:var(--muted)}
     .payments .logos{display:flex; flex-wrap:wrap; justify-content:center; gap:12px}
     .payments .logos img{height:40px; object-fit:contain; border-radius:10px}
@@ -220,21 +220,21 @@
 
     
     /* Alternate theme for slide 2 */
-    .alt-theme .headline h1 .accent{color:#FFD74D}
+    .alt-theme .headline h1 .accent{color:var(--accent)}
     .alt-theme .headline h1{color:#fff}
     .alt-theme .headline .sub,
-    .alt-theme .eyebrow{color:#fceabb}
+    .alt-theme .eyebrow{color:#D5F6FF}
 
     
     /* Theme override for slide 2 (better contrast on warm background) */
-    .alt-theme .headline h1 .accent{ color:#FFD74D; }
+    .alt-theme .headline h1 .accent{ color:var(--accent); }
     .alt-theme .headline h1{ color:#FFFFFF; }
-    .alt-theme .headline .sub{ color:#FFF4C9; }
-    .alt-theme .eyebrow{ background:#FFD74D; color:#3d2300; }
+    .alt-theme .headline .sub{ color:#E7FAFF; }
+    .alt-theme .eyebrow{ background:var(--accent); color: #001b26; }
 
     
     /* Slide 3 readability tweaks */
-    .slide3-theme .headline h1 .accent{ color:#FFE17A; }
+    .slide3-theme .headline h1 .accent{ color:var(--accent); }
     .slide3-theme .headline h1{ color:#FFFFFF; }
     .slide3-theme .headline .sub{ color:#FFF1C0; }
 
@@ -384,12 +384,10 @@
   t.src=v;s=b.getElementsByTagName(e)[0];
   s.parentNode.insertBefore(t,s)}(window, document,'script',
   'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '4168892676655450');
+  fbq('init', '767728059169192');
   fbq('track', 'PageView');
   </script>
-  <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=4168892676655450&ev=PageView&noscript=1"
-  /></noscript>
+  
   <!-- End Meta Pixel Code -->
 
   <link rel="preload" as="image" href="./assets/hero.jpg">
@@ -410,8 +408,110 @@
 main{ margin-bottom: 0 !important; }
 </style>
 
+
+<style>
+.slide{ position:relative; overflow:hidden; }
+.slide video{
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  object-fit:cover;
+  object-position:center;
+}
+.dots:empty, .dots button:only-child{ display:none; }
+</style>
+
+
+<style>
+/* === Hero proportion & spacing fix (mobile) === */
+.hero { min-height: auto !important; aspect-ratio: 10 / 13 !important; }
+@media (min-width:768px){
+  .hero { aspect-ratio: 16 / 9 !important; }
+}
+/* Put headline safely inside the card at the bottom */
+.headline { bottom: 6px !important; }
+/* Compact spacing above payments so they're visible without scroll */
+.payments { padding-top: 8px !important; margin-top: 8px !important; }
+</style>
+
+
+<style>
+/* === Hard override para hero móvil + texto/pagos visibles === */
+@media (max-width: 480px){
+  .hero{
+    min-height: auto !important;
+    aspect-ratio: 10 / 13 !important;
+    margin-top: 4px !important;
+  }
+  .headline{ bottom: 8px !important; }
+  .cta{ padding-top: 10px !important; }
+  .payments{ margin-top: 10px !important; }
+}
+@media (min-width:768px){
+  .hero{ aspect-ratio: 16 / 9 !important; min-height: auto !important; }
+}
+</style>
+
+
+<style>
+/* === Fix: fondo uniforme (evita franja morada al final en móvil) === */
+body{ background:#140026 !important; }
+/* Ajustes suaves para que los pagos queden bien pegados al botón */
+.cta { gap: 10px !important; }
+.payments { padding-top: 6px !important; margin-top: 4px !important; }
+</style>
+
+
+<style>
+/* === Aesthetic polish === */
+/* Stronger readability for hero title over video */
+.headline h1{
+  text-shadow: 0 4px 22px rgba(0,0,0,.45), 0 1px 0 rgba(0,0,0,.25);
+}
+/* Eyebrow a little lighter so it doesn't overpower */
+.eyebrow{
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,.25));
+  letter-spacing:.2px;
+}
+/* Subtitle slightly finer to boost hierarchy */
+.headline .sub{ opacity:.95; font-weight:500; }
+/* CTA: a touch bigger & rounder */
+.btn{
+  padding: 16px 22px !important;
+  border-radius: 999px !important;
+  font-size: 18px !important;
+}
+/* Sticky bar button consistent scale */
+.bar-btn{ padding: 12px 18px !important; }
+/* Payments spacing tighten */
+.payments{ margin-top: 6px !important; }
+</style>
+
+
+
+
+
+<style>
+/* Headline refinement with fade-in */
+.headline h1{
+  opacity:0.88 !important;
+  font-size:90% !important; /* slightly larger than previous */
+  margin-bottom:14px !important;
+  animation: fadeInHeadline 1.2s ease-in-out forwards;
+}
+@keyframes fadeInHeadline{
+  0%{ opacity:0; transform:translateY(12px); }
+  100%{ opacity:0.88; transform:translateY(0); }
+}
+.headline{ margin-bottom:0 !important; }
+.cta{ margin-top:8px !important; }
+</style>
+
 </head>
 <body>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=767728059169192&ev=PageView&noscript=1"
+  /></noscript>
+
   <a class="sticky-wa" id="floatingWA" aria-label="WhatsApp" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" width="40" height="40"></a>
 
   <div class="wrap">
@@ -424,11 +524,13 @@ main{ margin-bottom: 0 !important; }
       
       <section class="hero" id="hero" role="region" aria-label="Promoción principal">
         <div class="slides" id="slides">
-          <div class="slide" style="background-image:url('./assets/hero.jpg')" data-bg1="#2b0050" data-bg2="#6200a6"></div>
-          <div class="slide" style="background-image:url('./assets/hero2.jpg')" data-bg1="#3b1a00" data-bg2="#c94d00"></div>
-          <div class="slide" style="background-image:url('./assets/hero3.jpg')" data-bg1="#ff9900" data-bg2="#bb3a00"></div>
-        </div>
-        <div class="headline">
+          
+    <div class="slide" data-bg1="#2b0050" data-bg2="#6200a6">
+      <video autoplay muted loop playsinline poster="./assets/render-poster.jpg" preload="metadata" id="heroVid">
+        <source src="./assets/RENDER.mp4" type="video/mp4">
+      </video>
+    </div>
+</div><div class="headline">
           <span class="eyebrow">Una recarga, una historia nueva</span>
           <h1><span class="accent">BONUS 20%</span><br>en tu primera carga</h1>
           <p class="sub">Activá el beneficio escribiéndonos por WhatsApp.</p>
@@ -439,10 +541,8 @@ main{ margin-bottom: 0 !important; }
 
       <div class="cta">
         
-        <a class="btn" id="ctaWA" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" class="wa-icon"><span>Escribinos por WhatsApp</span></a><div class="cta-note">Activá tu bono YA</div>
-
-        
-        <section class="payments">
+        <a class="btn" id="ctaWA" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" class="wa-icon"><span>Escribinos por WhatsApp</span></a>
+<section class="payments">
           <h2>Métodos de pago disponibles</h2>
           <div class="logos">
             <img loading="lazy" src="./assets/santander.png" alt="Santander">
@@ -461,11 +561,7 @@ main{ margin-bottom: 0 !important; }
       
 
     </main>
-
-    <footer>©
-      <script>document.write(new Date().getFullYear())</script> Ganamos.net — Todos los derechos reservados
-    </footer>
-  </div>
+</div>
 
   <script>
     // ===== WhatsApp number & message (EDIT HERE) =====
@@ -601,13 +697,16 @@ main{ margin-bottom: 0 !important; }
         ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(function(k){
           if(url.searchParams.get(k)) params[k]=url.searchParams.get(k);
         });
+        if (typeof fbq === 'function'){}
+      
         if (typeof fbq === 'function'){
-          fbq('track','Contact',{event_id:eventId, content_name:'WhatsApp Click', destination:'whatsapp', product:'cayo_uy', value:0, currency:'UYU', ...params});
-          fbq('trackCustom','WhatsAppClick',{ event_id:eventId, product:'cayo_uy', ...params, currency:'UYU', value: 0 });
-          fbq('track','Lead',{ event_id:eventId, content_name:'Registro WhatsApp', destination:'whatsapp', product:'cayo_uy', ...params, currency:'UYU', value: 0 });
+          fbq('track','Lead',{ event_id:eventId, content_name:'Registro WhatsApp', destination:'whatsapp', product:'cayo_uy', value:0, currency:'UYU', ...params });
+          fbq('trackCustom','WhatsAppClick',{ event_id:eventId, product:'cayo_uy', ...params, currency:'UYU', value:0 });
         }
-      }catch(_){}
+          }
+      catch(_){}
     }
+    function bind(){
     function bind(){
       var sel='a[href^="https://wa.me/"],a[href^="https://api.whatsapp.com/send"]';
       document.querySelectorAll(sel).forEach(function(a){
@@ -684,6 +783,54 @@ main{ margin-bottom: 0 !important; }
       applyWaLink();
     }
   }catch(e){}
+})();
+</script>
+
+
+<script>
+(function(){
+  var slides = document.querySelectorAll('#slides .slide');
+  if(slides.length <= 1){
+    var dots = document.getElementById('dots') || document.querySelector('.dots');
+    if(dots && dots.children.length <= 1){ dots.innerHTML = ''; }
+    window.__SINGLE_SLIDE__ = true;
+  }
+})();
+</script>
+
+
+<script>
+// === Performance video controls: saveData guard + play on visible + auto-resume on return ===
+(function(){
+  var v = document.getElementById('heroVid');
+  if(!v) return;
+  function ensureAttrs(){
+    v.setAttribute('muted',''); v.muted=true;
+    v.setAttribute('playsinline',''); v.playsInline=true;
+    v.autoplay=true; v.loop=true; v.removeAttribute('controls');
+  }
+  function tryPlay(){ ensureAttrs(); v.play().catch(function(){}); }
+  // Respect Data Saver / very slow connections
+  var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection || {};
+  var slow = !!conn.saveData || (conn.effectiveType||'').indexOf('2g')!==-1;
+  if (slow){
+    // Remove sources to avoid downloading video
+    v.removeAttribute('src');
+    var ss = v.querySelectorAll('source'); ss.forEach(function(s){ s.remove(); });
+    return;
+  }
+  // Play when visible (preload=metadata)
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ tryPlay(); io.disconnect(); }});
+  }, {threshold: .25});
+  io.observe(v);
+  // Auto-resume on return / visibility
+  document.addEventListener('visibilitychange', function(){ if(!document.hidden && v.paused) tryPlay(); }, {passive:true});
+  window.addEventListener('pageshow', function(){ if(v.paused) tryPlay(); }, {passive:true});
+  ['pointerdown','touchstart','click','focus'].forEach(function(ev){
+    window.addEventListener(ev, function once(){ tryPlay(); window.removeEventListener(ev, once, {capture:false}); }, {once:true, passive:true});
+  });
+  window.addEventListener('load', function(){ ensureAttrs(); }, {passive:true});
 })();
 </script>
 
