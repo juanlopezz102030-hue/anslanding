@@ -385,25 +385,23 @@ t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
 
-/* Init with Pixel ID */
-fbq('init', '1525271135565172');
+/* Init */
+fbq('init', '767728059169192');
 
-/* PageView with UTM params */
+/* PageView con UTMs (para cohorte en Ads Manager) */
 (function(){
   function getUTMs(url){
     var out={}, keys=['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
     try{ var u=new URL(url); keys.forEach(function(k){ var v=u.searchParams.get(k); if(v) out[k]=v; }); }catch(e){}
     return out;
   }
-  var utm = getUTMs(location.href);
-  fbq('track', 'PageView', utm);
+  fbq('track', 'PageView', getUTMs(location.href));
 })();
 </script>
 <noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1525271135565172&ev=PageView&noscript=1"
+src="https://www.facebook.com/tr?id=767728059169192&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
-
 
   <link rel="preload" as="image" href="./assets/hero.jpg">
 
@@ -524,7 +522,7 @@ body{ background:#140026 !important; }
 </head>
 <body>
   <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=1525271135565172&ev=PageView&noscript=1"
+    src="https://www.facebook.com/tr?id=767728059169192&ev=PageView&noscript=1"
   /></noscript>
 
   <a class="sticky-wa" id="floatingWA" aria-label="WhatsApp" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" width="40" height="40"></a>
@@ -580,7 +578,7 @@ body{ background:#140026 !important; }
 
   <script>
     // ===== WhatsApp number & message (EDIT HERE) =====
-    const WHATSAPP_NUMBER = "59898558766"; // <-- Reemplazá por tu número con código de país, sin + ni 00
+    const WHATSAPP_NUMBER = "59899259912"; // <-- Reemplazá por tu número con código de país, sin + ni 00
     const PREFILL_TEXT = "Hola, me gustaria registrar mi usuario"; // Mensaje inicial
 
     // Build WA link
@@ -700,7 +698,7 @@ body{ background:#140026 !important; }
   </script>
 
 
-<!-- WhatsApp click tracking for Meta Pixel (clean) -->
+<!-- WhatsApp click tracking for Meta Pixel (Lead + Custom) with micro-delay -->
 <script>
 (function () {
   function getWhatsAppAnchor(el){
@@ -732,17 +730,32 @@ body{ background:#140026 !important; }
     var eventID = randomEventID();
     var extras = paramsFrom(location.href);
 
+    // Disparo de eventos
+    fbq('track', 'Lead', Object.assign({
+      eventID: eventID,
+      content_name: 'Registro WhatsApp',
+      destination: 'whatsapp',
+      value: 0,
+      currency: 'UYU'
+    }, extras));
+
     fbq('trackCustom', 'WhatsAppClick', Object.assign({
       eventID: eventID,
-      destination: 'whatsapp',
       content_name: 'Registro WhatsApp',
+      destination: 'whatsapp',
       value: 0,
-      currency: 'USD'
+      currency: 'UYU'
     }, extras));
+
+    // Micro-delay para asegurar envío del evento si abre en la misma pestaña
+    if (!a.target || a.target === '_self') {
+      e.preventDefault();
+      var href = a.href;
+      setTimeout(function(){ window.location.href = href; }, 140);
+    }
   }, true);
 })();
-</script>
-<script>
+</script><script>
     // edgeGuardSwipeFix: evita que el swipe desde el borde active "volver atrás" en Facebook/IG
     (function(){
       var hero = document.getElementById('hero');
@@ -780,7 +793,7 @@ body{ background:#140026 !important; }
 <script>
 (function(){
   try{
-    var WHATSAPP_NUMBER = (typeof window.WHATSAPP_NUMBER!=='undefined') ? window.WHATSAPP_NUMBER : "59898558766";
+    var WHATSAPP_NUMBER = "59899259912";
     var PREFILL_TEXT = (typeof window.PREFILL_TEXT!=='undefined') ? window.PREFILL_TEXT : "Hola, me gustaria registrar mi usuario";
     function createWaLink(){
       var base = "https://wa.me/" + WHATSAPP_NUMBER;
