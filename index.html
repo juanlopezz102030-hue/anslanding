@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -5,128 +6,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
   <title>Promo • 20% de Bono | WhatsApp</title>
   <meta name="description" content="Activá tu bono de bienvenida del 20%. Atención por WhatsApp, retiros fáciles y métodos de pago locales.">
-  <meta name="format-detection" content="telephone=no">
   <meta name="theme-color" content="#0e1116">
-
-  <!-- Preconnects -->
-  <link rel="preconnect" href="https://connect.facebook.net" crossorigin>
-  <link rel="preconnect" href="https://www.facebook.com" crossorigin>
-  <link rel="preload" href="assets/background.mp4" as="video" type="video/mp4">
-
   <style>
-    :root{
-      --accent:#25d366; --text:#fff; --muted:#b9c4cc; --bg:#0e1116;
-      --glass: rgba(0,0,0,.45); --border: rgba(255,255,255,.12);
-      --glow: rgba(37,211,102,.6);
-      --radius: 18px; --space: clamp(14px, 3.7vw, 22px);
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
+    :root{--accent:#25d366;--text:#fff;--muted:#d7dce1;--glow:rgba(37,211,102,.6);--radius:18px;}
+    *{box-sizing:border-box} html,body{height:100%}
     body{
-      margin:0; color:var(--text); background:var(--bg);
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+      margin:0;color:var(--text);
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Arial,"Apple Color Emoji","Segoe UI Emoji";
+      background:#0e1116 url('assets/hero.jpg') center/cover no-repeat fixed;
     }
-    /* Background video */
-    video.bg{ position:fixed; inset:0; width:100%; height:100%; object-fit:cover; filter:brightness(.36) contrast(1.06) saturate(1.05); z-index:-2; }
-    .mask{ position:fixed; inset:0; background: radial-gradient(120% 80% at 50% 0%, rgba(0,0,0,.15), rgba(0,0,0,.55)); z-index:-1; }
-
-    /* Mobile-first layout */
-    .wrap{ width:100%; max-width:720px; margin:0 auto; padding: var(--space); }
-    header{
-      display:flex; align-items:center; gap:10px; margin-bottom:10px; opacity:.95;
-    }
-    header img{ height:18px; width:auto; border-radius:3px; }
-    header .geo{ font-size:12px; color:#cfdae2; letter-spacing:.2px; }
-
-    .card{
-      position:relative;
-      background: var(--glass);
-      border:1px solid var(--border);
-      backdrop-filter: blur(6px);
-      border-radius: var(--radius);
-      padding: clamp(16px, 4.2vw, 26px);
-      text-align:center;
-      box-shadow: 0 12px 34px rgba(0,0,0,.35);
-      overflow:hidden;
-    }
-    .card::before{
-      content:""; position:absolute; inset:0; border-radius:inherit;
-      padding:1px; background: linear-gradient(120deg, rgba(255,255,255,.18), rgba(255,255,255,.04));
-      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-      -webkit-mask-composite: xor; mask-composite: exclude; pointer-events:none;
-    }
-
-    .badge{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:8px 12px; border-radius:999px;
-      background: linear-gradient(90deg, #12b886, #40c057);
-      color:#06120b; font-weight:800; font-size:13px; margin-bottom:10px;
-    }
-    h1{ font-size: clamp(22px, 7vw, 34px); line-height:1.14; margin:6px 0 8px; letter-spacing:.2px; }
-    .sub{ color:var(--muted); font-size: clamp(13px, 3.9vw, 17px); margin: 0 0 12px; }
-
-    /* Countdown */
-    .counter{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:8px 12px; border-radius:999px;
-      background: rgba(255,255,255,0.08);
-      border:1px solid rgba(255,255,255,0.14);
-      font-weight:800; font-size:13px; letter-spacing:.3px;
-      margin: 4px 0 12px;
-    }
-    .counter .time{ font-variant-numeric: tabular-nums; background:#0d1b24; padding:4px 8px; border-radius:8px; }
-
-    /* Primary CTA */
-    @keyframes glowPulse { 0%{ box-shadow:0 0 0 0 var(--glow), 0 0 18px 6px var(--glow);} 50%{ box-shadow:0 0 0 9px rgba(37,211,102,0), 0 0 28px 10px var(--glow);} 100%{ box-shadow:0 0 0 0 rgba(37,211,102,0), 0 0 18px 6px var(--glow);} }
-    .cta{
-      display:inline-flex; align-items:center; gap:12px;
-      text-decoration:none; font-weight:900; letter-spacing:.2px;
-      color:#0b1b12; background:var(--accent);
-      padding:16px 22px; border-radius:999px;
-      transition: transform .15s ease;
-      animation: glowPulse 2.6s infinite ease-in-out;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .cta:active{ transform: scale(.98) }
-    .cta img{ width:22px; height:22px; }
-
-    /* Sticky CTA bar on mobile */
-    .cta-sticky{
-      position: sticky; bottom: env(safe-area-inset-bottom); margin-top:12px;
-      background: rgba(0,0,0,.35);
-      border:1px solid var(--border);
-      backdrop-filter: blur(6px);
-      border-radius: 14px;
-      padding:8px;
-    }
-    .cta-sticky .cta{ width:100%; justify-content:center; }
-
-    /* Logos carousel (mobile friendly) */
-    .payments-title{ margin-top:14px; font-weight:800; color:#e1e8ee; font-size:12px; letter-spacing:.28px; text-transform:uppercase; opacity:.95; }
-    .logos-scroll{
-      margin-top:10px; display:flex; gap:10px; align-items:center;
-      overflow-x:auto; -webkit-overflow-scrolling: touch; scroll-snap-type: x mandatory; padding-bottom:4px;
-      scrollbar-width: none;
-    }
-    .logos-scroll::-webkit-scrollbar{ display:none; }
-    .logos-scroll img{
-      height:40px; width:auto; border-radius:999px; display:block;
-      background: transparent; padding:0; filter: drop-shadow(0 2px 8px rgba(0,0,0,.35));
-      scroll-snap-align:center; flex:0 0 auto;
-    }
-    @media (min-width: 560px){
-      .logos-scroll img{ height:46px; }
-      .cta-sticky{ display:none; } /* sticky bar sólo móvil */
-    }
-
-    .legal{ margin-top:14px; font-size:11.5px; color:var(--muted); }
-
-    /* Spacing helpers */
-    .mt-8{ margin-top:8px; } .mt-12{ margin-top:12px; } .mt-16{ margin-top:16px; }
+    .overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:-1;}
+    .wrap{width:100%;max-width:760px;margin:0 auto;padding:20px;}
+    .card{background:rgba(0,0,0,.55);border-radius:var(--radius);padding:22px;text-align:center;backdrop-filter:blur(5px);}
+    .badge{display:inline-block;padding:8px 12px;border-radius:999px;background:linear-gradient(90deg,#12b886,#40c057);color:#06120b;font-weight:800;font-size:13px;margin-bottom:10px;}
+    h1{font-size:clamp(24px,6vw,38px);margin:10px 0;line-height:1.18;}
+    .sub{color:var(--muted);font-size:clamp(14px,3.8vw,18px);margin-bottom:14px;}
+    .counter{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);font-weight:700;font-size:14px;margin-bottom:16px;}
+    .counter .time{background:#0d1b24;padding:4px 8px;border-radius:6px;font-variant-numeric:tabular-nums;}
+    @keyframes glowPulse{0%{box-shadow:0 0 0 0 var(--glow),0 0 18px 6px var(--glow);}50%{box-shadow:0 0 0 9px rgba(37,211,102,0),0 0 28px 10px var(--glow);}100%{box-shadow:0 0 0 0 rgba(37,211,102,0),0 0 18px 6px var(--glow);}}
+    .cta{display:inline-flex;align-items:center;gap:12px;text-decoration:none;font-weight:900;color:#0b1b12;background:var(--accent);padding:14px 20px;border-radius:999px;animation:glowPulse 2.6s infinite ease-in-out;}
+    .cta img{width:22px;height:22px;}
+    .payments-title{margin-top:16px;font-weight:800;color:#e1e8ee;font-size:13px;letter-spacing:.28px;text-transform:uppercase;}
+    .logo-row{margin-top:12px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;}
+    .logo-row img{height:42px;width:auto;border-radius:999px;filter:drop-shadow(0 2px 8px rgba(0,0,0,.35));}
+    .legal{margin-top:16px;font-size:12px;color:var(--muted);}
   </style>
-
-  <!-- Meta Pixel -->
   <script>
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -139,93 +43,55 @@
     fbq('init', '1525271135565172');
     fbq('track', 'PageView');
   </script>
-  <noscript><img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=1525271135565172&ev=PageView&noscript=1"/></noscript>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1525271135565172&ev=PageView&noscript=1"/></noscript>
 </head>
 <body>
-  <video class="bg" autoplay muted loop playsinline poster="assets/poster.jpg">
-    <source src="assets/background.mp4" type="video/mp4">
-  </video>
-  <div class="mask" aria-hidden="true"></div>
-
-  <main class="wrap" role="main">
-    <header>
-      <img src="assets/uruguay.png" alt="Uruguay">
-      <span class="geo">Operamos en Uruguay</span>
-    </header>
-
-    <section class="card" aria-label="Bono de bienvenida">
-      <p class="badge" aria-live="polite">BONO 20% EN TU PRIMERA CARGA</p>
+  <div class="overlay"></div>
+  <main class="wrap">
+    <section class="card">
+      <p class="badge">BONO 20% EN TU PRIMERA CARGA</p>
       <h1>Depósito rápido, jugá al instante</h1>
       <p class="sub">Atención 1 a 1 por WhatsApp • Retiros fáciles • Métodos de pago locales</p>
-
-      <div class="counter mt-8">
-        <span aria-hidden="true">🎁</span>
-        <span>Bono de bienvenida finaliza</span>
-        <span class="time" id="countdown" aria-live="polite">--:--:--</span>
+      <div class="counter">🎁 Bono de bienvenida finaliza <span class="time" id="countdown">--:--:--</span></div>
+      <a id="whatsappBtn" class="cta" href="https://wa.me/59899259912?text=Hola%20quiero%20mi%20bono%20de%20bienvenida" target="_blank">
+        <img src="assets/whatsapp.png" alt=""> Escribinos por WhatsApp
+      </a>
+      <div class="payments-title">Medios disponibles</div>
+      <div class="logo-row">
+        <img src="assets/brou.png" alt="BROU">
+        <img src="assets/itau.png" alt="Itaú">
+        <img src="assets/mercadopago.png" alt="Mercado Pago">
+        <img src="assets/midinero.png" alt="Mi Dinero">
+        <img src="assets/prex.png" alt="Prex">
+        <img src="assets/santander.png" alt="Santander">
+        <img src="assets/scotiabank.png" alt="Scotiabank">
       </div>
-
-      <div class="cta-sticky mt-12">
-        <a id="whatsappBtn" class="cta" href="https://wa.me/59899259912?text=Hola%20quiero%20mi%20bono%20de%20bienvenida" target="_blank" rel="noopener">
-          <img src="assets/whatsapp.png" alt="" aria-hidden="true"> Escribinos por WhatsApp
-        </a>
-      </div>
-
-      <div class="payments-title mt-16">Medios disponibles</div>
-      <div class="logos-scroll" aria-label="Bancos y métodos disponibles">
-        <img src="assets/brou.png" alt="BROU" loading="lazy">
-        <img src="assets/itau.png" alt="Itaú" loading="lazy">
-        <img src="assets/mercadopago.png" alt="Mercado Pago" loading="lazy">
-        <img src="assets/midinero.png" alt="Mi Dinero" loading="lazy">
-        <img src="assets/prex.png" alt="Prex" loading="lazy">
-        <img src="assets/santander.png" alt="Santander" loading="lazy">
-        <img src="assets/scotiabank.png" alt="Scotiabank" loading="lazy">
-      </div>
-
-      <p class="legal mt-16">Promoción válida para usuarios nuevos. Sujeto a T&C. Juego responsable.</p>
+      <p class="legal">Promoción válida para usuarios nuevos. Sujeto a T&C. Juego responsable.</p>
     </section>
   </main>
-
   <script>
-    // Pixel events
-    function safeFbq(){ try { return (typeof fbq === 'function') ? fbq : function(){}; } catch(e){ return function(){}; } }
     (function(){
-      var btn = document.getElementById('whatsappBtn');
-      if(!btn) return;
-      function track(){ try{ safeFbq()('trackCustom','WhatsappClick',{phone:'59899259912'}); safeFbq()('track','Lead'); }catch(e){} }
-      btn.addEventListener('click', track, {passive:true});
-      btn.addEventListener('auxclick', track, {passive:true});
-      btn.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ track(); } });
-    })();
-
-    // Countdown 1–2h, then reset to 2h
-    (function(){
-      var el = document.getElementById('countdown');
-      var KEY = 'promo_end_ts_mobile_ultra';
-      function two(n){ return (n<10?'0':'') + n; }
-      function setEnd(h){ var end = Date.now() + h*3600*1000; localStorage.setItem(KEY, String(end)); return end; }
-      function getEnd(){
-        var v = localStorage.getItem(KEY); var ts = v ? parseInt(v,10) : NaN;
-        if(!ts || isNaN(ts)) return setEnd(Math.random()<0.5 ? 1 : 2);
-        return ts;
+      var btn=document.getElementById('whatsappBtn');
+      if(btn){
+        btn.addEventListener('click',function(){
+          try{fbq('trackCustom','WhatsappClick',{phone:'59899259912'});fbq('track','Lead');}catch(e){}
+        });
       }
-      var endTs = getEnd();
+    })();
+    (function(){
+      var el=document.getElementById('countdown');
+      var KEY='promo_end_ts_img';
+      function two(n){return (n<10?'0':'')+n;}
+      function setEnd(h){var end=Date.now()+h*3600*1000;localStorage.setItem(KEY,String(end));return end;}
+      function getEnd(){var v=localStorage.getItem(KEY);var ts=v?parseInt(v,10):NaN;if(!ts||isNaN(ts)) return setEnd(Math.random()<0.5?1:2);return ts;}
+      var endTs=getEnd();
       function tick(){
-        var now = Date.now(), diff = endTs - now;
-        if(diff <= 0){ endTs = setEnd(2); diff = endTs - now; }
-        var h = Math.floor(diff/3600000), m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
-        el.textContent = two(h)+":"+two(m)+":"+two(s);
+        var now=Date.now();var diff=endTs-now;
+        if(diff<=0){endTs=setEnd(2);diff=endTs-now;}
+        var h=Math.floor(diff/3600000),m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);
+        el.textContent=two(h)+':'+two(m)+':'+two(s);
       }
-      tick(); setInterval(tick, 1000);
-    })();
-
-    // Pause background video when tab hidden (ahorro batería)
-    (function(){
-      var v = document.querySelector('video.bg');
-      if(!v) return;
-      document.addEventListener('visibilitychange', function(){
-        if(document.hidden){ try{ v.pause(); }catch(e){} } else { try{ v.play(); }catch(e){} }
-      });
+      tick();setInterval(tick,1000);
     })();
   </script>
 </body>
