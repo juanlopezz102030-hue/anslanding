@@ -538,9 +538,7 @@ body{ background:#140026 !important; }
         <div class="slides" id="slides">
           
     <div class="slide" data-bg1="#2b0050" data-bg2="#6200a6">
-      <video autoplay muted loop playsinline poster="./assets/render-poster.jpg" preload="metadata" id="heroVid">
-        <source src="./assets/RENDER.mp4" type="video/mp4">
-      </video>
+      <img src="./assets/hero.jpg" alt="Promoción Bono 20%" style="width:100%; height:100%; object-fit:cover; border-radius:18px;">
     </div>
 </div><div class="headline">
           <span class="eyebrow">Una recarga, una historia nueva</span>
@@ -577,7 +575,7 @@ body{ background:#140026 !important; }
 
   <script>
     // ===== WhatsApp number & message (EDIT HERE) =====
-      const WHATSAPP_NUMBER = "59891089369"; // <-- Reemplazá por tu número con código de país, sin + ni 00
+      const WHATSAPP_NUMBER = "59899530660"; // <-- Reemplazá por tu número con código de país, sin + ni 00
     const PREFILL_TEXT = "Hola, quiero mas informacion"; // Mensaje inicial
 
     // Build WA link
@@ -788,7 +786,7 @@ body{ background:#140026 !important; }
 <script>
 (function(){
   try{
-    var WHATSAPP_NUMBER = "59891089369";
+    var WHATSAPP_NUMBER = "59899530660";
     var PREFILL_TEXT = (typeof window.PREFILL_TEXT!=='undefined') ? window.PREFILL_TEXT : "Hola, me gustaria recibir mas informacion";
     function createWaLink(){
       var base = "https://wa.me/" + WHATSAPP_NUMBER;
@@ -831,38 +829,6 @@ body{ background:#140026 !important; }
 
 
 <script>
-// === Performance video controls: saveData guard + play on visible + auto-resume on return ===
-(function(){
-  var v = document.getElementById('heroVid');
-  if(!v) return;
-  function ensureAttrs(){
-    v.setAttribute('muted',''); v.muted=true;
-    v.setAttribute('playsinline',''); v.playsInline=true;
-    v.autoplay=true; v.loop=true; v.removeAttribute('controls');
-  }
-  function tryPlay(){ ensureAttrs(); v.play().catch(function(){}); }
-  // Respect Data Saver / very slow connections
-  var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection || {};
-  var slow = !!conn.saveData || (conn.effectiveType||'').indexOf('2g')!==-1;
-  if (slow){
-    // Remove sources to avoid downloading video
-    v.removeAttribute('src');
-    var ss = v.querySelectorAll('source'); ss.forEach(function(s){ s.remove(); });
-    return;
-  }
-  // Play when visible (preload=metadata)
-  var io = new IntersectionObserver(function(es){
-    es.forEach(function(e){ if(e.isIntersecting){ tryPlay(); io.disconnect(); }});
-  }, {threshold: .25});
-  io.observe(v);
-  // Auto-resume on return / visibility
-  document.addEventListener('visibilitychange', function(){ if(!document.hidden && v.paused) tryPlay(); }, {passive:true});
-  window.addEventListener('pageshow', function(){ if(v.paused) tryPlay(); }, {passive:true});
-  ['pointerdown','touchstart','click','focus'].forEach(function(ev){
-    window.addEventListener(ev, function once(){ tryPlay(); window.removeEventListener(ev, once, {capture:false}); }, {once:true, passive:true});
-  });
-  window.addEventListener('load', function(){ ensureAttrs(); }, {passive:true});
-})();
 </script>
 
 </body>
