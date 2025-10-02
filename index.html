@@ -387,7 +387,15 @@ s.parentNode.insertBefore(t,s)}(window, document,'script',
 
 fbq('init', '767728059169192');
 
-// Eliminado el seguimiento de PageView para que el píxel se utilice solo en el clic de WhatsApp.
+/* PageView con UTMs */
+(function(){
+  function getUTMs(url){
+    var out={}, keys=['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
+    try{ var u=new URL(url); keys.forEach(function(k){ var v=u.searchParams.get(k); if(v) out[k]=v; }); }catch(e){}
+    return out;
+  }
+  fbq('track', 'PageView', getUTMs(location.href));
+})();
 </script>
 <noscript><img height="1" width="1" style="display:none"
 src="https://www.facebook.com/tr?id=767728059169192&ev=PageView&noscript=1"
@@ -512,7 +520,9 @@ body{ background:#140026 !important; }
 
 </head>
 <body>
-  <!-- Eliminado fallback noscript duplicado -->
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=767728059169192&ev=PageView&noscript=1"
+  /></noscript>
 
   <a class="sticky-wa" id="floatingWA" aria-label="WhatsApp" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" width="40" height="40"></a>
 
@@ -563,7 +573,16 @@ body{ background:#140026 !important; }
     </main>
 </div>
 
-  <!-- Eliminado script duplicado de construcción de enlace de WhatsApp; la lógica de UTMs ajustará el enlace automáticamente. -->
+  <script>
+    // ===== WhatsApp number & message (EDIT HERE) =====
+      const WHATSAPP_NUMBER = "59892440607"; // <-- Reemplazá por tu número con código de país, sin + ni 00
+    const PREFILL_TEXT = "Hola, me gustaria saber mas"; // Mensaje inicial
+
+    // Build WA link
+    const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(PREFILL_TEXT)}`;
+    document.getElementById("ctaWA").href = waLink;
+    document.getElementById("floatingWA").href = waLink;
+  </script>
 
   
   
@@ -708,11 +727,18 @@ body{ background:#140026 !important; }
     var eventID = randomEventID();
     var extras = paramsFrom(location.href);
 
-    // Disparamos solo un evento personalizado para el clic de WhatsApp.
-    fbq('trackCustom', 'WhatsappClick', Object.assign({
+    fbq('track', 'Lead', Object.assign({
       eventID: eventID,
       content_name: 'Registro WhatsApp',
-      destination: 'whatsapp'
+      destination: 'whatsapp',
+      
+    }, extras));
+
+    fbq('trackCustom', 'WhatsAppClick', Object.assign({
+      eventID: eventID,
+      content_name: 'Registro WhatsApp',
+      destination: 'whatsapp',
+      
     }, extras));
 
     if (!a.target || a.target === '_self') {
@@ -806,7 +832,15 @@ body{ background:#140026 !important; }
 </script>
 
 
-<!-- Eliminado script duplicado de seguimiento de clic de WhatsApp -->
+<script>
+  document.querySelectorAll('a[href*="wa.me"]').forEach(function(el){
+    el.addEventListener('click', function(){
+      fbq('trackCustom', 'WhatsappClick', {
+        phone: '59892440607'
+      });
+    });
+  });
+</script>
 
 </body>
 </html>
