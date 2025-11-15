@@ -145,16 +145,11 @@
     .payments .logos{display:flex; flex-wrap:wrap; justify-content:center; gap:12px}
     .payments .logos img{height:40px; object-fit:contain; border-radius:10px}
 
-
-    
-    
     .payments{padding:8px 0 16px; text-align:center}
     .payments h2{font-size:15px; margin-bottom:10px; color:var(--muted)}
     .payments .logos{display:flex; flex-wrap:wrap; justify-content:center; gap:12px}
     .payments .logos img{height:40px; object-fit:contain; border-radius:10px}
 
-
-    
     .btn{position:relative;overflow:hidden}
     .btn .wa-icon{height:22px;width:22px}
     .btn::after{
@@ -173,8 +168,6 @@
       100%{left:125%}
     }
 
-    
-    /* CTA WhatsApp icon + shine */
     .fadein{opacity:0; animation:fadeIn 2s ease forwards; animation-delay:0.6s}
     @keyframes fadeIn{to{opacity:1}}
 
@@ -194,8 +187,6 @@
       .btn::after{animation:none}
     }
 
-    
-    /* Eyebrow fade-in */
     .eyebrow{
       opacity:0;
       animation: eyebrowFade 1.1s ease-out 0.2s forwards;
@@ -208,8 +199,6 @@
       .eyebrow{animation:none; opacity:1; transform:none}
     }
 
-    
-    /* Hero slider */
     .hero{position:relative; overflow:hidden; aspect-ratio: 10/13; isolation:isolate}
     .slides{position:absolute; inset:0; display:flex; transition:transform .5s ease}
     .slide{min-width:100%; background-size:cover; background-position:center}
@@ -218,28 +207,20 @@
     .dots button.active{background:#fff; transform:scale(1.1)}
     @media (min-width:768px){ .hero{aspect-ratio:16/9} }
 
-    
-    /* Alternate theme for slide 2 */
     .alt-theme .headline h1 .accent{color:var(--accent)}
     .alt-theme .headline h1{color:#fff}
     .alt-theme .headline .sub,
     .alt-theme .eyebrow{color:#D5F6FF}
 
-    
-    /* Theme override for slide 2 (better contrast on warm background) */
     .alt-theme .headline h1 .accent{ color:var(--accent); }
     .alt-theme .headline h1{ color:#FFFFFF; }
     .alt-theme .headline .sub{ color:#E7FAFF; }
     .alt-theme .eyebrow{ background:var(--accent); color: #001b26; }
 
-    
-    /* Slide 3 readability tweaks */
     .slide3-theme .headline h1 .accent{ color:var(--accent); }
     .slide3-theme .headline h1{ color:#FFFFFF; }
     .slide3-theme .headline .sub{ color:#FFF1C0; }
 
-    
-    /* Sticky CTA bar */
     .sticky-bar{
       position:fixed; left:0; right:0; bottom:0;
       background:rgba(15,0,28,.9);
@@ -253,22 +234,11 @@
     .timer strong{background:var(--accent); color:#3d2300; padding:4px 8px; border-radius:999px; font-size:12px}
     #countdown{font-weight:800}
     .bar-btn{flex:1; display:flex; gap:8px; justify-content:center; padding:12px}
-    /* Hide floating WA when sticky bar is present */
     .sticky-wa{display:none}
     @media (min-width:768px){
       .bar-inner{padding:12px 16px}
     }
 
-    
-    
-    
-
-    
-    
-
-    
-    /* Hero slider (background images) */
-    .hero{position:relative; overflow:hidden; aspect-ratio: 10/13; isolation:isolate}
     .hero::after{
       content:""; position:absolute; inset:0; 
       background: linear-gradient(180deg, rgba(27,0,48,.0) 35%, rgba(27,0,48,.55) 65%, rgba(27,0,48,.85) 100%);
@@ -281,8 +251,6 @@
     .dots button.active{background:#fff; transform:scale(1.1)}
     @media (min-width:768px){ .hero{aspect-ratio:16/9} }
 
-    
-    /* === Mobile polish === */
     :root{ --sticky-h: 64px; }
     .wrap{ padding-bottom: calc(var(--sticky-h) + env(safe-area-inset-bottom) + 12px); }
     .sticky-bar{ padding-bottom: max(env(safe-area-inset-bottom), 8px); min-height: var(--sticky-h); }
@@ -310,12 +278,9 @@
     .payments .logos img{ height:38px; border-radius:10px; object-fit:contain; padding:0; background:transparent; }
     html{ -webkit-text-size-adjust:100%; }
 
-    
-    /* === Mobile buttons aesthetic & layout fixes === */
-    :root{ --sticky-h: 56px; } /* slimmer sticky bar */
+    :root{ --sticky-h: 56px; }
     .wrap{ padding-bottom: calc(var(--sticky-h) + env(safe-area-inset-bottom) + 20px); }
     .sticky-bar{ min-height: var(--sticky-h); }
-    /* Main CTA button style */
     .btn{
       background: linear-gradient(180deg, #27d56b 0%, #1fb75b 100%);
       border: 1px solid rgba(0,0,0,.08);
@@ -326,7 +291,6 @@
     .btn span{ font-weight: 900; line-height:1; }
     .btn small{ margin-left: 32px; margin-top: 2px; opacity:.85; }
     .btn:focus{ outline: 2px solid rgba(255,255,255,.25); outline-offset: 2px; }
-    /* Sticky button harmonized and compact */
     .bar-inner{ gap:10px; padding:8px 12px; }
     .bar-btn{
       background: linear-gradient(180deg, #27d56b 0%, #1fb75b 100%);
@@ -337,18 +301,13 @@
     .bar-btn .wa-icon{ margin-right:8px; }
     .timer{ font-size:12px; }
     .timer .label{ opacity:.9 }
-    /* Card & CTA spacing */
     .card{ border-radius:20px; }
     .cta{ padding:14px 14px 8px; gap:12px; }
-    /* Payments section spacing so it won't be covered by sticky bar */
     .payments{ padding: 10px 0 16px; }
     .payments .logos{ gap: 10px; }
     .payments .logos img{ height: 36px; }
-    /* Ensure last content has extra space before sticky bar */
     main{ margin-bottom: calc(var(--sticky-h) + env(safe-area-inset-bottom) + 28px); }
 
-    
-    /* === Clean WhatsApp button style === */
     .btn{
       display:flex; align-items:center; justify-content:center; gap:10px;
       background:#25D366; color:#fff;
@@ -361,14 +320,10 @@
     .btn:hover{ background:#20bd5a; }
     .btn:active{ transform:scale(.97); }
     .cta-note{ font-size:13px; opacity:.85; margin-top:6px; text-align:center; }
-    /* Sticky bar button same style but smaller */
     .bar-btn{ font-size:15px; padding:12px 16px; border-radius:999px; }
     .bar-btn .wa-icon{ width:20px; height:20px; }
 
-    
-    /* Prevent browser back-swipe on hero */
     .hero{ touch-action: pan-y; }
-    /* Larger screens */
     @media (min-width:768px){
       .hero{aspect-ratio: 16/9}
     }
@@ -387,7 +342,6 @@ s.parentNode.insertBefore(t,s)}(window, document,'script',
 
 fbq('init', '767728059169192');
 
-/* PageView con UTMs */
 (function(){
   function getUTMs(url){
     var out={}, keys=['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
@@ -415,11 +369,9 @@ src="https://www.facebook.com/tr?id=767728059169192&ev=PageView&noscript=1"
 @media (min-width:768px){ .hero{ aspect-ratio:16/9; } }
 </style>
 
-
 <style>
 main{ margin-bottom: 0 !important; }
 </style>
-
 
 <style>
 .slide{ position:relative; overflow:hidden; }
@@ -432,22 +384,16 @@ main{ margin-bottom: 0 !important; }
 .dots:empty, .dots button:only-child{ display:none; }
 </style>
 
-
 <style>
-/* === Hero proportion & spacing fix (mobile) === */
 .hero { min-height: auto !important; aspect-ratio: 10 / 13 !important; }
 @media (min-width:768px){
   .hero { aspect-ratio: 16 / 9 !important; }
 }
-/* Put headline safely inside the card at the bottom */
 .headline { bottom: 6px !important; }
-/* Compact spacing above payments so they're visible without scroll */
 .payments { padding-top: 8px !important; margin-top: 8px !important; }
 </style>
 
-
 <style>
-/* === Hard override para hero móvil + texto/pagos visibles === */
 @media (max-width: 480px){
   .hero{
     min-height: auto !important;
@@ -463,50 +409,34 @@ main{ margin-bottom: 0 !important; }
 }
 </style>
 
-
 <style>
-/* === Fix: fondo uniforme (evita franja morada al final en móvil) === */
 body{ background:#140026 !important; }
-/* Ajustes suaves para que los pagos queden bien pegados al botón */
 .cta { gap: 10px !important; }
 .payments { padding-top: 6px !important; margin-top: 4px !important; }
 </style>
 
-
 <style>
-/* === Aesthetic polish === */
-/* Stronger readability for hero title over video */
 .headline h1{
   text-shadow: 0 4px 22px rgba(0,0,0,.45), 0 1px 0 rgba(0,0,0,.25);
 }
-/* Eyebrow a little lighter so it doesn't overpower */
 .eyebrow{
   filter: drop-shadow(0 4px 10px rgba(0,0,0,.25));
   letter-spacing:.2px;
 }
-/* Subtitle slightly finer to boost hierarchy */
 .headline .sub{ opacity:.95; font-weight:500; }
-/* CTA: a touch bigger & rounder */
 .btn{
   padding: 16px 22px !important;
   border-radius: 999px !important;
   font-size: 18px !important;
 }
-/* Sticky bar button consistent scale */
 .bar-btn{ padding: 12px 18px !important; }
-/* Payments spacing tighten */
 .payments{ margin-top: 6px !important; }
 </style>
 
-
-
-
-
 <style>
-/* Headline refinement with fade-in */
 .headline h1{
   opacity:0.88 !important;
-  font-size:90% !important; /* slightly larger than previous */
+  font-size:90% !important;
   margin-bottom:14px !important;
   animation: fadeInHeadline 1.2s ease-in-out forwards;
 }
@@ -518,19 +448,14 @@ body{ background:#140026 !important; }
 .cta{ margin-top:8px !important; }
 </style>
 
-
 <style id="layout-air-overrides">
-/* === Remove header band & add breathing room === */
 header{display:none !important;}
 .wrap{padding-top: clamp(6px,2vw,12px) !important;}
-/* Headline padding so text doesn't feel cramped */
 .headline{padding: 22px 16px 22px !important;}
 .headline h1{margin-bottom: 12px !important;}
 .headline .sub{margin-top: 10px !important;}
-/* Separate CTA from text and payments */
 .cta{margin-top: 12px !important; gap: 12px !important;}
 .payments{margin-top: 12px !important;}
-/* Slightly slimmer sticky bar to reduce competition with main CTA */
 :root{ --sticky-h: 54px; }
 </style>
 
@@ -548,17 +473,15 @@ header{display:none !important;}
     </header>
 
     <main class="card">
-      
-      
       <section class="hero" id="hero" role="region" aria-label="Promoción principal">
         <div class="slides" id="slides">
-          
-    <div class="slide" data-bg1="#2b0050" data-bg2="#6200a6">
-      <video autoplay muted loop playsinline style="width:100%; height:100%; object-fit:cover; border-radius:18px;">
-  <source src="./assets/render.mp4" type="video/mp4">
-</video>
-    </div>
-</div><div class="headline">
+          <div class="slide" data-bg1="#2b0050" data-bg2="#6200a6">
+            <video autoplay muted loop playsinline style="width:100%; height:100%; object-fit:cover; border-radius:18px;">
+              <source src="./assets/render.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+        <div class="headline">
           <span class="eyebrow">Una recarga, una historia nueva</span>
           <h1><span class="accent">BONUS 20%</span><br>en tu primera carga</h1>
           <p class="sub">Activá el beneficio escribiéndonos por WhatsApp.</p>
@@ -566,11 +489,12 @@ header{display:none !important;}
         <div class="dots" id="dots"></div>
       </section>
 
-
       <div class="cta">
-        
-        <a class="btn" id="ctaWA" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" class="wa-icon"><span>Escribinos por WhatsApp</span></a>
-<section class="payments">
+        <a class="btn" id="ctaWA" href="#" target="_blank" rel="noopener">
+          <img src="./assets/whatsapp.png" alt="WhatsApp" class="wa-icon">
+          <span>Escribinos por WhatsApp</span>
+        </a>
+        <section class="payments">
           <h2>Métodos de pago disponibles</h2>
           <div class="logos">
             <img loading="lazy" src="./assets/santander.png" alt="Santander">
@@ -585,27 +509,17 @@ header{display:none !important;}
 
         <p class="disclaimer">Promoción válida para usuarios nuevos. Sujeto a términos y condiciones.</p>
       </div>
-    
-      
-
     </main>
-</div>
+  </div>
 
-  <!-- REEMPLAZO: Rotación WA (UY GMT-3) + UTMs -->
+  <!-- LINK WHATSAPP FIJO (431) + UTMs -->
   <script>
     (function(){
-      var NUMBERS = ["59891429349","59896795431"];
+      var PHONE = "59896795431";
       var PREFILL_TEXT = "Hola, me gustaria saber mas";
 
-      // Hora Uruguay (GMT-3) y bloque fijo de 10 minutos
-      var now = new Date();
-      var uruguay = new Date(now.getTime() + (now.getTimezoneOffset()*60000) - (3*60*60000));
-      var minutesSinceMidnight = uruguay.getHours()*60 + uruguay.getMinutes();
-      var block = Math.floor(minutesSinceMidnight / 10) % NUMBERS.length;
-      var phone = NUMBERS[block];
-
       function buildWaLink(){
-        var url = new URL("https://wa.me/" + phone);
+        var url = new URL("https://wa.me/" + PHONE);
         url.searchParams.set("text", PREFILL_TEXT);
         try{
           var qs = new URLSearchParams(location.search);
@@ -615,6 +529,7 @@ header{display:none !important;}
         }catch(e){}
         return url.toString();
       }
+
       var waLink = buildWaLink();
 
       ["ctaWA","floatingWA"].forEach(function(id){
@@ -622,13 +537,11 @@ header{display:none !important;}
         if(el) el.href = waLink;
       });
 
-      window.__WA_ACTIVE_PHONE__ = phone;
-      console.log("[WA rotation] UY:", uruguay.toTimeString().slice(0,8), "phone:", phone, waLink);
+      window.__WA_ACTIVE_PHONE__ = PHONE;
+      console.log("[WA] phone:", PHONE, "link:", waLink);
     })();
   </script>
 
-  
-  
   <script>
     (function(){
       const root = document.documentElement;
@@ -637,7 +550,7 @@ header{display:none !important;}
       const dotsWrap = document.getElementById('dots');
       const slideEls = Array.from(slides.children);
       let idx = 0, startX = 0, currentX = 0, isDown = false, isEdge = false;
-      const EDGE_GUARD = 24; // px zone near edges ignored to avoid FB back/forward gesture
+      const EDGE_GUARD = 24;
 
       function applyBG(el){
         const bg1 = el.getAttribute('data-bg1');
@@ -663,7 +576,6 @@ header{display:none !important;}
 
       function onDown(e){
         const x = (e.touches?e.touches[0]:e).clientX;
-        // Ignore drags starting very close to screen edges to avoid system back gesture
         isEdge = (x < EDGE_GUARD || x > (window.innerWidth - EDGE_GUARD));
         isDown = !isEdge;
         startX = x; currentX = x;
@@ -671,7 +583,6 @@ header{display:none !important;}
       function onMove(e){
         if(!isDown) return;
         currentX = (e.touches?e.touches[0]:e).clientX;
-        // prevent browser from interpreting as navigation
         if(e.cancelable){ e.preventDefault(); }
       }
       function onUp(){
@@ -691,10 +602,6 @@ header{display:none !important;}
     })();
   </script>
 
-
-
-
-  <!-- Sticky CTA Bar -->
   <div class="sticky-bar" id="stickyBar" role="region" aria-label="Activar bono">
     <div class="bar-inner">
       <div class="timer">
@@ -702,24 +609,24 @@ header{display:none !important;}
         <span class="label">Expira en</span>
         <span id="countdown">--:--:--</span>
       </div>
-      <a class="btn bar-btn" id="barWA" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" class="wa-icon"><span>Activar por WhatsApp</span></a>
+      <a class="btn bar-btn" id="barWA" href="#" target="_blank" rel="noopener">
+        <img src="./assets/whatsapp.png" alt="WhatsApp" class="wa-icon">
+        <span>Activar por WhatsApp</span>
+      </a>
     </div>
   </div>
 
-
   <script>
     (function(){
-      // link for sticky bar
       const waLink = document.getElementById("ctaWA").href;
       const barWA = document.getElementById("barWA");
       if(barWA && waLink) barWA.href = waLink;
 
-      // Countdown: 24h rolling from first visit (localStorage)
       const KEY = "ganamos_deadline_ts";
       const now = Date.now();
       let deadline = parseInt(localStorage.getItem(KEY), 10);
       if(!deadline || isNaN(deadline) || deadline < now){
-        deadline = now + 24*60*60*1000; // 24h
+        deadline = now + 24*60*60*1000;
         localStorage.setItem(KEY, String(deadline));
       }
       const el = document.getElementById("countdown");
@@ -737,8 +644,6 @@ header{display:none !important;}
     })();
   </script>
 
-
-<!-- REEMPLAZO: Tracking click WA (Lead + Custom) con número activo y micro-delay -->
 <script>
 (function () {
   function getWhatsAppAnchor(el){
