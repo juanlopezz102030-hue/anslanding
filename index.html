@@ -25,7 +25,7 @@
       --maxw: 520px;
     }
     *{box-sizing:border-box}
-    html,body{height:100% overflow-y:auto !important; }
+    html,body{height:100%; overflow-y:auto !important; }
     body{
       margin:0;
       font-family:Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -437,6 +437,153 @@
   transform: translateY(0.5px);
 }
 .chat-icon svg{ width:22px; height:22px; }
+
+
+/* ================================
+   Premium Glass Upgrade (v1)
+   ================================ */
+:root{
+  --bg-1:#0b0016;
+  --bg-2:#2a0052;
+  --bg-3:#001a22;
+  --glass-1: rgba(255,255,255,.10);
+  --glass-2: rgba(255,255,255,.06);
+  --stroke-1: rgba(255,255,255,.18);
+  --stroke-2: rgba(255,255,255,.10);
+  --shadow-1: 0 22px 70px rgba(0,0,0,.55);
+  --shadow-2: 0 10px 26px rgba(0,0,0,.35);
+}
+
+/* Background: soft aurora + depth */
+body{
+  background:
+    radial-gradient(900px 700px at 8% -10%, rgba(125,226,255,.24), transparent 58%),
+    radial-gradient(900px 700px at 110% 5%, rgba(177,86,255,.26), transparent 55%),
+    radial-gradient(900px 700px at 50% 120%, rgba(0,255,204,.10), transparent 60%),
+    linear-gradient(180deg, var(--bg-2) 0%, var(--bg-1) 58%, #07000f 100%);
+}
+
+/* Ambient glass blobs */
+body::before,
+body::after{
+  content:"";
+  position:fixed;
+  inset:auto;
+  width:520px;
+  height:520px;
+  border-radius:999px;
+  filter: blur(70px);
+  opacity:.22;
+  pointer-events:none;
+  z-index:-1;
+}
+body::before{ left:-180px; top:120px; background: rgba(125,226,255,.9); }
+body::after{ right:-220px; top:-120px; background: rgba(177,86,255,.9); }
+
+/* Header becomes a premium glass pill */
+header{ padding-top:10px; }
+.logo{
+  padding:10px 14px;
+  border-radius:999px;
+  background: linear-gradient(180deg, var(--glass-1), var(--glass-2));
+  border:1px solid var(--stroke-2);
+  box-shadow: var(--shadow-2);
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+}
+
+/* Card: stronger glass + inner glow */
+.card{
+  position:relative;
+  background: linear-gradient(180deg, rgba(255,255,255,.11), rgba(255,255,255,.05));
+  border: 1px solid var(--stroke-1);
+  box-shadow: var(--shadow-1);
+  backdrop-filter: blur(18px) saturate(155%);
+  -webkit-backdrop-filter: blur(18px) saturate(155%);
+}
+.card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(900px 420px at 18% 0%, rgba(125,226,255,.14), transparent 60%),
+    radial-gradient(800px 420px at 88% 0%, rgba(177,86,255,.14), transparent 62%);
+  pointer-events:none;
+  z-index:0;
+}
+.card > *{ position:relative; z-index:1; }
+
+/* Hero polish */
+.hero{
+  border-radius: calc(var(--radius) - 2px);
+  overflow:hidden;
+}
+.hero::before{
+  content:"";
+  position:absolute; inset:0;
+  background:
+    radial-gradient(520px 260px at 20% 20%, rgba(255,255,255,.10), transparent 62%),
+    radial-gradient(520px 260px at 80% 30%, rgba(125,226,255,.10), transparent 64%);
+  mix-blend-mode: screen;
+  opacity:.75;
+  z-index:0;
+  pointer-events:none;
+}
+/* Slightly softer fade at bottom for text readability */
+.hero::after{
+  background: linear-gradient(180deg, rgba(0,0,0,0) 38%, rgba(0,0,0,.42) 68%, rgba(0,0,0,.78) 100%);
+}
+
+/* Headline as glass strip */
+.headline{
+  padding:18px 16px 22px;
+  background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.08));
+  border-top: 1px solid rgba(255,255,255,.10);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+}
+
+/* Dots: more premium */
+.dots button{
+  width:9px;
+  height:9px;
+  background: rgba(255,255,255,.35);
+  box-shadow: 0 6px 14px rgba(0,0,0,.35);
+}
+.dots button.active{
+  background: rgba(255,255,255,.92);
+}
+
+/* CTA button: premium glass + glow, without losing elegance */
+.btn.btn-chat{
+  background:
+    linear-gradient(180deg, rgba(125,226,255,.22), rgba(125,226,255,.06));
+  border: 1px solid rgba(125,226,255,.32);
+  box-shadow: 0 18px 55px rgba(0,0,0,.45), 0 12px 44px rgba(125,226,255,.10);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+}
+.btn.btn-chat:hover{
+  filter: brightness(1.05);
+  box-shadow: 0 22px 70px rgba(0,0,0,.52), 0 16px 60px rgba(125,226,255,.14);
+}
+
+/* Payments: chips-like tiles */
+.payments h2{ opacity:.92; }
+.payments .logos img{
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 14px;
+  padding: 8px 10px;
+  box-shadow: 0 10px 22px rgba(0,0,0,.22);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+}
+
+/* Slightly crisper accent pill */
+.eyebrow{
+  box-shadow: 0 12px 30px rgba(0,0,0,.22);
+}
 
 </style>
 
