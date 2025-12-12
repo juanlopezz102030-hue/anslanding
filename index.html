@@ -25,7 +25,9 @@
       --maxw: 520px;
     }
     *{box-sizing:border-box}
-    html,body{height:100%; overflow-y:auto !important; }
+    html,body{
+      overflow-x:hidden;
+height:100%; overflow-y:auto !important; overflow-x:hidden; }
     body{
       margin:0;
       font-family:Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -133,7 +135,6 @@
     footer{opacity:.9; font-size:12px; text-align:center}
     
     
-    .payments{padding:8px 0 16px; text-align:center content-visibility:auto; contain-intrinsic-size: 1px 600px; }
     .payments h2{font-size:15px; margin-bottom:10px; color:var(--muted)}
     .payments .logos{display:flex; flex-wrap:wrap; justify-content:center; gap:12px}
     .payments .logos img{height:40px; object-fit:contain; border-radius:10px}
@@ -745,6 +746,14 @@ header{display:none !important;}
 .payments{margin-top: 12px !important;}
 /* Slightly slimmer sticky bar to reduce competition with main CTA */
 :root{ --sticky-h: 54px; }
+</style>
+
+
+<style id="original-fixes">
+  /* Keep original layout: no extra reserved space for missing sticky bar */
+  :root{ --sticky-h: 0px !important; }
+  .wrap{ padding-bottom: calc(env(safe-area-inset-bottom) + 12px) !important; overflow-x:hidden; }
+  main{ margin-bottom: 0 !important; }
 </style>
 
 </head>
