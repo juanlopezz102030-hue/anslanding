@@ -25,9 +25,7 @@
       --maxw: 520px;
     }
     *{box-sizing:border-box}
-    html,body{
-      overflow-x:hidden;
-height:100%; overflow-y:auto !important; overflow-x:hidden; }
+    html,body{height:100%; overflow-y:auto !important; }
     body{
       margin:0;
       font-family:Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -135,6 +133,7 @@ height:100%; overflow-y:auto !important; overflow-x:hidden; }
     footer{opacity:.9; font-size:12px; text-align:center}
     
     
+    .payments{padding:8px 0 16px; text-align:center content-visibility:auto; contain-intrinsic-size: 1px 600px; }
     .payments h2{font-size:15px; margin-bottom:10px; color:var(--muted)}
     .payments .logos{display:flex; flex-wrap:wrap; justify-content:center; gap:12px}
     .payments .logos img{height:40px; object-fit:contain; border-radius:10px}
@@ -142,7 +141,7 @@ height:100%; overflow-y:auto !important; overflow-x:hidden; }
 
     
     
-    .payments{content-visibility:auto; contain-intrinsic-size: 1px 220px; padding:8px 0 16px; text-align:center}
+    .payments{padding:8px 0 16px; text-align:center}
     .payments h2{font-size:15px; margin-bottom:10px; color:var(--muted)}
     .payments .logos{display:flex; flex-wrap:wrap; justify-content:center; gap:12px}
     .payments .logos img{height:40px; object-fit:contain; border-radius:10px}
@@ -586,76 +585,6 @@ header{ padding-top:10px; }
   box-shadow: 0 12px 30px rgba(0,0,0,.22);
 }
 
-
-/* ===== Payments inline (no bubbles) + above-the-fold on mobile ===== */
-@media (max-width: 520px){
-  /* make hero a bit shorter so payments fit without scrolling */
-  .hero{ min-height: 40dvh; max-height: 430px; }
-  .headline{ padding: 14px 14px 16px; }
-  h1{ font-size: clamp(28px, 7vw, 40px); }
-  .sub{ font-size: 14px; line-height: 1.25; }
-  .cta{ padding: 14px 14px 6px; gap: 10px; }
-  .btn.btn-chat{ padding: 14px 14px; }
-  .payments{ padding: 6px 0 10px; }
-  .payments h2{ font-size: 13px; margin: 6px 0 8px; opacity: .85; }
-}
-
-/* Inline logos: transparent, crisp, no pill/bubble */
-.payments .logos{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap: 10px 14px;
-  padding: 6px 14px 2px;
-}
-
-.payments .logos img{
-  background: transparent !important;
-  border: 0 !important;
-  padding: 0 !important;
-  box-shadow: none !important;
-  border-radius: 0 !important;
-  height: 30px;
-  width: auto;
-  max-width: 84px;
-  object-fit: contain;
-  filter: drop-shadow(0 6px 12px rgba(0,0,0,.25));
-  opacity: .98;
-}
-
-@media (max-width: 520px){
-  .payments .logos img{
-    height: 28px;
-    max-width: 76px;
-    filter: drop-shadow(0 5px 10px rgba(0,0,0,.22));
-  }
-}
-
-
-/* ===== Fix: hero video must cover full width/height (no purple gap) ===== */
-.slide{ position: relative; }
-.slide video{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  display:block;
-  object-fit: cover;
-  object-position: center;
-  background: transparent;
-}
-
-
-.hero-video{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  object-position:center;
-  display:block;
-}
-
 </style>
 
   <!-- Meta Pixel Code -->
@@ -818,104 +747,6 @@ header{display:none !important;}
 :root{ --sticky-h: 54px; }
 </style>
 
-
-<style id="original-fixes">
-  /* Keep original layout: no extra reserved space for missing sticky bar */
-  :root{ --sticky-h: 0px !important; }
-  .wrap{ padding-bottom: calc(env(safe-area-inset-bottom) + 12px) !important; overflow-x:hidden; }
-  main{ margin-bottom: 0 !important; }
-
-
-/* ===== Strong fix: ensure slide/video always fill hero (iOS-safe) ===== */
-#slides{
-  position:absolute !important;
-  inset:0 !important;
-  width:100% !important;
-  height:100% !important;
-  z-index:0 !important;
-  transform: translate3d(0,0,0);
-}
-#slides .slide{
-  flex: 0 0 100% !important;
-  width:100% !important;
-  height:100% !important;
-  position:relative !important;
-  overflow:hidden !important;
-}
-#slides .slide > video,
-#slides .slide > video.hero-video{
-  position:absolute !important;
-  top:0 !important; left:0 !important; right:0 !important; bottom:0 !important;
-  width:100% !important;
-  height:100% !important;
-  object-fit: cover !important;
-  object-position: center !important;
-  display:block !important;
-}
-
-</style>
-
-
-<style id="hero-hard-fix">
-/* ===== HARD FIX (iOS): hero media must fill 100% and be centered ===== */
-.hero{ position:relative; overflow:hidden; }
-#slides{
-  position:absolute !important;
-  inset:0 !important;
-  width:100% !important;
-  height:100% !important;
-  display:block !important; /* avoid flex quirks on iOS */
-  z-index:0 !important;
-}
-#slides .slide{
-  position:absolute !important;
-  inset:0 !important;
-  width:100% !important;
-  height:100% !important;
-  margin:0 !important;
-}
-#slides .slide > video.hero-video{
-  position:absolute !important;
-  inset:0 !important;
-  width:100% !important;
-  height:100% !important;
-  object-fit: cover !important;
-  object-position: 50% 50% !important;
-  transform: translateZ(0);
-}
-/* Put overlays/text above the video */
-.hero::before{ z-index:1 !important; }
-.hero::after{ z-index:1 !important; }
-.headline{ z-index:2 !important; }
-</style>
-
-
-<style id="hero-inset-fallback">
-/* ===== Fallback for older iOS (no 'inset' support): force full-bleed hero media ===== */
-.hero{ position:relative; overflow:hidden; }
-#slides, .slides{
-  position:absolute !important;
-  top:0 !important; right:0 !important; bottom:0 !important; left:0 !important;
-  width:100% !important; height:100% !important;
-  display:block !important;
-}
-#slides .slide, .slides .slide{
-  position:absolute !important;
-  top:0 !important; right:0 !important; bottom:0 !important; left:0 !important;
-  width:100% !important; height:100% !important;
-  margin:0 !important;
-  overflow:hidden !important;
-}
-#slides .slide video, .slides .slide video{
-  position:absolute !important;
-  top:0 !important; right:0 !important; bottom:0 !important; left:0 !important;
-  width:100% !important; height:100% !important;
-  object-fit:cover !important;
-  object-position:50% 50% !important;
-  display:block !important;
-}
-</style>
-
 </head>
 <body>
   <noscript><img height="1" width="1" style="display:none"
@@ -923,7 +754,7 @@ header{display:none !important;}
   /></noscript>
 <div class="wrap">
     <header>
-      <div class="logo" aria-label="CAYO URUGUAY"><span class="mark">CAYO</span> <span style="opacity:.9">URUGUAY</span> <img src="./assets/uruguay.png" alt="Bandera de Uruguay" style="height:20px; margin-left:6px; border-radius:2px" decoding="async" loading="lazy" width="96" height="40"></div>
+      <div class="logo" aria-label="CAYO URUGUAY"><span class="mark">CAYO</span> <span style="opacity:.9">URUGUAY</span> <img src="./assets/uruguay.png" alt="Bandera de Uruguay" style="height:20px; margin-left:6px; border-radius:2px"></div>
     </header>
 
     <main class="card">
@@ -933,8 +764,8 @@ header{display:none !important;}
         <div class="slides" id="slides">
           
     <div class="slide" data-bg1="#2b0050" data-bg2="#6200a6">
-      <video id="heroVideo" class="hero-video" muted playsinline webkit-playsinline preload="none" poster="./assets/hero.jpg" width="1280" height="720" style="position:absolute;top:0;right:0;bottom:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block;">
-  <source data-src="./assets/render.mp4" type="video/mp4">
+      <video autoplay muted loop playsinline style="width:100%; height:100%; object-fit:cover; border-radius:18px;">
+  <source src="./assets/render.mp4" type="video/mp4">
 </video>
     </div>
 </div><div class="headline">
@@ -960,13 +791,13 @@ header{display:none !important;}
 <section class="payments">
           <h2>Métodos de pago disponibles</h2>
           <div class="logos">
-            <img loading="lazy" src="./assets/santander.png" alt="Santander" decoding="async" width="96" height="40">
-            <img loading="lazy" src="./assets/scotiabank.png" alt="Scotiabank" decoding="async" width="96" height="40">
-            <img loading="lazy" src="./assets/brou.png" alt="BROU" decoding="async" width="96" height="40">
-            <img loading="lazy" src="./assets/itau.png" alt="Itaú" decoding="async" width="96" height="40">
-            <img loading="lazy" src="./assets/mercadopago.png" alt="Mercado Pago" decoding="async" width="96" height="40">
-            <img loading="lazy" src="./assets/midinero.png" alt="Mi Dinero" decoding="async" width="96" height="40">
-            <img loading="lazy" src="./assets/prex.png" alt="Prex" decoding="async" width="96" height="40">
+            <img loading="lazy" src="./assets/santander.png" alt="Santander">
+            <img loading="lazy" src="./assets/scotiabank.png" alt="Scotiabank">
+            <img loading="lazy" src="./assets/brou.png" alt="BROU">
+            <img loading="lazy" src="./assets/itau.png" alt="Itaú">
+            <img loading="lazy" src="./assets/mercadopago.png" alt="Mercado Pago">
+            <img loading="lazy" src="./assets/midinero.png" alt="Mi Dinero">
+            <img loading="lazy" src="./assets/prex.png" alt="Prex">
           </div>
         </section>
 
@@ -981,6 +812,68 @@ header{display:none !important;}
   <!-- REEMPLAZO: Rotación WA (UY GMT-3) + UTMs -->
 <!-- REEMPLAZO: Tracking click WA (Lead + Custom) con número activo y micro-delay -->
 <script>
+(function () {
+  function getWhatsAppAnchor(el){
+    if (!el) return null;
+    if (el.closest) return el.closest('a[href^="https://wa.me/"], a[href^="https://api.whatsapp.com/send"]');
+    while (el && el !== document) {
+      if (el.tagName === 'A' && (el.href.indexOf('https://wa.me/') === 0 || el.href.indexOf('https://api.whatsapp.com/send') === 0)) return el;
+      el = el.parentNode;
+    }
+    return null;
+  }
+  function paramsFrom(url){
+    var out = {}, keys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
+    try{
+      var u = new URL(url);
+      keys.forEach(function(k){ var v=u.searchParams.get(k); if(v) out[k]=v; });
+    }catch(e){}
+    return out;
+  }
+  function randomEventID(){
+    try { return (crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now())+'-'+Math.random().toString(16).slice(2); }
+    catch(e){ return String(Date.now())+'-'+Math.random().toString(16).slice(2); }
+  }
+  function extractPhoneFromLink(href){
+    try {
+      var m = href.match(/wa\.me\/(\d+)/);
+      if(m && m[1]) return m[1];
+    } catch(e){}
+    return window.__WA_ACTIVE_PHONE__ || undefined;
+  }
+
+  document.addEventListener('click', function(e){
+    var a = getWhatsAppAnchor(e.target);
+    if(!a || typeof fbq !== 'function') return;
+
+    var eventID = randomEventID();
+    var extras = paramsFrom(location.href);
+    var phone = extractPhoneFromLink(a.href);
+
+    fbq('track', 'Lead', Object.assign({
+      eventID: eventID,
+      content_name: 'Registro WhatsApp',
+      destination: 'whatsapp',
+      phone: phone
+    }, extras));
+
+    fbq('trackCustom', 'WhatsAppClick', Object.assign({
+      eventID: eventID,
+      content_name: 'Registro WhatsApp',
+      destination: 'whatsapp',
+      phone: phone
+    }, extras));
+
+    if (!a.target || a.target === '_self') {
+      e.preventDefault();
+      var href = a.href;
+      setTimeout(function(){ window.location.href = href; }, 140);
+    }
+  }, true);
+})();
+</script>
+
+<script>
 (function(){
   var slides = document.querySelectorAll('#slides .slide');
   if(slides.length <= 1){
@@ -992,6 +885,26 @@ header{display:none !important;}
 </script>
 
 
+
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+Tawk_API.customStyle = {
+  visibility: {
+    desktop: { position: 'br', xOffset: 18, yOffset: 18 },
+    mobile:  { position: 'br', xOffset: 16, yOffset: 22 }
+  }
+};
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/693bfb3d3bd0b0197dfbe32e/1jc94qqr5';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
 
 <script>
 (function(){
@@ -1025,116 +938,6 @@ header{display:none !important;}
 })();
 </script>
 
-
-
-<!-- Tawk.to (lazy) -->
-<script>
-(function(){
-  var TAWK_SRC = "https://embed.tawk.to/693bfb3d3bd0b0197dfbe32e/1jc94qqr5";
-  var loaded = false;
-  window.Tawk_API = window.Tawk_API || {};
-  window.Tawk_LoadStart = new Date();
-
-  // Keep your positioning
-  window.Tawk_API.customStyle = {
-    visibility: {
-      desktop: { position: 'br', xOffset: 18, yOffset: 18 },
-      mobile:  { position: 'br', xOffset: 16, yOffset: 22 }
-    }
-  };
-
-  function loadTawk(cb){
-    if(loaded){ if(cb) cb(); return; }
-    loaded = true;
-    var s1 = document.createElement("script");
-    s1.async = true;
-    s1.src = TAWK_SRC;
-    s1.charset = "UTF-8";
-    s1.setAttribute("crossorigin","*");
-    s1.onload = function(){ if(cb) cb(); };
-    (document.head || document.body).appendChild(s1);
-  }
-
-  function tryOpenChat(){
-    try{
-      if(window.Tawk_API && typeof Tawk_API.maximize === "function"){ Tawk_API.maximize(); return true; }
-      if(window.Tawk_API && typeof Tawk_API.toggle === "function"){ Tawk_API.toggle(); return true; }
-    }catch(e){}
-    return false;
-  }
-
-  function openChat(){
-    if(tryOpenChat()) return;
-    var tries = 0;
-    var iv = setInterval(function(){
-      tries++;
-      if(tryOpenChat() || tries >= 30) clearInterval(iv);
-    }, 150);
-  }
-
-  document.addEventListener("click", function(e){
-    var btn = e.target && e.target.closest ? e.target.closest("#ctaChat") : null;
-    if(!btn) return;
-    e.preventDefault();
-    loadTawk(openChat);
-  }, {passive:false});
-
-  // Auto-load on fast connections after idle (keeps "instant" feel on old phones)
-  var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-  var slow = conn && (conn.saveData || /2g/.test(conn.effectiveType || ""));
-  if(!slow){
-    var lazy = function(){ loadTawk(); };
-    if("requestIdleCallback" in window) requestIdleCallback(lazy, {timeout: 3500});
-    else setTimeout(lazy, 3500);
-  }
-})();
-</script>
-<!-- /Tawk.to (lazy) -->
-
-
-<script>
-(function(){
-  // Lazy hero video: only load on capable connections & after first paint
-  var v = document.getElementById("heroVideo");
-  if(!v) return;
-
-  var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-  var saveData = !!(conn && conn.saveData);
-  var type = (conn && conn.effectiveType) ? String(conn.effectiveType) : "";
-  var slow = saveData || /2g/.test(type);
-  var reduceMotion = false;
-  try{ reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(e){}
-
-  if(slow || reduceMotion){
-    // Keep poster only (instant)
-    return;
-  }
-
-  function loadVideo(){
-    if(v.dataset.loaded) return;
-    v.dataset.loaded = "1";
-    var s = v.querySelector("source[data-src]");
-    if(s && s.dataset && s.dataset.src){
-      s.src = s.dataset.src;
-      s.removeAttribute("data-src");
-    }
-    v.load();
-    // Start playback when ready
-    var play = function(){ v.play().catch(function(){}); };
-    if(v.readyState >= 2) play();
-    else v.addEventListener("canplay", play, {once:true});
-  }
-
-  // Load when idle or when user interacts
-  var kick = function(){ loadVideo(); };
-  if("requestIdleCallback" in window) requestIdleCallback(kick, {timeout: 1500});
-  else setTimeout(kick, 900);
-
-  ["touchstart","scroll","mousemove","keydown"].forEach(function(ev){
-    window.addEventListener(ev, kick, {once:true, passive:true});
-  });
-})();
-</script>
 
 </body>
 </html>
