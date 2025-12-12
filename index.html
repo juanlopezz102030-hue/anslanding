@@ -124,13 +124,6 @@
       text-align:center; font-size:12px; color:#cdb6ff; opacity:.9;
       padding:0 16px 6px;
     }
-    .sticky-wa{
-      position:fixed; right:16px; bottom:16px; z-index:50;
-      width:56px; height:56px; border-radius:50%;
-      background:var(--btn);
-      display:flex; align-items:center; justify-content:center;
-      box-shadow: var(--shadow);
-    }
     .phones{
       width:100%; max-width:var(--maxw);
       display:flex; justify-content:center; padding:8px 8px 0;
@@ -254,7 +247,6 @@
     #countdown{font-weight:800}
     .bar-btn{flex:1; display:flex; gap:8px; justify-content:center; padding:12px}
     /* Hide floating WA when sticky bar is present */
-    .sticky-wa{display:none}
     @media (min-width:768px){
       .bar-inner{padding:12px 16px}
     }
@@ -284,7 +276,7 @@
     
     /* === Mobile polish === */
     :root{ --sticky-h: 64px; }
-    .wrap{ padding-bottom: calc(var(--sticky-h) + env(safe-area-inset-bottom) + 12px); }
+    .wrap{ padding-bottom: calc(env(safe-area-inset-bottom) + 12px); }
     .sticky-bar{ padding-bottom: max(env(safe-area-inset-bottom), 8px); min-height: var(--sticky-h); }
     header{ padding: 8px 0 2px; }
     .logo{ gap:8px; letter-spacing:.6px; }
@@ -372,7 +364,17 @@
     @media (min-width:768px){
       .hero{aspect-ratio: 16/9}
     }
-  </style>
+  
+/* Chat CTA button (integrated, elegant) */
+.btn.btn-chat{
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.22);
+  box-shadow: none;
+}
+.btn.btn-chat:hover{ filter: brightness(1.05); }
+.btn.btn-chat:active{ transform: translateY(1px); }
+
+</style>
 
   <!-- Meta Pixel Code -->
 <script>
@@ -539,10 +541,7 @@ header{display:none !important;}
   <noscript><img height="1" width="1" style="display:none"
     src="https://www.facebook.com/tr?id=767728059169192&ev=PageView&noscript=1"
   /></noscript>
-
-  <a class="sticky-wa" id="floatingWA" aria-label="WhatsApp" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" width="40" height="40"></a>
-
-  <div class="wrap">
+<div class="wrap">
     <header>
       <div class="logo" aria-label="CAYO URUGUAY"><span class="mark">CAYO</span> <span style="opacity:.9">URUGUAY</span> <img src="./assets/uruguay.png" alt="Bandera de Uruguay" style="height:20px; margin-left:6px; border-radius:2px"></div>
     </header>
@@ -570,6 +569,8 @@ header{display:none !important;}
       <div class="cta">
         
         <a class="btn" id="ctaWA" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" class="wa-icon"><span>Escribinos por WhatsApp</span></a>
+        <button class="btn btn-chat" id="ctaChat" type="button" aria-label="Abrir chat en vivo">Chat en vivo</button>
+
 <section class="payments">
           <h2>Métodos de pago disponibles</h2>
           <div class="logos">
@@ -592,152 +593,6 @@ header{display:none !important;}
 </div>
 
   <!-- REEMPLAZO: Rotación WA (UY GMT-3) + UTMs -->
-  <script>
-    (function(){
-      var NUMBERS = ["59896266640"];
-      var PREFILL_TEXT = "Hola, me gustaria saber mas";
-
-      // Hora Uruguay (GMT-3) y bloque fijo de 10 minutos
-      var now = new Date();
-      var uruguay = new Date(now.getTime() + (now.getTimezoneOffset()*60000) - (3*60*60000));
-      var minutesSinceMidnight = uruguay.getHours()*60 + uruguay.getMinutes();
-      var block = Math.floor(minutesSinceMidnight / 10) % NUMBERS.length;
-      var phone = NUMBERS[block];
-
-      function buildWaLink(){
-        var url = new URL("https://wa.me/" + phone);
-        url.searchParams.set("text", PREFILL_TEXT);
-        try{
-          var qs = new URLSearchParams(location.search);
-          ["utm_source","utm_medium","utm_campaign","utm_content","utm_term"].forEach(function(k){
-            var v = qs.get(k); if(v) url.searchParams.set(k, v);
-          });
-        }catch(e){}
-        return url.toString();
-      }
-      var waLink = buildWaLink();
-
-      ["ctaWA","floatingWA"].forEach(function(id){
-        var el = document.getElementById(id);
-        if(el) el.href = waLink;
-      });
-
-      window.__WA_ACTIVE_PHONE__ = phone;
-      console.log("[WA rotation] UY:", uruguay.toTimeString().slice(0,8), "phone:", phone, waLink);
-    })();
-  </script>
-
-  
-  
-  <script>
-    (function(){
-      const root = document.documentElement;
-      const slides = document.getElementById('slides');
-      const hero = document.getElementById('hero');
-      const dotsWrap = document.getElementById('dots');
-      const slideEls = Array.from(slides.children);
-      let idx = 0, startX = 0, currentX = 0, isDown = false, isEdge = false;
-      const EDGE_GUARD = 24; // px zone near edges ignored to avoid FB back/forward gesture
-
-      function applyBG(el){
-        const bg1 = el.getAttribute('data-bg1');
-        const bg2 = el.getAttribute('data-bg2');
-        if(bg1 && bg2){
-          root.style.setProperty('--bg-1', bg1);
-          root.style.setProperty('--bg-2', bg2);
-        }
-      }
-      function go(i){
-        idx = (i + slideEls.length) % slideEls.length;
-        slides.style.transform = `translateX(${-idx*100}%)`;
-        Array.from(dotsWrap.children).forEach((d,k)=>d.classList.toggle('active', k===idx));
-        applyBG(slideEls[idx]);
-        hero.classList.toggle('alt-theme', idx===1);
-        hero.classList.toggle('slide3-theme', idx===2);
-      }
-      slideEls.forEach((_,i)=>{
-        const b=document.createElement('button'); if(i===0) b.classList.add('active');
-        b.addEventListener('click', ()=>go(i)); dotsWrap.appendChild(b);
-      });
-      applyBG(slideEls[0]);
-
-      function onDown(e){
-        const x = (e.touches?e.touches[0]:e).clientX;
-        // Ignore drags starting very close to screen edges to avoid system back gesture
-        isEdge = (x < EDGE_GUARD || x > (window.innerWidth - EDGE_GUARD));
-        isDown = !isEdge;
-        startX = x; currentX = x;
-      }
-      function onMove(e){
-        if(!isDown) return;
-        currentX = (e.touches?e.touches[0]:e).clientX;
-        // prevent browser from interpreting as navigation
-        if(e.cancelable){ e.preventDefault(); }
-      }
-      function onUp(){
-        if(!isDown) return;
-        const dx = currentX - startX;
-        if(Math.abs(dx) > 40){
-          go(idx + (dx<0 ? 1 : -1));
-        }
-        isDown = false; isEdge = false;
-      }
-      hero.addEventListener('pointerdown', onDown, {passive:true});
-      hero.addEventListener('pointermove', onMove, {passive:false});
-      window.addEventListener('pointerup', onUp, {passive:true});
-      hero.addEventListener('touchstart', onDown, {passive:true});
-      hero.addEventListener('touchmove', onMove, {passive:false});
-      hero.addEventListener('touchend', onUp, {passive:true});
-    })();
-  </script>
-
-
-
-
-  <!-- Sticky CTA Bar -->
-  <div class="sticky-bar" id="stickyBar" role="region" aria-label="Activar bono">
-    <div class="bar-inner">
-      <div class="timer">
-        <strong>¡Bono 20%!</strong>
-        <span class="label">Expira en</span>
-        <span id="countdown">--:--:--</span>
-      </div>
-      <a class="btn bar-btn" id="barWA" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" class="wa-icon"><span>Activar por WhatsApp</span></a>
-    </div>
-  </div>
-
-
-  <script>
-    (function(){
-      // link for sticky bar
-      const waLink = document.getElementById("ctaWA").href;
-      const barWA = document.getElementById("barWA");
-      if(barWA && waLink) barWA.href = waLink;
-
-      // Countdown: 24h rolling from first visit (localStorage)
-      const KEY = "ganamos_deadline_ts";
-      const now = Date.now();
-      let deadline = parseInt(localStorage.getItem(KEY), 10);
-      if(!deadline || isNaN(deadline) || deadline < now){
-        deadline = now + 24*60*60*1000; // 24h
-        localStorage.setItem(KEY, String(deadline));
-      }
-      const el = document.getElementById("countdown");
-      function fmt(n){ return String(n).padStart(2,"0"); }
-      function tick(){
-        const t = Math.max(0, deadline - Date.now());
-        const h = Math.floor(t/3600000);
-        const m = Math.floor((t%3600000)/60000);
-        const s = Math.floor((t%60000)/1000);
-        if(el) el.textContent = `${fmt(h)}:${fmt(m)}:${fmt(s)}`;
-        if(t<=0){ clearInterval(iv); }
-      }
-      tick();
-      const iv = setInterval(tick, 1000);
-    })();
-  </script>
-
-
 <!-- REEMPLAZO: Tracking click WA (Lead + Custom) con número activo y micro-delay -->
 <script>
 (function () {
@@ -817,6 +672,12 @@ header{display:none !important;}
 <!--Start of Tawk.to Script-->
 <script type="text/javascript">
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+Tawk_API.customStyle = {
+  visibility: {
+    desktop: { position: 'br', xOffset: 18, yOffset: 18 },
+    mobile:  { position: 'br', xOffset: 16, yOffset: 22 }
+  }
+};
 (function(){
 var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
 s1.async=true;
@@ -827,6 +688,39 @@ s0.parentNode.insertBefore(s1,s0);
 })();
 </script>
 <!--End of Tawk.to Script-->
+
+<script>
+(function(){
+  function tryOpenChat(){
+    try{
+      if(window.Tawk_API && typeof Tawk_API.maximize === "function"){
+        Tawk_API.maximize();
+        return true;
+      }
+      if(window.Tawk_API && typeof Tawk_API.toggle === "function"){
+        Tawk_API.toggle();
+        return true;
+      }
+    }catch(e){}
+    return false;
+  }
+
+  document.addEventListener("click", function(e){
+    var btn = e.target && (e.target.closest ? e.target.closest("#ctaChat") : null);
+    if(!btn) return;
+    e.preventDefault();
+
+    // If widget isn't ready yet, retry briefly
+    if(tryOpenChat()) return;
+    var tries = 0;
+    var iv = setInterval(function(){
+      tries++;
+      if(tryOpenChat() || tries >= 20){ clearInterval(iv); }
+    }, 150);
+  }, {passive:false});
+})();
+</script>
+
 
 </body>
 </html>
