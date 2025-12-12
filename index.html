@@ -586,6 +586,51 @@ header{ padding-top:10px; }
   box-shadow: 0 12px 30px rgba(0,0,0,.22);
 }
 
+
+/* ===== Payments inline (no bubbles) + above-the-fold on mobile ===== */
+@media (max-width: 520px){
+  /* make hero a bit shorter so payments fit without scrolling */
+  .hero{ min-height: 40dvh; max-height: 430px; }
+  .headline{ padding: 14px 14px 16px; }
+  h1{ font-size: clamp(28px, 7vw, 40px); }
+  .sub{ font-size: 14px; line-height: 1.25; }
+  .cta{ padding: 14px 14px 6px; gap: 10px; }
+  .btn.btn-chat{ padding: 14px 14px; }
+  .payments{ padding: 6px 0 10px; }
+  .payments h2{ font-size: 13px; margin: 6px 0 8px; opacity: .85; }
+}
+
+/* Inline logos: transparent, crisp, no pill/bubble */
+.payments .logos{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap: 10px 14px;
+  padding: 6px 14px 2px;
+}
+
+.payments .logos img{
+  background: transparent !important;
+  border: 0 !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  height: 30px;
+  width: auto;
+  max-width: 84px;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 12px rgba(0,0,0,.25));
+  opacity: .98;
+}
+
+@media (max-width: 520px){
+  .payments .logos img{
+    height: 28px;
+    max-width: 76px;
+    filter: drop-shadow(0 5px 10px rgba(0,0,0,.22));
+  }
+}
+
 </style>
 
   <!-- Meta Pixel Code -->
