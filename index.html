@@ -366,6 +366,54 @@
     }
   
 /* Chat CTA button (integrated, elegant) */
+
+/* Casino chips overlay on "Chat en vivo" button */
+.btn.btn-chat{
+  position: relative;
+  isolation: isolate; /* keeps pseudo-elements layered neatly */
+  padding-left: 56px; /* room for chips */
+  overflow: hidden;
+}
+.btn.btn-chat .btn-label{ position: relative; z-index: 2; }
+
+.btn.btn-chat::before,
+.btn.btn-chat::after{
+  content: "";
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  pointer-events: none;
+  z-index: 1;
+  top: 50%;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255,255,255,.22) 0 18%, transparent 19%),
+    radial-gradient(circle at 50% 50%, rgba(0,0,0,.18) 0 42%, transparent 43%),
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,.10) 0 54%, transparent 55%),
+    repeating-conic-gradient(from 0deg, rgba(255,255,255,.22) 0 12deg, transparent 12deg 24deg);
+  box-shadow: 0 6px 16px rgba(0,0,0,.25), inset 0 0 0 2px rgba(255,255,255,.18);
+  opacity: .55;
+  filter: saturate(1.1);
+}
+
+.btn.btn-chat::before{
+  left: 14px;
+  transform: translateY(-50%) rotate(-14deg);
+}
+
+.btn.btn-chat::after{
+  left: 2px;
+  top: calc(50% + 8px);
+  transform: translateY(-50%) rotate(18deg);
+  opacity: .38;
+}
+
+/* Slightly tighter on very small screens */
+@media (max-width: 360px){
+  .btn.btn-chat{ padding-left: 52px; }
+  .btn.btn-chat::before, .btn.btn-chat::after{ width: 32px; height: 32px; }
+}
+
 .btn.btn-chat{
   background: rgba(255,255,255,.08);
   border: 1px solid rgba(255,255,255,.22);
@@ -569,7 +617,7 @@ header{display:none !important;}
       <div class="cta">
         
         <a class="btn" id="ctaWA" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" class="wa-icon"><span>Escribinos por WhatsApp</span></a>
-        <button class="btn btn-chat" id="ctaChat" type="button" aria-label="Abrir chat en vivo">Chat en vivo</button>
+        <button class="btn btn-chat" id="ctaChat" type="button" aria-label="Abrir chat en vivo"><span class="btn-label">Chat en vivo</span></button>
 
 <section class="payments">
           <h2>Métodos de pago disponibles</h2>
