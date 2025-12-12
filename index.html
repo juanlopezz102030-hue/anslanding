@@ -631,6 +631,31 @@ header{ padding-top:10px; }
   }
 }
 
+
+/* ===== Fix: hero video must cover full width/height (no purple gap) ===== */
+.slide{ position: relative; }
+.slide video{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit: cover;
+  object-position: center;
+  background: transparent;
+}
+
+
+.hero-video{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+}
+
 </style>
 
   <!-- Meta Pixel Code -->
@@ -799,6 +824,96 @@ header{display:none !important;}
   :root{ --sticky-h: 0px !important; }
   .wrap{ padding-bottom: calc(env(safe-area-inset-bottom) + 12px) !important; overflow-x:hidden; }
   main{ margin-bottom: 0 !important; }
+
+
+/* ===== Strong fix: ensure slide/video always fill hero (iOS-safe) ===== */
+#slides{
+  position:absolute !important;
+  inset:0 !important;
+  width:100% !important;
+  height:100% !important;
+  z-index:0 !important;
+  transform: translate3d(0,0,0);
+}
+#slides .slide{
+  flex: 0 0 100% !important;
+  width:100% !important;
+  height:100% !important;
+  position:relative !important;
+  overflow:hidden !important;
+}
+#slides .slide > video,
+#slides .slide > video.hero-video{
+  position:absolute !important;
+  top:0 !important; left:0 !important; right:0 !important; bottom:0 !important;
+  width:100% !important;
+  height:100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  display:block !important;
+}
+
+</style>
+
+
+<style id="hero-hard-fix">
+/* ===== HARD FIX (iOS): hero media must fill 100% and be centered ===== */
+.hero{ position:relative; overflow:hidden; }
+#slides{
+  position:absolute !important;
+  inset:0 !important;
+  width:100% !important;
+  height:100% !important;
+  display:block !important; /* avoid flex quirks on iOS */
+  z-index:0 !important;
+}
+#slides .slide{
+  position:absolute !important;
+  inset:0 !important;
+  width:100% !important;
+  height:100% !important;
+  margin:0 !important;
+}
+#slides .slide > video.hero-video{
+  position:absolute !important;
+  inset:0 !important;
+  width:100% !important;
+  height:100% !important;
+  object-fit: cover !important;
+  object-position: 50% 50% !important;
+  transform: translateZ(0);
+}
+/* Put overlays/text above the video */
+.hero::before{ z-index:1 !important; }
+.hero::after{ z-index:1 !important; }
+.headline{ z-index:2 !important; }
+</style>
+
+
+<style id="hero-inset-fallback">
+/* ===== Fallback for older iOS (no 'inset' support): force full-bleed hero media ===== */
+.hero{ position:relative; overflow:hidden; }
+#slides, .slides{
+  position:absolute !important;
+  top:0 !important; right:0 !important; bottom:0 !important; left:0 !important;
+  width:100% !important; height:100% !important;
+  display:block !important;
+}
+#slides .slide, .slides .slide{
+  position:absolute !important;
+  top:0 !important; right:0 !important; bottom:0 !important; left:0 !important;
+  width:100% !important; height:100% !important;
+  margin:0 !important;
+  overflow:hidden !important;
+}
+#slides .slide video, .slides .slide video{
+  position:absolute !important;
+  top:0 !important; right:0 !important; bottom:0 !important; left:0 !important;
+  width:100% !important; height:100% !important;
+  object-fit:cover !important;
+  object-position:50% 50% !important;
+  display:block !important;
+}
 </style>
 
 </head>
@@ -818,7 +933,7 @@ header{display:none !important;}
         <div class="slides" id="slides">
           
     <div class="slide" data-bg1="#2b0050" data-bg2="#6200a6">
-      <video id="heroVideo"  muted   playsinline preload="none" poster="./assets/hero.jpg">
+      <video id="heroVideo" class="hero-video" muted playsinline webkit-playsinline preload="none" poster="./assets/hero.jpg" width="1280" height="720" style="position:absolute;top:0;right:0;bottom:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block;">
   <source data-src="./assets/render.mp4" type="video/mp4">
 </video>
     </div>
