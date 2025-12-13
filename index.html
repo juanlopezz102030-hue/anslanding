@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>CAYO – BIENVENIDO</title>
-  <meta name="description" content="Activá tu bono del 20% en tu primera carga. Escribinos por chat en vivo para habilitarlo ahora.">
+  <meta name="description" content="Activá tu bono del 20% en tu primera carga. Escribinos por WhatsApp para habilitarlo ahora.">
   <meta property="og:title" content="Bono 20% en tu primera carga" />
-  <meta property="og:description" content="Escribinos por chat en vivo para activarlo ahora." />
+  <meta property="og:description" content="Escribinos por WhatsApp para activarlo ahora." />
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#5d1a9b">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,7 +25,7 @@
       --maxw: 520px;
     }
     *{box-sizing:border-box}
-    html,body{height:100%; overflow-y:auto !important; }
+    html,body{height:100% overflow-y:auto !important; }
     body{
       margin:0;
       font-family:Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -364,227 +364,6 @@
     @media (min-width:768px){
       .hero{aspect-ratio: 16/9}
     }
-  
-/* Chat CTA button (integrated, elegant) */
-
-/* Chat CTA: single, clean, tap-forward */
-.btn.btn-chat{
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  max-width: 520px;
-  margin: 0 auto;
-  background: rgba(255,255,255,.10);
-  border: 1px solid rgba(255,255,255,.24);
-  box-shadow: 0 10px 28px rgba(0,0,0,.22);
-}
-
-.btn.btn-chat .btn-label{ position: relative; }
-
-.tap-hint{
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 700;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
-
-/* The "vibrating" roundel */
-.pulse-dot{
-  width: 10px;
-  height: 10px;
-  border-radius: 999px;
-  background: rgba(255,255,255,.92);
-  position: relative;
-  flex: 0 0 auto;
-  box-shadow: 0 0 0 0 rgba(255,255,255,.55);
-  animation: dotBreathe 1.1s ease-in-out infinite;
-}
-
-.pulse-dot::after{
-  content: "";
-  position: absolute;
-  inset: -8px;
-  border-radius: 999px;
-  border: 2px solid rgba(255,255,255,.40);
-  opacity: 0;
-  transform: scale(.6);
-  animation: dotRing 1.1s ease-out infinite;
-}
-
-@keyframes dotBreathe{
-  0%,100%{ transform: scale(1); opacity: .90; }
-  50%{ transform: scale(1.18); opacity: .75; }
-}
-@keyframes dotRing{
-  0%{ opacity: .75; transform: scale(.6); }
-  70%{ opacity: 0; transform: scale(1.8); }
-  100%{ opacity: 0; transform: scale(1.8); }
-}
-
-
-/* Roulette icon in chat CTA */
-.chat-icon{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  width:22px;
-  height:22px;
-  opacity:.92;
-  transform: translateY(0.5px);
-}
-.chat-icon svg{ width:22px; height:22px; }
-
-
-/* ================================
-   Premium Glass Upgrade (v1)
-   ================================ */
-:root{
-  --bg-1:#0b0016;
-  --bg-2:#2a0052;
-  --bg-3:#001a22;
-  --glass-1: rgba(255,255,255,.10);
-  --glass-2: rgba(255,255,255,.06);
-  --stroke-1: rgba(255,255,255,.18);
-  --stroke-2: rgba(255,255,255,.10);
-  --shadow-1: 0 22px 70px rgba(0,0,0,.55);
-  --shadow-2: 0 10px 26px rgba(0,0,0,.35);
-}
-
-/* Background: soft aurora + depth */
-body{
-  background:
-    radial-gradient(900px 700px at 8% -10%, rgba(125,226,255,.24), transparent 58%),
-    radial-gradient(900px 700px at 110% 5%, rgba(177,86,255,.26), transparent 55%),
-    radial-gradient(900px 700px at 50% 120%, rgba(0,255,204,.10), transparent 60%),
-    linear-gradient(180deg, var(--bg-2) 0%, var(--bg-1) 58%, #07000f 100%);
-}
-
-/* Ambient glass blobs */
-body::before,
-body::after{
-  content:"";
-  position:fixed;
-  inset:auto;
-  width:520px;
-  height:520px;
-  border-radius:999px;
-  filter: blur(70px);
-  opacity:.22;
-  pointer-events:none;
-  z-index:-1;
-}
-body::before{ left:-180px; top:120px; background: rgba(125,226,255,.9); }
-body::after{ right:-220px; top:-120px; background: rgba(177,86,255,.9); }
-
-/* Header becomes a premium glass pill */
-header{ padding-top:10px; }
-.logo{
-  padding:10px 14px;
-  border-radius:999px;
-  background: linear-gradient(180deg, var(--glass-1), var(--glass-2));
-  border:1px solid var(--stroke-2);
-  box-shadow: var(--shadow-2);
-  backdrop-filter: blur(16px) saturate(150%);
-  -webkit-backdrop-filter: blur(16px) saturate(150%);
-}
-
-/* Card: stronger glass + inner glow */
-.card{
-  position:relative;
-  background: linear-gradient(180deg, rgba(255,255,255,.11), rgba(255,255,255,.05));
-  border: 1px solid var(--stroke-1);
-  box-shadow: var(--shadow-1);
-  backdrop-filter: blur(18px) saturate(155%);
-  -webkit-backdrop-filter: blur(18px) saturate(155%);
-}
-.card::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    radial-gradient(900px 420px at 18% 0%, rgba(125,226,255,.14), transparent 60%),
-    radial-gradient(800px 420px at 88% 0%, rgba(177,86,255,.14), transparent 62%);
-  pointer-events:none;
-  z-index:0;
-}
-.card > *{ position:relative; z-index:1; }
-
-/* Hero polish */
-.hero{
-  border-radius: calc(var(--radius) - 2px);
-  overflow:hidden;
-}
-.hero::before{
-  content:"";
-  position:absolute; inset:0;
-  background:
-    radial-gradient(520px 260px at 20% 20%, rgba(255,255,255,.10), transparent 62%),
-    radial-gradient(520px 260px at 80% 30%, rgba(125,226,255,.10), transparent 64%);
-  mix-blend-mode: screen;
-  opacity:.75;
-  z-index:0;
-  pointer-events:none;
-}
-/* Slightly softer fade at bottom for text readability */
-.hero::after{
-  background: linear-gradient(180deg, rgba(0,0,0,0) 38%, rgba(0,0,0,.42) 68%, rgba(0,0,0,.78) 100%);
-}
-
-/* Headline as glass strip */
-.headline{
-  padding:18px 16px 22px;
-  background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.08));
-  border-top: 1px solid rgba(255,255,255,.10);
-  backdrop-filter: blur(12px) saturate(140%);
-  -webkit-backdrop-filter: blur(12px) saturate(140%);
-}
-
-/* Dots: more premium */
-.dots button{
-  width:9px;
-  height:9px;
-  background: rgba(255,255,255,.35);
-  box-shadow: 0 6px 14px rgba(0,0,0,.35);
-}
-.dots button.active{
-  background: rgba(255,255,255,.92);
-}
-
-/* CTA button: premium glass + glow, without losing elegance */
-.btn.btn-chat{
-  background:
-    linear-gradient(180deg, rgba(125,226,255,.22), rgba(125,226,255,.06));
-  border: 1px solid rgba(125,226,255,.32);
-  box-shadow: 0 18px 55px rgba(0,0,0,.45), 0 12px 44px rgba(125,226,255,.10);
-  backdrop-filter: blur(10px) saturate(140%);
-  -webkit-backdrop-filter: blur(10px) saturate(140%);
-}
-.btn.btn-chat:hover{
-  filter: brightness(1.05);
-  box-shadow: 0 22px 70px rgba(0,0,0,.52), 0 16px 60px rgba(125,226,255,.14);
-}
-
-/* Payments: chips-like tiles */
-.payments h2{ opacity:.92; }
-.payments .logos img{
-  background: rgba(255,255,255,.06);
-  border: 1px solid rgba(255,255,255,.14);
-  border-radius: 14px;
-  padding: 8px 10px;
-  box-shadow: 0 10px 22px rgba(0,0,0,.22);
-  backdrop-filter: blur(10px) saturate(140%);
-  -webkit-backdrop-filter: blur(10px) saturate(140%);
-}
-
-/* Slightly crisper accent pill */
-.eyebrow{
-  box-shadow: 0 12px 30px rgba(0,0,0,.22);
-}
-
 </style>
 
   <!-- Meta Pixel Code -->
@@ -771,23 +550,15 @@ header{display:none !important;}
 </div><div class="headline">
           <span class="eyebrow">Una recarga, una historia nueva</span>
           <h1><span class="accent">BONUS 20%</span><br>en tu primera carga</h1>
-          <p class="sub">Activá el beneficio escribiéndonos por chat en vivo.</p>
+          <p class="sub">Activá el beneficio escribiéndonos por WhatsApp.</p>
         </div>
         <div class="dots" id="dots"></div>
       </section>
 
 
       <div class="cta">
-<button class="btn btn-chat" id="ctaChat" type="button" aria-label="Abrir chat en vivo"><span class="chat-icon" aria-hidden="true">
-  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8" opacity="0.95"/>
-    <circle cx="12" cy="12" r="2.2" stroke="currentColor" stroke-width="1.8" opacity="0.95"/>
-    <path d="M12 3v3.2M21 12h-3.2M12 21v-3.2M3 12h3.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity="0.9"/>
-    <path d="M15.7 4.9l-1.6 2.8M19.1 15.7l-2.8-1.6M8.3 19.1l1.6-2.8M4.9 8.3l2.8 1.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity="0.8"/>
-    <path d="M12.6 9.4l2.8-1.1-1.1 2.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" opacity="0.95"/>
-  </svg>
-</span><span class="btn-label">Crear mi usuario ahora, <span class="tap-hint">pulsa aquí<span class="pulse-dot" aria-hidden="true"></span></span></span></button>
-
+        
+        <a class="btn" id="ctaWA" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" class="wa-icon"><span>Escribinos por WhatsApp</span></a>
 <section class="payments">
           <h2>Métodos de pago disponibles</h2>
           <div class="logos">
@@ -872,72 +643,5 @@ header{display:none !important;}
   }, true);
 })();
 </script>
-
-<script>
-(function(){
-  var slides = document.querySelectorAll('#slides .slide');
-  if(slides.length <= 1){
-    var dots = document.getElementById('dots') || document.querySelector('.dots');
-    if(dots && dots.children.length <= 1){ dots.innerHTML = ''; }
-    window.__SINGLE_SLIDE__ = true;
-  }
-})();
-</script>
-
-
-
-<!--Start of Tawk.to Script-->
-<script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-Tawk_API.customStyle = {
-  visibility: {
-    desktop: { position: 'br', xOffset: 18, yOffset: 18 },
-    mobile:  { position: 'br', xOffset: 16, yOffset: 22 }
-  }
-};
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/693bfb3d3bd0b0197dfbe32e/1jc94qqr5';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
-</script>
-<!--End of Tawk.to Script-->
-
-<script>
-(function(){
-  function tryOpenChat(){
-    try{
-      if(window.Tawk_API && typeof Tawk_API.maximize === "function"){
-        Tawk_API.maximize();
-        return true;
-      }
-      if(window.Tawk_API && typeof Tawk_API.toggle === "function"){
-        Tawk_API.toggle();
-        return true;
-      }
-    }catch(e){}
-    return false;
-  }
-
-  document.addEventListener("click", function(e){
-    var btn = e.target && (e.target.closest ? e.target.closest("#ctaChat") : null);
-    if(!btn) return;
-    e.preventDefault();
-
-    // If widget isn't ready yet, retry briefly
-    if(tryOpenChat()) return;
-    var tries = 0;
-    var iv = setInterval(function(){
-      tries++;
-      if(tryOpenChat() || tries >= 20){ clearInterval(iv); }
-    }, 150);
-  }, {passive:false});
-})();
-</script>
-
-
 </body>
 </html>
