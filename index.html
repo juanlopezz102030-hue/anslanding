@@ -558,7 +558,7 @@ header{display:none !important;}
 
       <div class="cta">
         
-        <a class="btn" id="ctaWA" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" class="wa-icon"><span>Escribinos por WhatsApp</span></a>
+        <a class="btn wa-icon" id="ctaWA" href="#" target="_blank" rel="noopener noreferrer"><span>Escribinos por WhatsApp</span></a>
 <section class="payments">
           <h2>Métodos de pago disponibles</h2>
           <div class="logos">
@@ -583,59 +583,109 @@ header{display:none !important;}
   <!-- REEMPLAZO: Rotación WA (UY GMT-3) + UTMs -->
 <!-- REEMPLAZO: Tracking click WA (Lead + Custom) con número activo y micro-delay -->
 <script>
-(function () {
-  function getWhatsAppAnchor(el){
-    if (!el) return null;
-    if (el.closest) return el.closest('a[href^="https://wa.me/"], a[href^="https://api.whatsapp.com/send"]');
-    while (el && el !== document) {
-      if (el.tagName === 'A' && (el.href.indexOf('https://wa.me/') === 0 || el.href.indexOf('https://api.whatsapp.com/send') === 0)) return el;
-      el = el.parentNode;
-    }
-    return null;
+(function(){
+  // --- Config ---
+  var WHATSAPP_NUMBERS = ["59899345811"];
+  var ROTATE_EVERY_MINUTES = 7; // cambia el número cuando pasan X minutos (persistente con localStorage)
+  var STATE_KEY = "wa_rotate_state_v2";
+
+  function now(){ return Date.now ? Date.now() : +new Date(); }
+  function loadState(){
+    try{ return JSON.parse(localStorage.getItem(STATE_KEY) || "{}"); }catch(e){ return {}; }
   }
-  function paramsFrom(url){
-    var out = {}, keys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
+  function saveState(st){
+    try{ localStorage.setItem(STATE_KEY, JSON.stringify(st)); }catch(e){}
+  }
+
+  function pickPhone(){
+    if(!WHATSAPP_NUMBERS || !WHATSAPP_NUMBERS.length) return null;
+    var st = loadState();
+    var lastTs = (st && typeof st.ts === "number") ? st.ts : 0;
+    var lastIdx = (st && typeof st.idx === "number") ? st.idx : -1;
+
+    var t = now();
+    var intervalMs = ROTATE_EVERY_MINUTES * 60 * 1000;
+
+    var idx = lastIdx;
+    if (t - lastTs >= intervalMs) {
+      idx = (lastIdx + 1) % WHATSAPP_NUMBERS.length;
+      saveState({ idx: idx, ts: t });
+    } else {
+      idx = (idx < 0 ? 0 : idx % WHATSAPP_NUMBERS.length);
+    }
+    return WHATSAPP_NUMBERS[idx];
+  }
+
+  function getUTMs(){
+    var out = {}, keys = ["utm_source","utm_medium","utm_campaign","utm_content","utm_term"];
     try{
-      var u = new URL(url);
+      var u = new URL(location.href);
       keys.forEach(function(k){ var v=u.searchParams.get(k); if(v) out[k]=v; });
     }catch(e){}
     return out;
   }
+
+  function buildWhatsAppURL(phone){
+    var base = "https://wa.me/" + phone;
+    // (Opcional) propagamos UTMs del sitio al link (no afecta WhatsApp, pero sirve para debug/analytics)
+    try{
+      var u = new URL(base);
+      var page = new URL(location.href);
+      ["utm_source","utm_medium","utm_campaign","utm_content","utm_term"].forEach(function(k){
+        var v = page.searchParams.get(k);
+        if(v) u.searchParams.set(k, v);
+      });
+      return u.toString();
+    }catch(e){
+      return base;
+    }
+  }
+
   function randomEventID(){
-    try { return (crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now())+'-'+Math.random().toString(16).slice(2); }
-    catch(e){ return String(Date.now())+'-'+Math.random().toString(16).slice(2); }
-  }
-  function extractPhoneFromLink(href){
-    try {
-      var m = href.match(/wa\.me\/(\d+)/);
-      if(m && m[1]) return m[1];
-    } catch(e){}
-    return window.__WA_ACTIVE_PHONE__ || undefined;
+    try { return (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : String(now()) + "-" + Math.random().toString(16).slice(2); }
+    catch(e){ return String(now()) + "-" + Math.random().toString(16).slice(2); }
   }
 
-  document.addEventListener('click', function(e){
-    var a = getWhatsAppAnchor(e.target);
-    if(!a || typeof fbq !== 'function') return;
+  // --- Apply rotation to button ---
+  var phone = pickPhone();
+  if(phone){
+    window.__WA_ACTIVE_PHONE__ = phone;
+    var a = document.getElementById("ctaWA");
+    if(a){
+      a.href = buildWhatsAppURL(phone);
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+    }
+  }
 
+  // --- Track clicks (Lead + Custom) ---
+  document.addEventListener("click", function(e){
+    var el = e.target;
+    var a = (el && el.closest) ? el.closest("#ctaWA") : null;
+    if(!a) return;
+
+    var phoneNow = window.__WA_ACTIVE_PHONE__ || phone;
+    var extras = getUTMs();
     var eventID = randomEventID();
-    var extras = paramsFrom(location.href);
-    var phone = extractPhoneFromLink(a.href);
 
-    fbq('track', 'Lead', Object.assign({
-      eventID: eventID,
-      content_name: 'Registro WhatsApp',
-      destination: 'whatsapp',
-      phone: phone
-    }, extras));
+    if (typeof window.fbq === "function") {
+      window.fbq("track", "Lead", Object.assign({
+        eventID: eventID,
+        content_name: "Registro WhatsApp",
+        destination: "whatsapp",
+        phone: phoneNow
+      }, extras));
 
-    fbq('trackCustom', 'WhatsAppClick', Object.assign({
-      eventID: eventID,
-      content_name: 'Registro WhatsApp',
-      destination: 'whatsapp',
-      phone: phone
-    }, extras));
+      window.fbq("trackCustom", "WhatsAppClick", Object.assign({
+        eventID: eventID,
+        content_name: "Registro WhatsApp",
+        destination: "whatsapp",
+        phone: phoneNow
+      }, extras));
+    }
 
-    if (!a.target || a.target === '_self') {
+    // Si el link abre en la misma pestaña, metemos un micro-delay para que alcance a disparar el pixel
+    if (!a.target || a.target === "_self") {
       e.preventDefault();
       var href = a.href;
       setTimeout(function(){ window.location.href = href; }, 140);
