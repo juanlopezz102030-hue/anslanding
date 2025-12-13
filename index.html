@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>CAYO – BIENVENIDO</title>
-  <meta name="description" content="Activá tu bono del 20% en tu primera carga. Escribinos por WhatsApp para habilitarlo ahora.">
-  <meta property="og:title" content="Bono 20% en tu primera carga" />
+  <meta name="description" content="Activá tu bonus 25% en tu primera carga. Escribinos por WhatsApp para habilitarlo ahora.">
+  <meta property="og:title" content="Bonus 25% en tu primera carga" />
   <meta property="og:description" content="Escribinos por WhatsApp para activarlo ahora." />
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#5d1a9b">
@@ -549,7 +549,7 @@ header{display:none !important;}
     </div>
 </div><div class="headline">
           <span class="eyebrow">Una recarga, una historia nueva</span>
-          <h1><span class="accent">BONUS 20%</span><br>en tu primera carga</h1>
+          <h1><span class="accent">BONUS 25%</span><br>en tu primera carga</h1>
           <p class="sub">Activá el beneficio escribiéndonos por WhatsApp.</p>
         </div>
         <div class="dots" id="dots"></div>
@@ -643,5 +643,19 @@ header{display:none !important;}
   }, true);
 })();
 </script>
+
+<script>
+(function(){
+  var slides = document.querySelectorAll('#slides .slide');
+  if(slides.length <= 1){
+    var dots = document.getElementById('dots') || document.querySelector('.dots');
+    if(dots && dots.children.length <= 1){ dots.innerHTML = ''; }
+    window.__SINGLE_SLIDE__ = true;
+  }
+})();
+</script>
+
+
+
 </body>
 </html>
