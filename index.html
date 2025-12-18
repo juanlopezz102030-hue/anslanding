@@ -594,7 +594,11 @@ header{display:none !important;}
   // --- Config ---
   var WHATSAPP_NUMBERS = ["59899345811","59896266640"];
   var ROTATE_EVERY_MINUTES = 3; // rota cada 3 minutos (persistente con localStorage) // cambia el número cuando pasan X minutos (persistente con localStorage)
-  var STATE_KEY = "wa_rotate_state_v2";
+  var STATE_KEY = "wa_rotate_state_poolA_v1";
+
+  // Pool / tracking label (se cuenta en eventos sin afectar el número real de destino)
+  var POOL_ID = "A";
+  var POOL_TAG = "POOL_A";
 
   function now(){ return Date.now ? Date.now() : +new Date(); }
   function loadState(){
@@ -680,6 +684,9 @@ header{display:none !important;}
         eventID: eventID,
         content_name: "Registro WhatsApp",
         destination: "whatsapp",
+        pool_id: POOL_ID,
+        pool_tag: POOL_TAG,
+        dest_phone: phoneNow,
         phone: phoneNow
       }, extras));
 
@@ -687,6 +694,9 @@ header{display:none !important;}
         eventID: eventID,
         content_name: "Registro WhatsApp",
         destination: "whatsapp",
+        pool_id: POOL_ID,
+        pool_tag: POOL_TAG,
+        dest_phone: phoneNow,
         phone: phoneNow
       }, extras));
     }
