@@ -663,44 +663,47 @@ header{display:none !important;}
   }
 
   // --- Track clicks (Lead + Custom) ---
-  document.addEventListener("click", function(e){
-    var el = e.target;
-    var a = (el && el.closest) ? el.closest("#ctaWA") : null;
-    if(!a) return;
+  var __waBtn = document.getElementById("ctaWA");
+  if(__waBtn){
+    __waBtn.addEventListener("click", function(e){
+      var a = __waBtn;
 
-    var phoneNow = window.__WA_ACTIVE_PHONE__ || phone;
-    var extras = getUTMs();
-    var eventID = randomEventID();
+      var phoneNow = window.__WA_ACTIVE_PHONE__ || phone;
+      var extras = getUTMs();
+      var eventID = randomEventID();
 
-    if (typeof window.fbq === "function") {
-      window.fbq("track", "Lead", Object.assign({
-        eventID: eventID,
-        content_name: "Registro WhatsApp",
-        destination: "whatsapp",
-        pool_id: POOL_ID,
-        pool_tag: POOL_TAG,
-        dest_phone: phoneNow,
-        phone: phoneNow
-      }, extras));
+      if (typeof window.fbq === "function") {
+        // Evento principal solicitado: WhatsAppClick
+        window.fbq("trackCustom", "WhatsAppClick", Object.assign({
+          eventID: eventID,
+          content_name: "Registro WhatsApp",
+          destination: "whatsapp",
+          pool_id: POOL_ID,
+          pool_tag: POOL_TAG,
+          dest_phone: phoneNow,
+          phone: phoneNow
+        }, extras));
 
-      window.fbq("trackCustom", "WhatsAppClick", Object.assign({
-        eventID: eventID,
-        content_name: "Registro WhatsApp",
-        destination: "whatsapp",
-        pool_id: POOL_ID,
-        pool_tag: POOL_TAG,
-        dest_phone: phoneNow,
-        phone: phoneNow
-      }, extras));
-    }
+        // (Opcional) Lead para ayudar a optimización si lo estás usando
+        window.fbq("track", "Lead", Object.assign({
+          eventID: eventID,
+          content_name: "Registro WhatsApp",
+          destination: "whatsapp",
+          pool_id: POOL_ID,
+          pool_tag: POOL_TAG,
+          dest_phone: phoneNow,
+          phone: phoneNow
+        }, extras));
+      }
 
-    // Si el link abre en la misma pestaña, metemos un micro-delay para que alcance a disparar el pixel
-    if (!a.target || a.target === "_self") {
-      e.preventDefault();
-      var href = a.href;
-      setTimeout(function(){ window.location.href = href; }, 140);
-    }
-  }, true);
+      // Si el link abre en la misma pestaña, micro-delay para que alcance a disparar el pixel
+      if (!a.target || a.target === "_self") {
+        e.preventDefault();
+        var href = a.href;
+        setTimeout(function(){ window.location.href = href; }, 140);
+      }
+    }, true);
+  }
 })();
 </script>
 
