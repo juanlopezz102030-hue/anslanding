@@ -526,9 +526,6 @@ header{display:none !important;}
 
 </head>
 <body>
-  <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=767728059169192&ev=PageView&noscript=1"
-  /></noscript>
 <div class="wrap">
     <header>
       <div class="logo" aria-label="CAYO URUGUAY"><span class="mark">CAYO</span> <span style="opacity:.9">URUGUAY</span> <img src="./assets/uruguay.png" alt="Bandera de Uruguay" style="height:20px; margin-left:6px; border-radius:2px"></div>
@@ -580,26 +577,21 @@ header{display:none !important;}
     </main>
 </div>
 
-  <!-- REEMPLAZO: Rotación WA (UY GMT-3) + UTMs -->
-<!-- REEMPLAZO: Tracking click WA (Lead + Custom) con número activo y micro-delay -->
+  <!-- REEMPLAZO: Rotación WA + UTMs + Evento WhatsAppClick (Pixel) -->
 <script>
 (function(){
   // --- Config ---
-  var WHATSAPP_NUMBERS = ["59896266640"];
-  var ROTATE_EVERY_MINUTES = 3; // rota cada 3 minutos (persistente con localStorage) // cambia el número cuando pasan X minutos (persistente con localStorage)
+  var WHATSAPP_NUMBERS = ["59896266640"];   // <-- agrega más números si querés rotación
+  var ROTATE_EVERY_MINUTES = 3;            // rota cada X minutos (persistente con localStorage)
   var STATE_KEY = "wa_rotate_state_poolA_v1";
 
-  // Pool / tracking label (se cuenta en eventos sin afectar el número real de destino)
+  // Etiquetas opcionales para diagnosticar en Events Manager
   var POOL_ID = "A";
   var POOL_TAG = "POOL_A";
 
   function now(){ return Date.now ? Date.now() : +new Date(); }
-  function loadState(){
-    try{ return JSON.parse(localStorage.getItem(STATE_KEY) || "{}"); }catch(e){ return {}; }
-  }
-  function saveState(st){
-    try{ localStorage.setItem(STATE_KEY, JSON.stringify(st)); }catch(e){}
-  }
+  function loadState(){ try{ return JSON.parse(localStorage.getItem(STATE_KEY) || "{}"); }catch(e){ return {}; } }
+  function saveState(st){ try{ localStorage.setItem(STATE_KEY, JSON.stringify(st)); }catch(e){} }
 
   function pickPhone(){
     if(!WHATSAPP_NUMBERS || !WHATSAPP_NUMBERS.length) return null;
@@ -624,14 +616,16 @@ header{display:none !important;}
     var out = {}, keys = ["utm_source","utm_medium","utm_campaign","utm_content","utm_term"];
     try{
       var u = new URL(location.href);
-      keys.forEach(function(k){ var v=u.searchParams.get(k); if(v) out[k]=v; });
+      keys.forEach(function(k_toggle){
+        var v = u.searchParams.get(k_toggle);
+        if(v) out[k_toggle] = v;
+      });
     }catch(e){}
     return out;
   }
 
   function buildWhatsAppURL(phone){
     var base = "https://wa.me/" + phone;
-    // (Opcional) propagamos UTMs del sitio al link (no afecta WhatsApp, pero sirve para debug/analytics)
     try{
       var u = new URL(base);
       var page = new URL(location.href);
@@ -646,64 +640,65 @@ header{display:none !important;}
   }
 
   function randomEventID(){
-    try { return (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : String(now()) + "-" + Math.random().toString(16).slice(2); }
-    catch(e){ return String(now()) + "-" + Math.random().toString(16).slice(2); }
-  }
-
-  // --- Apply rotation to button ---
-  var phone = pickPhone();
-  if(phone){
-    window.__WA_ACTIVE_PHONE__ = phone;
-    var a = document.getElementById("ctaWA");
-    if(a){
-      a.href = buildWhatsAppURL(phone);
-      a.target = "_blank";
-      a.rel = "noopener noreferrer";
+    try {
+      return (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : String(now()) + "-" + Math.random().toString(16).slice(2);
+    } catch(e){
+      return String(now()) + "-" + Math.random().toString(16).slice(2);
     }
   }
 
-  // --- Track clicks (Lead + Custom) ---
-  var __waBtn = document.getElementById("ctaWA");
-  if(__waBtn){
-    __waBtn.addEventListener("click", function(e){
-      var a = __waBtn;
+  // --- Set href (rotación) ---
+  var phone = pickPhone();
+  if(phone){
+    window.__WA_ACTIVE_PHONE__ = phone;
+  }
 
+  function applyHref(btn){
+    var phoneNow = window.__WA_ACTIVE_PHONE__ || phone;
+    if(!btn || !phoneNow) return;
+    btn.href = buildWhatsAppURL(phoneNow);
+    btn.target = "_blank";
+    btn.rel = "noopener noreferrer";
+  }
+
+  // Detecta botones WA: #ctaWA y cualquier elemento con data-wa="1"
+  var waButtons = Array.prototype.slice.call(document.querySelectorAll('#ctaWA,[data-wa="1"]'));
+  waButtons.forEach(function(btn){ applyHref(btn); });
+
+  // --- Track click: WhatsAppClick (custom) ---
+  function trackWhatsAppClick(phoneNow){
+    var extras = getUTMs();
+    var eventID = randomEventID();
+
+    if (typeof window.fbq === "function") {
+      // Evento solicitado:
+      window.fbq("trackCustom", "WhatsAppClick", Object.assign({
+        eventID: eventID,
+        destination: "whatsapp",
+        pool_id: POOL_ID,
+        pool_tag: POOL_TAG,
+        dest_phone: phoneNow,
+        phone: phoneNow
+      }, extras));
+    }
+  }
+
+  function bind(btn){
+    if(!btn) return;
+    btn.addEventListener("click", function(e){
       var phoneNow = window.__WA_ACTIVE_PHONE__ || phone;
-      var extras = getUTMs();
-      var eventID = randomEventID();
+      if(phoneNow) trackWhatsAppClick(phoneNow);
 
-      if (typeof window.fbq === "function") {
-        // Evento principal solicitado: WhatsAppClick
-        window.fbq("trackCustom", "WhatsAppClick", Object.assign({
-          eventID: eventID,
-          content_name: "Registro WhatsApp",
-          destination: "whatsapp",
-          pool_id: POOL_ID,
-          pool_tag: POOL_TAG,
-          dest_phone: phoneNow,
-          phone: phoneNow
-        }, extras));
-
-        // (Opcional) Lead para ayudar a optimización si lo estás usando
-        window.fbq("track", "Lead", Object.assign({
-          eventID: eventID,
-          content_name: "Registro WhatsApp",
-          destination: "whatsapp",
-          pool_id: POOL_ID,
-          pool_tag: POOL_TAG,
-          dest_phone: phoneNow,
-          phone: phoneNow
-        }, extras));
-      }
-
-      // Si el link abre en la misma pestaña, micro-delay para que alcance a disparar el pixel
-      if (!a.target || a.target === "_self") {
+      // Si abre en la misma pestaña, micro-delay para que dispare el pixel
+      if (!btn.target || btn.target === "_self") {
         e.preventDefault();
-        var href = a.href;
+        var href = btn.href;
         setTimeout(function(){ window.location.href = href; }, 140);
       }
     }, true);
   }
+
+  waButtons.forEach(bind);
 })();
 </script>
 
