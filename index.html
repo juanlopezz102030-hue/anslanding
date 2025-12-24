@@ -384,19 +384,12 @@ n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
-
-fbq('init', '767728059169192');
-
-/* PageView con UTMs */
-(function(){
-  function getUTMs(url){
-    var out={}, keys=['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
-    try{ var u=new URL(url); keys.forEach(function(k){ var v=u.searchParams.get(k); if(v) out[k]=v; }); }catch(e){}
-    return out;
-  }
-  fbq('track', 'PageView', getUTMs(location.href));
-})();
+fbq('init', '2337049706742083');
+fbq('track', 'PageView');
 </script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2337049706742083&ev=PageView&noscript=1"
+/></noscript>
 <!-- End Meta Pixel Code -->
 
   <link rel="preload" as="image" href="./assets/hero.jpg">
