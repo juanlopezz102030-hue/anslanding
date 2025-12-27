@@ -524,6 +524,52 @@ header{display:none !important;}
 :root{ --sticky-h: 54px; }
 </style>
 
+
+<style id="mx-payments-text">
+/* === Payments: MX banks text (replace logos) === */
+.payments .paytext{
+  display:inline-block;
+  padding: 10px 14px;
+  border-radius: 999px;
+  font-weight: 900;
+  letter-spacing: .6px;
+  text-transform: uppercase;
+  font-size: 14px;
+  line-height: 1.1;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.12);
+  box-shadow: 0 10px 26px rgba(0,0,0,.25);
+}
+.payments .glow-shift{
+  animation: glowShift 3.6s linear infinite;
+}
+@keyframes glowShift{
+  0%{
+    color:#7DE2FF;
+    text-shadow: 0 0 10px rgba(125,226,255,.75), 0 0 26px rgba(125,226,255,.35);
+  }
+  25%{
+    color:#FF6BD6;
+    text-shadow: 0 0 10px rgba(255,107,214,.75), 0 0 26px rgba(255,107,214,.35);
+  }
+  50%{
+    color:#FFE66B;
+    text-shadow: 0 0 10px rgba(255,230,107,.75), 0 0 26px rgba(255,230,107,.35);
+  }
+  75%{
+    color:#7BFF7B;
+    text-shadow: 0 0 10px rgba(123,255,123,.75), 0 0 26px rgba(123,255,123,.35);
+  }
+  100%{
+    color:#7DE2FF;
+    text-shadow: 0 0 10px rgba(125,226,255,.75), 0 0 26px rgba(125,226,255,.35);
+  }
+}
+@media (prefers-reduced-motion: reduce){
+  .payments .glow-shift{ animation:none; }
+}
+</style>
+
 </head>
 <body>
   <noscript><img height="1" width="1" style="display:none"
@@ -561,15 +607,7 @@ header{display:none !important;}
         <div class="cta-hint">Pulsá el botón de WhatsApp 👆</div>
 <section class="payments">
           <h2>Métodos de pago disponibles</h2>
-          <div class="logos">
-            <img loading="lazy" src="./assets/santander.png" alt="Santander">
-            <img loading="lazy" src="./assets/scotiabank.png" alt="Scotiabank">
-            <img loading="lazy" src="./assets/brou.png" alt="BROU">
-            <img loading="lazy" src="./assets/itau.png" alt="Itaú">
-            <img loading="lazy" src="./assets/mercadopago.png" alt="Mercado Pago">
-            <img loading="lazy" src="./assets/midinero.png" alt="Mi Dinero">
-            <img loading="lazy" src="./assets/prex.png" alt="Prex">
-          </div>
+          <div class="paytext glow-shift">¡Todos los bancos de Mexico disponibles!</div>
         </section>
 
         <p class="disclaimer">Promoción válida para usuarios nuevos. Sujeto a términos y condiciones.</p>
