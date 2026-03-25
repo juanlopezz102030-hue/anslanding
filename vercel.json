@@ -1,0 +1,19 @@
+{
+  "rewrites": [
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "acceso",
+          "value": "vip"
+        }
+      ],
+      "destination": "/promo.html"
+    },
+    {
+      "source": "/",
+      "destination": "/safe.html"
+    }
+  ]
+}
