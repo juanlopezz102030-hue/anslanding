@@ -1,11 +1,6 @@
 <!DOCTYPE html>
 <html lang="es-UY">
 <head>
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-W6R5DCXP');</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
@@ -26,8 +21,6 @@
     </noscript>
 
     <script>
-    window.dataLayer = window.dataLayer || [];
-
     function lockHeight() {
         document.documentElement.style.setProperty('--locked-vh', window.innerHeight + 'px');
     }
@@ -46,8 +39,76 @@
     n.callMethod.apply(n,arguments):n.queue.push(arguments)};
     if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
     n.queue=[];}(window, document,'script');
-    
-    fbq('init', '767728059169192');
+
+    const META_PIXEL_ID = '767728059169192';
+
+    function safeStorageGet(key) {
+        try { return window.localStorage.getItem(key); } catch (e) { return null; }
+    }
+
+    function safeStorageSet(key, value) {
+        try { window.localStorage.setItem(key, value); } catch (e) {}
+    }
+
+    function getOrCreateExternalId() {
+        let externalId = safeStorageGet('fb_external_id');
+        if (!externalId) {
+            if (window.crypto && crypto.randomUUID) {
+                externalId = crypto.randomUUID();
+            } else {
+                externalId = 'ext_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+            }
+            safeStorageSet('fb_external_id', externalId);
+        }
+        return externalId;
+    }
+
+    function cleanEmail(value) {
+        if (!value) return '';
+        const email = String(value).trim().toLowerCase();
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? email : '';
+    }
+
+    function cleanPhone(value) {
+        if (!value) return '';
+        const phone = String(value).replace(/\D/g, '');
+        return phone.length >= 8 ? phone : '';
+    }
+
+    function firstParam(params, names) {
+        for (const name of names) {
+            const value = params.get(name);
+            if (value) return value;
+        }
+        return '';
+    }
+
+    function collectAdvancedMatchingData() {
+        const data = { external_id: getOrCreateExternalId() };
+
+        try {
+            const params = new URLSearchParams(window.location.search);
+            const urlEmail = cleanEmail(firstParam(params, ['em', 'email', 'correo']));
+            const urlPhone = cleanPhone(firstParam(params, ['ph', 'phone', 'telefono', 'tel']));
+
+            if (urlEmail) safeStorageSet('fb_am_email', urlEmail);
+            if (urlPhone) safeStorageSet('fb_am_phone', urlPhone);
+
+            const savedEmail = cleanEmail(safeStorageGet('fb_am_email'));
+            const savedPhone = cleanPhone(safeStorageGet('fb_am_phone'));
+
+            if (savedEmail) data.em = savedEmail;
+            if (savedPhone) data.ph = savedPhone;
+        } catch (e) {}
+
+        return data;
+    }
+
+    const advancedMatchingData = collectAdvancedMatchingData();
+
+    // Tercer parámetro agregado para coincidencias avanzadas manuales.
+    // Meta hashea automáticamente em/ph si existen. No se usa el WhatsApp del negocio como dato del usuario.
+    fbq('init', META_PIXEL_ID, advancedMatchingData);
 
     (function(){
       function getUTMs(url){
@@ -55,25 +116,23 @@
         try{ var u=new URL(url); keys.forEach(function(k){ var v=u.searchParams.get(k); if(v) out[k]=v; }); }catch(e){}
         return out;
       }
-      fbq('track', 'PageView', getUTMs(location.href));
+      fbq('track', 'PageView', {
+        ...getUTMs(location.href),
+        external_id: advancedMatchingData.external_id
+      });
     })();
 
+    // Carga inmediata del pixel para no perder eventos de conversión
     window.loadFBPixel = function() {
         if (window.fbPixelLoaded) return;
         window.fbPixelLoaded = true;
-
         var t = document.createElement('script');
         t.async = true;
         t.src = 'https://connect.facebook.net/en_US/fbevents.js';
         var s = document.getElementsByTagName('script')[0];
         s.parentNode.insertBefore(t, s);
     };
-
-    setTimeout(window.loadFBPixel, 3500);
-
-    ['touchstart', 'click', 'scroll', 'mousemove'].forEach(function(evt) {
-        window.addEventListener(evt, window.loadFBPixel, { once: true, passive: true });
-    });
+    window.loadFBPixel();
 
     </script>
     <style>
@@ -90,6 +149,7 @@
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             padding-top: 40px;
+            padding-bottom: calc(108px + env(safe-area-inset-bottom));
         }
 
         .legal-banner {
@@ -107,7 +167,7 @@
         .bg-fixed {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: radial-gradient(circle at 50% 30%, #d40000 0%, #7a0000 45%, #2a0000 100%);
+            background: radial-gradient(circle at 50% 30%, #f2f4f7 0%, #b8bec7 42%, #5b636d 72%, #1a1f26 100%);
             z-index: -1; overflow: hidden; pointer-events: none;
         }
 
@@ -115,7 +175,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80"><text x="15" y="30" font-size="24" fill="%23FFCC00" opacity="0.15">♠</text><text x="55" y="30" font-size="24" fill="%23FFCC00" opacity="0.15">♥</text><text x="15" y="70" font-size="24" fill="%23FFCC00" opacity="0.15">♣</text><text x="55" y="70" font-size="24" fill="%23FFCC00" opacity="0.15">♦</text></svg>');
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80"><text x="15" y="30" font-size="24" fill="%23FFD84D" opacity="0.22">♠</text><text x="55" y="30" font-size="24" fill="%23FFD84D" opacity="0.22">♥</text><text x="15" y="70" font-size="24" fill="%23FFD84D" opacity="0.22">♣</text><text x="55" y="70" font-size="24" fill="%23FFD84D" opacity="0.22">♦</text></svg>');
             background-size: 80px 80px;
             z-index: 0;
         }
@@ -124,7 +184,7 @@
             position: absolute;
             top: 45%; left: 50%; 
             width: 200vmax; height: 200vmax;
-            background: repeating-conic-gradient(from 0deg, rgba(255, 204, 0, 0.08) 0deg 8deg, transparent 8deg 16deg);
+            background: repeating-conic-gradient(from 0deg, rgba(255, 214, 92, 0.12) 0deg 8deg, transparent 8deg 16deg);
             transform: translate(-50%, -50%); 
             will-change: transform;
             animation: spin 80s linear infinite;
@@ -159,33 +219,21 @@
         .hero-section {
             display: flex;
             flex-direction: column;
-            width: 100%; 
-            min-height: calc(var(--locked-vh, 100vh) - 40px);
+            width: 100%;
+            justify-content: flex-start;
             position: relative; z-index: 10; flex-shrink: 0;
         }
 
-        .top-nav {
-            display: flex;
-            justify-content: flex-end; padding: 10px 20px;
-            padding-top: max(10px, env(safe-area-inset-top)); z-index: 10; flex-shrink: 0;
-        }
-        
-        .btn-close {
-            width: 28px;
-            height: 28px; border-radius: 50%; 
-            background: rgba(30, 30, 30, 0.6);
-            border: 1px solid rgba(255,255,255,0.1);
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: background 0.2s;
-        }
-        .btn-close:active { background: rgba(255, 255, 255, 0.25);
-        }
-        .btn-close svg { width: 12px; height: 12px; stroke: white; stroke-width: 2.5;
-            stroke-linecap: round; }
-
-        .header { 
+        .top-nav { display: none; }
+        .btn-close { display: none; }
+        .btn-close:active { display: none; }
+        .btn-close svg { display: none; }
+        .header {
             text-align: center;
-            z-index: 10; flex-shrink: 0; padding-top: 0px;
+            z-index: 10;
+            flex-shrink: 0;
+            padding-top: 2px;
+            margin-top: -8px;
             display: flex; justify-content: center; align-items: center;
         }
         
@@ -201,18 +249,23 @@
         .ticket-wrapper {
             --safe-top: env(safe-area-inset-top, 0px);
             --safe-bottom: env(safe-area-inset-bottom, 0px);
-            --ui-space: calc(380px + var(--safe-top) + var(--safe-bottom)); 
-            
-            --available-height: calc(var(--locked-vh, 100vh) - var(--ui-space));
-            --max-width: calc((var(--available-height) - 110px) * 0.7334);
-            --ticket-width: clamp(240px, min(88vw, var(--max-width)), 420px); 
-            
-            --video-height: calc(var(--ticket-width) * 1208 / 886);
-            --ticket-height: calc(var(--video-height) + 110px); 
+            --ui-space: calc(490px + var(--safe-top) + var(--safe-bottom));
 
-            flex: 1; display: flex;
-            align-items: center; justify-content: center;
-            position: relative; z-index: 10; padding: 10px 0;
+            --available-height: calc(var(--locked-vh, 100vh) - var(--ui-space));
+            --max-width: calc((var(--available-height) - 85px) * 0.7334);
+            --ticket-width: clamp(200px, min(88vw, var(--max-width)), 380px);
+
+            --video-height: calc(var(--ticket-width) * 1208 / 886);
+            --ticket-height: calc(var(--video-height) + 110px);
+
+            flex: 0 0 auto;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            position: relative;
+            z-index: 10;
+            padding: 0 0 2px;
+            margin-top: 8px;
         }
 
         .ticket-container { 
@@ -331,9 +384,9 @@
         .touch-area:active { cursor: grabbing;
         }
 
-        .bottom-actions { 
-            padding: 0 15px;
-            display: flex; flex-direction: column; gap: 12px; z-index: 10; flex-shrink: 0;
+        .bottom-actions {
+            padding: 0 15px 0;
+            display: flex; flex-direction: column; gap: 8px; z-index: 10; flex-shrink: 0;
         }
         
         .btn { 
@@ -356,6 +409,10 @@
             box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4); 
             transition: all 0.4s ease;
             animation: pulse-whatsapp 1.5s infinite;
+        }
+
+        #btn-whatsapp {
+            background-color: #25D366;
         }
         .btn-whatsapp svg { width: 28px; height: 28px;
             fill: #ffffff; } 
@@ -387,22 +444,22 @@
 
         .payment-rectangle { 
             background-color: rgba(255, 255, 255, 0.1);
-            width: 100%; height: 46px; border-radius: 14px; 
-            display: flex; justify-content: space-evenly; align-items: center; padding: 0 8px;
+            width: 100%; min-height: 42px; border-radius: 14px; 
+            display: flex; justify-content: space-evenly; align-items: center; padding: 6px 8px;
             box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05); 
-            margin-top: 4px;
+            margin-top: 2px;
         }
         
-        .payment-logo { width: clamp(26px, 8vw, 34px);
-            height: clamp(26px, 8vw, 34px); border-radius: 8px; object-fit: cover; background-color: #ffffff; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: transform 0.2s; cursor: pointer;
+        .payment-logo { width: clamp(24px, 7.2vw, 32px);
+            height: clamp(24px, 7.2vw, 32px); border-radius: 8px; object-fit: cover; background-color: #ffffff; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: transform 0.2s; cursor: pointer;
         }
         .payment-logo:hover { transform: scale(1.08);
         }
 
         .scroll-down-hint {
             display: flex;
-            justify-content: center; align-items: center; 
-            height: 24px; margin-top: auto; 
+            justify-content: center; align-items: center;
+            height: 16px; margin-top: 4px; 
             padding-bottom: max(15px, calc(env(safe-area-inset-bottom) + 5px));
             opacity: 0.6; animation: bounce-arrow 2s infinite;
             pointer-events: none; z-index: 10;
@@ -413,8 +470,8 @@
         @keyframes bounce-arrow { 0%, 100% { transform: translateY(0);
             } 50% { transform: translateY(5px); } }
 
-        .options-section { padding: 10px 24px 40px 24px;
-            padding-bottom: max(40px, env(safe-area-inset-bottom)); position: relative; z-index: 10; flex-shrink: 0; width: 100%;
+        .options-section { padding: 5px 24px 40px 24px;
+            padding-bottom: calc(150px + env(safe-area-inset-bottom)); position: relative; z-index: 10; flex-shrink: 0; width: 100%;
         }
         .section-title { font-size: 15px; font-weight: 700; color: white; margin-bottom: 16px; display: flex;
             align-items: center; gap: 8px; letter-spacing: -0.2px; }
@@ -477,7 +534,7 @@
 
         .toast-container {
             position: fixed;
-            bottom: max(20px, env(safe-area-inset-bottom)); left: 20px; right: 20px; z-index: 100;
+            bottom: calc(96px + env(safe-area-inset-bottom)); left: 20px; right: 20px; z-index: 100;
             display: flex; flex-direction: column; gap: 10px; pointer-events: none; align-items: center;
         }
         .toast {
@@ -500,11 +557,68 @@
         
         @keyframes fadeIn { from { opacity: 0;
             transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    
+        @media (max-width: 480px) {
+            body { padding-top: 40px; }
+            .main-logo { height: 34px; }
+            .ticket-wrapper { margin-top: 8px; }
+            .bottom-actions { margin-top: -2px; }
+        }
+
+    
+
+        .sticky-cta-shell {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 9998;
+            display: flex;
+            justify-content: center;
+            padding: 10px 14px max(10px, calc(env(safe-area-inset-bottom) + 8px));
+            background: linear-gradient(to top, rgba(10,10,10,0.78) 0%, rgba(10,10,10,0.45) 38%, rgba(10,10,10,0) 100%);
+            pointer-events: none;
+        }
+
+        .sticky-cta-inner {
+            width: 100%;
+            max-width: 480px;
+            pointer-events: auto;
+        }
+
+        .sticky-cta-shell .btn-whatsapp {
+            width: 100%;
+            min-height: 62px;
+            border-radius: 22px;
+            box-shadow: 0 12px 30px rgba(37, 211, 102, 0.32);
+        }
+
+        .sticky-cta-shell .btn-whatsapp span {
+            white-space: nowrap;
+        }
+
+        @media (min-width: 480px) {
+            .sticky-cta-inner {
+                max-width: 420px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding-bottom: calc(104px + env(safe-area-inset-bottom));
+            }
+            .sticky-cta-shell {
+                padding-left: 14px;
+                padding-right: 14px;
+            }
+            .payment-rectangle {
+                border-radius: 12px;
+            }
+        }
+
     </style>
 </head>
 <body>
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W6R5DCXP"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <noscript>
         <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=767728059169192&ev=PageView&noscript=1"/>
     </noscript>
@@ -524,13 +638,6 @@
     <main class="app-container">
         
         <div class="hero-section">
-            <div class="top-nav">
-                <button class="btn-close" aria-label="Cerrar"><svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L13 13M1 13L13 1"/></svg></button>
-            </div>
-
-            <div class="header">
-                <img src="logo.png" alt="Logo" class="main-logo" onerror="this.src='https://ui-avatars.com/api/?name=PREMIO&background=000&color=FFD000&size=200&font-size=0.4&bold=true'">
-            </div>
 
             <div class="ticket-wrapper">
                 <div class="ticket-container">
@@ -569,17 +676,9 @@
             </div>
 
             <div class="bottom-actions">
-                <a id="btn-whatsapp" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp whatsapp_click">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-                    <span id="btn-text" style="transition: opacity 0.3s ease;">WHATSAPP</span>
-                </a>
-                
-                <div class="scarcity-text" id="scarcity-text">👉 Deslizá el ticket para revelar tu beneficio</div>
+<div class="scarcity-text" id="scarcity-text">👉 Deslizá el ticket para revelar tu beneficio</div>
 
-                <div class="testimonial-box" id="testimonial-box">
-                    "¡Excelente! Consulté por WhatsApp y me explicaron todo súper rápido. Muy conforme con la atención." <br><strong style="color: #fff; display: block;
-                    margin-top: 5px;">- Facundo M. ⭐⭐⭐⭐⭐</strong>
-                </div>
+                <div class="testimonial-box" id="testimonial-box"></div>
 
                 <div class="payment-rectangle">
                     <img src="itau.png" alt="Itaú" class="payment-logo" onerror="this.src='https://ui-avatars.com/api/?name=Itaú&background=141B4D&color=fff&size=100'">
@@ -616,34 +715,52 @@
             const idGenerado = `#VISITANTE-${Math.floor(1000 + Math.random() * 9000)}`;
             document.getElementById('visitor-id').textContent = idGenerado;
 
-            wpBtn.removeAttribute('href');
-            wpBtn.style.cursor = 'pointer';
-            
-            // BOTÓN PRINCIPAL: Redirección instantánea
-            wpBtn.addEventListener('click', function(e) {
-                e.preventDefault(); 
-                
-                const mensajesWhatsApp = [
-                    `¡Hola! Raspé el ticket, mi código es ${idGenerado} y quiero recibir más información sobre esto 🦁`,
-                    `Buenas, activé el beneficio extra (Cód: ${idGenerado}). ¿Me podrías dar más detalles de cómo funciona?`,
-                    `¡Hola! 👑 Tengo mi código reservado ${idGenerado}, quiero más info por favor.`
-                ];
-                const mensajeElegido = mensajesWhatsApp[Math.floor(Math.random() * mensajesWhatsApp.length)];
-                
-                // Navegación instantánea usando api.whatsapp
-                window.location.href = `https://api.whatsapp.com/send?phone=${numeroWhatsApp}&text=${encodeURIComponent(mensajeElegido)}`;
+            let whatsappClickLocked = false;
 
-                // Tracking asíncrono
-                setTimeout(() => {
-                    if (typeof window.loadFBPixel === 'function') window.loadFBPixel();
-                    if(typeof fbq === 'function') fbq('trackCustom', 'WhatsAppClick');
-                    
-                    window.dataLayer.push({
-                        'event': 'whatsapp_click',
-                        'button_id': 'btn-whatsapp',
-                        'lead_status': 'qualified_by_scratch'
-                    });
-                }, 50);
+            function buildWhatsAppURL(mensaje) {
+                return `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
+            }
+
+            function trackAndOpenWhatsApp(mensaje, source, extra = {}) {
+                // Evita dobles/triples disparos por taps repetidos, doble click, lag de iOS/Android o listeners duplicados.
+                if (whatsappClickLocked) return;
+                whatsappClickLocked = true;
+                setTimeout(() => { whatsappClickLocked = false; }, 4500);
+
+                const eventID = `wa_${idGenerado.replace(/\D/g, '')}_${Date.now()}`;
+
+                if (typeof fbq === 'function') {
+                    fbq('trackCustom', 'WhatsAppClick', {
+                        value: 1.00,
+                        currency: 'USD',
+                        source: source,
+                        visitor_id: idGenerado,
+                        external_id: advancedMatchingData.external_id,
+                        ...extra
+                    }, { eventID });
+                }
+
+                // En mobile es más estable navegar al deep link directamente.
+                window.location.href = buildWhatsAppURL(mensaje);
+            }
+
+            const mensajesWhatsApp = [
+                `¡Hola! Mi código es ${idGenerado} y quiero consultar las condiciones por WhatsApp.`,
+                `Buenas, tengo el código ${idGenerado}. Quiero más información, por favor.`,
+                `Hola, quiero consultar por el servicio. Mi código es ${idGenerado}.`
+            ];
+
+            wpBtn.setAttribute('href', buildWhatsAppURL(mensajesWhatsApp[0]));
+            wpBtn.style.cursor = 'pointer';
+
+            // BOTÓN PRINCIPAL: un solo evento por intento real de abrir WhatsApp.
+            wpBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const mensajeElegido = mensajesWhatsApp[Math.floor(Math.random() * mensajesWhatsApp.length)];
+                trackAndOpenWhatsApp(mensajeElegido, 'sticky_whatsapp_button', {
+                    button_id: 'btn-whatsapp',
+                    lead_status: 'qualified_by_scratch'
+                });
             });
 
             const nombres = ["Martín", "Sofía", "Diego", "Lucía", "Carlos", "Ana", "Joaquín", "Vale", "Facundo", "Camila", "Gonzalo", "Micaela"];
@@ -695,6 +812,34 @@
                 }, 1000);
             }
 
+            const reseñas = [
+                { texto: "¡Excelente! Consulté por WhatsApp y me explicaron todo súper rápido. Muy conforme con la atención.", autor: "Facundo M." },
+                { texto: "No lo podía creer, el beneficio llegó enseguida y el trato fue increíble. 100% recomendado.", autor: "Valentina R." },
+                { texto: "Probé varios casinos y este es el único que cumple lo que promete. Me activaron el bono sin drama.", autor: "Sebastián G." },
+                { texto: "Muy buena experiencia, me atendieron rápido y me explicaron cada paso. Volvería sin dudar.", autor: "Camila F." },
+                { texto: "Increíble el servicio por WhatsApp, menos de 2 minutos y ya tenía todo listo.", autor: "Rodrigo P." },
+                { texto: "Pensé que era mentira pero me dieron el código y funcionó perfecto. Recomendadísimo.", autor: "Agustina L." },
+                { texto: "Primera vez que uso algo así y quedé re contento. Fácil, rápido y sin complicaciones.", autor: "Matías H." },
+                { texto: "Me respondieron al toque y sin trabas. El equipo de soporte es top.", autor: "Luciana V." },
+                { texto: "Activé el ticket y en minutos me llegó todo por WhatsApp. Excelente atención.", autor: "Gonzalo T." },
+                { texto: "Muy profesionales, me explicaron todo sin apuros. Ya se lo recomendé a varios amigos.", autor: "Natalia S." },
+                { texto: "Todo funcionó a la perfección, el bono llegó rápido y el soporte siempre disponible.", autor: "Diego M." },
+                { texto: "Súper cómodo hacerlo desde el celular. Me sorprendió lo eficiente que es el proceso.", autor: "Florencia B." },
+                { texto: "Estaba dudando pero lo intenté y salió todo bien. Muy buena onda el equipo.", autor: "Tomás C." },
+                { texto: "La atención por WhatsApp es de primera. Respondieron en segundos y resolvieron todo.", autor: "Micaela D." },
+                { texto: "Me dieron más de lo que esperaba. El beneficio extra es real, no hay trampa.", autor: "Joaquín E." },
+                { texto: "Muy transparente todo. Pregunté varias cosas y me respondieron sin apuro ni presión.", autor: "Carolina A." },
+                { texto: "Fue mi primera vez y quedé fascinado. El proceso es simple y el equipo te acompaña.", autor: "Nicolás W." },
+                { texto: "Raspar el ticket fue divertido y encima el premio es real. Qué buena sorpresa.", autor: "Romina O." },
+                { texto: "Confiable al 100%. Ya van tres meses que lo uso y siempre me tratan bien.", autor: "Ezequiel K." },
+                { texto: "Me atendieron como si fuera cliente VIP. El bono llegó sin vueltas y funcionó al instante.", autor: "Sofía N." },
+                { texto: "Rápido, seguro y con buena onda. No esperaba tanta seriedad para algo así.", autor: "Leandro Q." }
+            ];
+
+            const testimonialBox = document.getElementById('testimonial-box');
+            const reseñaAleatoria = reseñas[Math.floor(Math.random() * reseñas.length)];
+            testimonialBox.innerHTML = `"${reseñaAleatoria.texto}" <br><strong style="color:#fff;display:block;margin-top:5px;">- ${reseñaAleatoria.autor} ⭐⭐⭐⭐⭐</strong>`;
+
             const optionCatalog = [
                 { title: "Misterio", img: "img/opcion1.jpg", badge: "NEW" },
                 { title: "Egipto", img: "img/opcion2.jpg", badge: "HOT" },
@@ -738,19 +883,10 @@
                 const card = document.createElement('div'); card.className = 'option-card';
                 card.innerHTML = createCardHTML(game);
                 
-                // GRILLA INICIAL: Redirección instantánea
+                // GRILLA INICIAL: usa el mismo disparador deduplicado del botón principal.
                 card.onclick = () => {
-                    const msg = `¡Hola! 🦁 Vi la opción ${game.title} en la página y quiero más información.`;
-                    window.location.href = `https://api.whatsapp.com/send?phone=${numeroWhatsApp}&text=${encodeURIComponent(msg)}`;
-                    
-                    setTimeout(() => {
-                        if (typeof window.loadFBPixel === 'function') window.loadFBPixel();
-                        if(typeof fbq === 'function') fbq('trackCustom', 'WhatsAppClick');
-                        window.dataLayer.push({
-                            'event': 'whatsapp_click',
-                            'option': game.title
-                        });
-                    }, 50);
+                    const msg = `¡Hola! Vi la opción ${game.title} en la página y quiero más información.`;
+                    trackAndOpenWhatsApp(msg, 'option_card', { option: game.title });
                 };
                 
                 grid.appendChild(card);
@@ -767,19 +903,10 @@
                     setTimeout(() => {
                         cardEl.innerHTML = createCardHTML(newGame); activeOptions[slotIndex] = newGame;
                         
-                        // GRILLA ROTATIVA: Redirección instantánea
+                        // GRILLA ROTATIVA: usa el mismo disparador deduplicado del botón principal.
                         cardEl.onclick = () => {
-                            const msg = `¡Hola! 🦁 Vi la opción ${newGame.title} en la página y quiero más información.`;
-                            window.location.href = `https://api.whatsapp.com/send?phone=${numeroWhatsApp}&text=${encodeURIComponent(msg)}`;
-                            
-                            setTimeout(() => {
-                                if (typeof window.loadFBPixel === 'function') window.loadFBPixel();
-                                if(typeof fbq === 'function') fbq('trackCustom', 'WhatsAppClick');
-                                window.dataLayer.push({
-                                    'event': 'whatsapp_click',
-                                    'option': newGame.title
-                                });
-                            }, 50);
+                            const msg = `¡Hola! Vi la opción ${newGame.title} en la página y quiero más información.`;
+                            trackAndOpenWhatsApp(msg, 'option_card', { option: newGame.title });
                         };
 
                         cardEl.classList.remove('fade-out');
@@ -849,8 +976,12 @@
                 hasPeeled = true;
                 touchArea.style.display = 'none';
                 
-                if (typeof window.loadFBPixel === 'function') window.loadFBPixel();
-                if(typeof fbq === 'function') fbq('trackCustom', 'Ticket_Raspado', { premio: '+25% Extra' });
+                if (typeof fbq === 'function') {
+                    fbq('trackCustom', 'Ticket_Raspado', {
+                        premio: '+25% Extra',
+                        external_id: advancedMatchingData.external_id
+                    });
+                }
                 
                 if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
                 
@@ -872,5 +1003,14 @@
             }
         });
     </script>
+
+    <div class="sticky-cta-shell">
+        <div class="sticky-cta-inner">
+            <a id="btn-whatsapp" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp whatsapp_click">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                <span id="btn-text" style="transition: opacity 0.3s ease;">WHATSAPP</span>
+            </a>
+        </div>
+    </div>
 </body>
 </html>
